@@ -1,20 +1,27 @@
 {
   "name": "skillsetu-ayush-prototype",
   "version": "1.0.0",
-  "description": "SkillSetu - Portal for Academia - Industry Collaboration for Skill Mapping, Internships and Placement (SIH26044) - Ministry of Ayush",
+  "description": "SkillSetu - Unified Academia-Industry-Ministry Platform for Competency Mapping, Bridge Internships, and Accelerated Placements (SIH 2026 — SIH26044) | Ministry of Ayush",
   "main": "index.html",
   "scripts": {
     "start": "npx -y serve -l 3000 .",
-    "dev": "npx -y serve -l 3000 ."
+    "dev": "npx -y serve -l 3000 .",
+    "test": "node test/prototype.test.js && node test/ui-render.test.js",
+    "lint": "node -c js/app-data.js && node -c js/app-state.js && node -c js/app-ui.js"
   },
   "keywords": [
     "skillsetu",
     "ayush",
     "sih2026",
+    "sih26044",
+    "smart-india-hackathon",
     "skill-mapping",
-    "internship",
-    "placement"
+    "panchakarma",
+    "herbology",
+    "schedule-t-gmp",
+    "internship-portal",
+    "placement-engine"
   ],
-  "author": "SkillSetu SIH Team",
+  "author": "SkillSetu Core Engineering Team",
   "license": "MIT"
 }
