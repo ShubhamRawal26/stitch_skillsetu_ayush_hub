@@ -53,11 +53,11 @@ assert(landingHTML.includes('Bridging Ayush Education with') && landingHTML.incl
 
 // 3. Test Roles HTML
 const rolesHTML = ui.getRolesHTML(state);
-assert(rolesHTML.includes('Select Your SkillSetu Portal') && rolesHTML.includes('Student') && rolesHTML.includes('Industry'), 'Roles page rendered with 4 stakeholder cards');
+assert(rolesHTML.includes('Select Your Portal') && rolesHTML.includes('Student') && rolesHTML.includes('Industry'), 'Roles page rendered with 4 stakeholder cards');
 
 // 4. Test Login HTML
 const loginHTML = ui.getLoginHTML(state);
-assert(loginHTML.includes('Welcome Back') && loginHTML.includes('shubham.rawal@nia.edu.in'), 'Login page rendered');
+assert(loginHTML.includes('Sign In') && loginHTML.includes('shubham.rawal@nia.edu.in'), 'Login page rendered');
 
 // 5. Test Student Dashboard HTML
 const studentHTML = ui.getStudentDashboardHTML(state);

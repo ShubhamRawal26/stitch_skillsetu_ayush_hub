@@ -26,12 +26,14 @@ window.AppUI = {
       }
     });
 
-    // Set initial view from hash if present
+    // On page load/refresh: start at landing page if no hash
     const initialHash = window.location.hash.replace('#', '');
     if (initialHash && ['home', 'roles', 'login', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard'].includes(initialHash)) {
       window.appState.setView(initialHash);
     } else {
-      this.renderCurrentView();
+      // Default to landing page on fresh load or refresh
+      window.appState.setView('home');
+      window.location.hash = 'home';
     }
   },
 
@@ -39,6 +41,24 @@ window.AppUI = {
     window.location.hash = viewName;
     window.appState.setView(viewName);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  selectRoleAndLogin(role) {
+    window.appState.selectRoleForAuth(role);
+    this.navigate('login');
+    this.showToast(`Selected ${role.toUpperCase()} portal. Please sign in to continue.`, 'info');
+  },
+
+  handleLoginSubmit() {
+    const role = window.appState.state.currentRole || 'student';
+    window.appState.setRole(role);
+    const roleNames = {
+      student: 'Student Portal',
+      industry: 'Industry Portal',
+      college: 'College & Faculty Portal',
+      ministry: 'Ministry Admin Portal'
+    };
+    this.showToast(`Authenticated successfully! Welcome to the ${roleNames[role]}.`, 'success');
   },
 
   showToast(message, type = 'success') {
@@ -137,6 +157,7 @@ window.AppUI = {
           <!-- Center Nav Links -->
           <nav class="hidden lg:flex items-center gap-6 font-label-md text-label-md">
             <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="${state.currentView === 'home' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Home</a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="${state.currentView === 'roles' || state.currentView === 'login' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Portals & Login</a>
             <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="${state.currentView === 'student-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Student</a>
             <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="${state.currentView === 'industry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Industry</a>
             <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="${state.currentView === 'college-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">College</a>
@@ -207,13 +228,13 @@ window.AppUI = {
             Empowering the next generation of Ayurveda, Yoga, Unani, Siddha, and Homeopathy professionals through AI-guided skill mapping, diagnostic assessments, bridge learning, and verified placements.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button onclick="AppUI.navigate('student-dashboard')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-[18px]">school</span>
-              Explore Student Portal
+            <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+              Select Your Portal
             </button>
-            <button onclick="AppUI.startDemoTour()" class="px-8 py-3.5 glass-panel text-primary rounded-xl font-label-md text-label-md hover:bg-surface-variant/50 transition-all flex items-center justify-center gap-2 border border-primary/20">
-              <span class="material-symbols-outlined text-[18px]">play_circle</span>
-              Interactive Demo Flow
+            <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 glass-panel text-primary rounded-xl font-label-md text-label-md hover:bg-surface-variant/50 transition-all flex items-center justify-center gap-2 border border-primary/20">
+              <span class="material-symbols-outlined text-[18px]">login</span>
+              Sign In to SkillSetu
             </button>
           </div>
         </section>
@@ -274,57 +295,57 @@ window.AppUI = {
         </section>
 
         <!-- Portals Bento Grid -->
-        <section class="mb-12">
+        <section id="portals-section" class="mb-12">
           <div class="text-center mb-12">
             <h2 class="font-headline-md text-3xl font-bold text-on-surface mb-3">Choose Your Portal</h2>
             <p class="font-body-md text-on-surface-variant">Access specialized dashboards and tools designed for your Ayush stakeholder role.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Student Card -->
-            <div onclick="AppUI.navigate('student-dashboard')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
+            <div onclick="AppUI.selectRoleAndLogin('student')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
               <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">school</span>
               </div>
               <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Student Portal</h3>
               <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Assess your skills, resolve GMP gaps with bridge courses, and apply to top industry roles.</p>
               <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Enter Student Portal <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                Login as Student <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
               </div>
             </div>
 
             <!-- Industry Card -->
-            <div onclick="AppUI.navigate('industry-dashboard')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
+            <div onclick="AppUI.selectRoleAndLogin('industry')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
               <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">domain</span>
               </div>
               <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Industry Portal</h3>
               <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Discover skill-verified Ayush candidates, shortlist talent, and publish internship openings.</p>
               <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Enter Industry Portal <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                Login as Industry <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
               </div>
             </div>
 
             <!-- College Card -->
-            <div onclick="AppUI.navigate('college-dashboard')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
+            <div onclick="AppUI.selectRoleAndLogin('college')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
               <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">account_balance</span>
               </div>
               <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">College & Faculty</h3>
               <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Analyze student cohort readiness, identify curriculum deficits, and publish bridge courses.</p>
               <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Enter College Portal <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                Login as Faculty <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
               </div>
             </div>
 
             <!-- Ministry Card -->
-            <div onclick="AppUI.navigate('ministry-dashboard')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
+            <div onclick="AppUI.selectRoleAndLogin('ministry')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
               <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
               </div>
               <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Ministry Admin</h3>
               <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Monitor nationwide skill heatmaps, track YoY placement rates, and shape national policy.</p>
               <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Enter Ministry Portal <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                Login as Ministry <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
               </div>
             </div>
           </div>
@@ -337,60 +358,67 @@ window.AppUI = {
   getRolesHTML(state) {
     return `
       <main class="pt-28 pb-20 px-4 md:px-margin-desktop max-w-container-max mx-auto">
-        <div class="text-center mb-12 max-w-2xl mx-auto space-y-4">
+        <!-- Header -->
+        <div class="w-full flex justify-between items-center mb-10 max-w-6xl mx-auto">
+          <button onclick="AppUI.navigate('home')" class="flex items-center gap-2 text-primary font-label-md text-sm font-semibold hover:underline">
+            <span class="material-symbols-outlined text-lg">arrow_back</span> Back to Home
+          </button>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 text-primary font-label-sm text-xs border border-primary/20">
-            Authentication & Role Selection
+            Step 1 of 2: Role Selection
           </div>
-          <h1 class="font-display-lg text-3xl md:text-4xl font-bold text-on-surface">Select Your SkillSetu Portal</h1>
-          <p class="font-body-lg text-on-surface-variant text-sm md:text-base">Choose your stakeholder role to access customized dashboards within the Ayush governance ecosystem.</p>
+        </div>
+
+        <div class="text-center mb-12 max-w-2xl mx-auto space-y-3">
+          <h1 class="font-display-lg text-3xl md:text-4xl font-bold text-on-surface">Select Your Portal</h1>
+          <p class="font-body-lg text-on-surface-variant text-sm md:text-base">Choose your stakeholder role to proceed to the personalized sign-in screen.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mx-auto mb-12">
           <!-- Student -->
-          <div onclick="window.appState.setRole('student'); AppUI.navigate('student-dashboard');" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
+          <div onclick="AppUI.selectRoleAndLogin('student')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
             <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-3xl">school</span>
             </div>
             <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Student</h2>
             <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Take skill assessments, bridge knowledge gaps, and apply to top industry opportunities.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
-              Login as Student <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              Select Student <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- Industry -->
-          <div onclick="window.appState.setRole('industry'); AppUI.navigate('industry-dashboard');" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
+          <div onclick="AppUI.selectRoleAndLogin('industry')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
             <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-3xl">domain</span>
             </div>
             <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Industry</h2>
             <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Find verified Ayush talent, shortlist candidates, and post internship & job openings.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
-              Login as Industry <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              Select Industry <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- College -->
-          <div onclick="window.appState.setRole('college'); AppUI.navigate('college-dashboard');" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
+          <div onclick="AppUI.selectRoleAndLogin('college')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
             <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-3xl">account_balance</span>
             </div>
             <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">College & Faculty</h2>
             <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Track student cohort competencies, analyze deficits, and publish bridge courses.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
-              Login as Faculty <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              Select Faculty <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- Ministry -->
-          <div onclick="window.appState.setRole('ministry'); AppUI.navigate('ministry-dashboard');" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
+          <div onclick="AppUI.selectRoleAndLogin('ministry')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
             <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
             </div>
             <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Ministry Admin</h2>
             <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Access national impact analytics, regional skill-gap heatmaps, and placement trends.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
-              Login as Admin <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              Select Admin <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
         </div>
@@ -400,6 +428,48 @@ window.AppUI = {
 
   // 3. Login / Auth HTML
   getLoginHTML(state) {
+    const role = state.currentRole || 'student';
+    const roleConfig = {
+      student: {
+        badge: 'Login as Student',
+        title: 'Welcome Student',
+        desc: 'Sign in to access your skills dashboard and internship opportunities.',
+        email: 'shubham.rawal@nia.edu.in',
+        name: 'Shubham Rawal',
+        icon: 'school',
+        roleSubtitle: 'BAMS Cohort 2024 • NIA Jaipur'
+      },
+      industry: {
+        badge: 'Login as Industry Partner',
+        title: 'Industry Portal Access',
+        desc: 'Sign in to recruit verified Ayush talent and publish opportunities.',
+        email: 'talent@dabur.com',
+        name: 'Dabur India / Patanjali HR',
+        icon: 'domain',
+        roleSubtitle: 'Verified Corporate Partner'
+      },
+      college: {
+        badge: 'Login as College Faculty',
+        title: 'Faculty Portal Access',
+        desc: 'Sign in to monitor student cohort readiness and create bridge courses.',
+        email: 'faculty@nia.edu.in',
+        name: 'Prof. Meenakshi Sundaram',
+        icon: 'account_balance',
+        roleSubtitle: 'National Institute of Ayurveda (Jaipur)'
+      },
+      ministry: {
+        badge: 'Login as Ministry Admin',
+        title: 'Ayush Admin Access',
+        desc: 'Sign in to view national workforce analytics and regional heatmaps.',
+        email: 'admin@ayush.gov.in',
+        name: 'Ayush Governance Admin',
+        icon: 'admin_panel_settings',
+        roleSubtitle: 'Ministry of Ayush, Govt. of India'
+      }
+    };
+
+    const cfg = roleConfig[role] || roleConfig.student;
+
     return `
       <main class="pt-24 pb-20 px-4 min-h-screen flex items-center justify-center">
         <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 glass-panel-heavy ambient-glow rounded-2xl overflow-hidden shadow-xl border border-primary/20">
@@ -411,47 +481,74 @@ window.AppUI = {
                 <h1 class="font-headline-sm text-2xl font-bold text-primary">SkillSetu</h1>
               </div>
               <h2 class="font-headline-md text-2xl font-bold text-on-surface mb-3">Empowering Ayush Excellence</h2>
-              <p class="font-body-md text-sm text-on-surface-variant leading-relaxed">
-                Connect your academic training with national industry standards, verified certifications, and career opportunities.
+              <p class="font-body-md text-sm text-on-surface-variant leading-relaxed mb-6">
+                Connect traditional Ayush wisdom with verified competencies, bridge courses, and top industry placements.
               </p>
+
+              <div class="p-4 rounded-xl bg-white/70 border border-primary/15 mb-4">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl">${cfg.icon}</span>
+                  </div>
+                  <div>
+                    <div class="font-bold text-xs text-on-surface">${cfg.name}</div>
+                    <div class="text-[11px] text-on-surface-variant">${cfg.roleSubtitle}</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="p-4 rounded-xl bg-white/70 border border-primary/15">
-              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Demo Quick Roles</div>
+
+            <div>
+              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Switch Target Role</div>
               <div class="grid grid-cols-2 gap-2 text-xs">
-                <button onclick="window.appState.setRole('student'); AppUI.navigate('student-dashboard');" class="p-2 rounded bg-surface text-left font-medium hover:bg-primary/10 hover:text-primary">🎓 Shubham Rawal (Student)</button>
-                <button onclick="window.appState.setRole('industry'); AppUI.navigate('industry-dashboard');" class="p-2 rounded bg-surface text-left font-medium hover:bg-primary/10 hover:text-primary">🏭 Dabur / Patanjali (Industry)</button>
-                <button onclick="window.appState.setRole('college'); AppUI.navigate('college-dashboard');" class="p-2 rounded bg-surface text-left font-medium hover:bg-primary/10 hover:text-primary">🏛️ NIA Jaipur (Faculty)</button>
-                <button onclick="window.appState.setRole('ministry'); AppUI.navigate('ministry-dashboard');" class="p-2 rounded bg-surface text-left font-medium hover:bg-primary/10 hover:text-primary">🇮🇳 Ayush Admin (Ministry)</button>
+                <button onclick="window.appState.selectRoleForAuth('student')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'student' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🎓 Student</button>
+                <button onclick="window.appState.selectRoleForAuth('industry')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'industry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🏭 Industry</button>
+                <button onclick="window.appState.selectRoleForAuth('college')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'college' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🏛️ College</button>
+                <button onclick="window.appState.selectRoleForAuth('ministry')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'ministry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🇮🇳 Ministry</button>
               </div>
             </div>
           </div>
 
           <!-- Right Form Panel -->
           <div class="p-8 md:p-10 flex flex-col justify-center bg-surface-container-lowest">
-            <div class="mb-6">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 text-primary mb-3 border border-primary/20 text-xs font-semibold">
-                <span class="material-symbols-outlined text-sm">person</span> Ayush Single Sign-On
+            <div class="flex justify-between items-center mb-6">
+              <button onclick="AppUI.navigate('roles')" class="flex items-center gap-1 text-xs text-primary font-semibold hover:underline">
+                <span class="material-symbols-outlined text-sm">arrow_back</span> Change Role
+              </button>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container/10 text-primary text-xs font-semibold border border-primary/20">
+                <span class="material-symbols-outlined text-sm">${cfg.icon}</span> ${cfg.badge}
               </div>
-              <h3 class="font-headline-sm text-2xl font-bold text-on-surface">Welcome Back</h3>
-              <p class="font-body-md text-xs text-on-surface-variant">Sign in to access your customized dashboard.</p>
             </div>
 
-            <form onsubmit="event.preventDefault(); window.appState.setRole('student'); AppUI.navigate('student-dashboard');" class="space-y-4">
+            <div class="mb-6">
+              <h3 class="font-headline-sm text-2xl font-bold text-on-surface">${cfg.title}</h3>
+              <p class="font-body-md text-xs text-on-surface-variant">${cfg.desc}</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); AppUI.handleLoginSubmit();" class="space-y-4">
               <div>
-                <label class="block font-label-md text-xs text-on-surface mb-1 font-semibold">Email or Ayush ID</label>
-                <input type="text" value="shubham.rawal@nia.edu.in" class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/60 rounded-xl text-sm focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20" />
+                <label class="block font-label-md text-xs text-on-surface mb-1 font-semibold">Ayush ID or Email Address</label>
+                <input type="text" value="${cfg.email}" class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/60 rounded-xl text-xs focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20" />
               </div>
               <div>
                 <div class="flex justify-between items-center mb-1">
                   <label class="block font-label-md text-xs text-on-surface font-semibold">Password</label>
                   <a href="javascript:void(0)" class="text-xs text-primary hover:underline">Forgot?</a>
                 </div>
-                <input type="password" value="••••••••••••" class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/60 rounded-xl text-sm focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20" />
+                <input type="password" value="••••••••••••" class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/60 rounded-xl text-xs focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20" />
               </div>
-              <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-sm font-semibold hover:bg-primary/90 transition-all shadow-md mt-2">
-                Sign In to Dashboard
+
+              <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-xs font-semibold hover:bg-primary/90 transition-all shadow-md mt-2 flex items-center justify-center gap-2">
+                <span>Sign In to ${role === 'student' ? 'Student' : role === 'industry' ? 'Industry' : role === 'college' ? 'College' : 'Ministry'} Dashboard</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
             </form>
+
+            <div class="mt-6 pt-4 border-t border-outline-variant/30 text-center">
+              <button onclick="AppUI.handleLoginSubmit();" class="w-full py-2.5 px-4 border border-outline-variant rounded-xl font-label-md text-xs text-on-surface hover:bg-surface-variant flex items-center justify-center gap-2 transition-colors">
+                <span class="material-symbols-outlined text-primary text-base">lock_open</span> One-Click Demo Login
+              </button>
+            </div>
           </div>
         </div>
       </main>

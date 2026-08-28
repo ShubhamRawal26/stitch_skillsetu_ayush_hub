@@ -85,12 +85,20 @@ class AppStateManager {
   }
 
   // Role & View Navigation
-  setRole(role) {
+  setRole(role, redirect = true) {
     this.state.currentRole = role;
-    if (role === 'student') this.state.currentView = 'student-dashboard';
-    else if (role === 'industry') this.state.currentView = 'industry-dashboard';
-    else if (role === 'college') this.state.currentView = 'college-dashboard';
-    else if (role === 'ministry') this.state.currentView = 'ministry-dashboard';
+    if (redirect) {
+      if (role === 'student') this.state.currentView = 'student-dashboard';
+      else if (role === 'industry') this.state.currentView = 'industry-dashboard';
+      else if (role === 'college') this.state.currentView = 'college-dashboard';
+      else if (role === 'ministry') this.state.currentView = 'ministry-dashboard';
+    }
+    this.saveState();
+  }
+
+  selectRoleForAuth(role) {
+    this.state.currentRole = role;
+    this.state.currentView = 'login';
     this.saveState();
   }
 
