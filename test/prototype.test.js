@@ -106,16 +106,27 @@ assert(stateMgr.state.student.name === 'Dr. Shubham Rawal, BAMS', 'Student name 
 assert(stateMgr.state.student.avatar.startsWith('data:image'), 'Student avatar uploaded and persisted');
 assert(stateMgr.state.candidates.find(c => c.id === 'CAND-SHUBHAM').name === 'Dr. Shubham Rawal, BAMS', 'Candidate directory synchronized with updated profile');
 
-// 11. LocalStorage Persistence & Reload
+// 11. Notification Management & Role Alert Filtering
+const studentNotifs = stateMgr.getNotifications('student');
+assert(studentNotifs.length >= 4, 'Student role receives at least 4 notifications');
+const unreadBefore = stateMgr.getUnreadNotificationsCount('student');
+assert(unreadBefore >= 1, 'Student has unread notifications');
+stateMgr.markNotificationRead(studentNotifs[0].id);
+assert(studentNotifs[0].read === true, 'Notification marked as read');
+stateMgr.markAllNotificationsRead('student');
+assert(stateMgr.getUnreadNotificationsCount('student') === 0, 'All student notifications marked as read');
+
+// 12. LocalStorage Persistence & Reload
 const reloadedState = stateMgr.loadState();
 assert(reloadedState.student.skills.GMP.current === 85, 'State successfully reloaded from localStorage');
 assert(reloadedState.applications['OPP-DABUR-01'].applied === true, 'Application state preserved across sessions');
 
-// 12. Demo Reset
+// 13. Demo Reset
 stateMgr.resetDemo();
 assert(stateMgr.state.student.skills.GMP.current === 42, 'Demo reset restored GMP skill to baseline 42%');
 assert(stateMgr.state.assessment.completed === false, 'Demo reset restored assessment state');
 assert(stateMgr.state.applications['OPP-DABUR-01'].applied === false, 'Demo reset restored applications');
 
-console.log('--- All 12 Core Verification Tests Passed Successfully! ---');
+console.log('--- All 13 Core Verification Tests Passed Successfully! ---');
+
 

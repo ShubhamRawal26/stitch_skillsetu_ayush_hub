@@ -65,9 +65,12 @@ class AppStateManager {
           bio: "Managing national skill impact analytics and modernization grants under National Ayush Mission."
         }
       },
-      notifications: [
-        { id: 1, title: "Assessment Ready", msg: "National Skill Benchmark Assessment is live.", time: "10m ago", read: false }
-      ]
+      notifications: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.notificationsByRole || {
+        student: [],
+        industry: [],
+        college: [],
+        ministry: []
+      }))
     };
   }
 
@@ -441,6 +444,35 @@ class AppStateManager {
       this.state.roleProfiles[role] = Object.assign(this.getProfileForRole(role), profileData);
     }
 
+    this.saveState();
+  }
+
+  // Role-Aware Notifications Management
+  getNotifications(role = this.state.currentRole) {
+    if (!this.state.notifications || Array.isArray(this.state.notifications)) {
+      this.state.notifications = JSON.parse(JSON.stringify(window.SKILLSETU_DATA.notificationsByRole || {}));
+    }
+    return this.state.notifications[role] || window.SKILLSETU_DATA.notificationsByRole?.[role] || [];
+  }
+
+  getUnreadNotificationsCount(role = this.state.currentRole) {
+    const list = this.getNotifications(role);
+    return list.filter(n => !n.read).length;
+  }
+
+  markNotificationRead(id) {
+    const role = this.state.currentRole;
+    const list = this.getNotifications(role);
+    const item = list.find(n => n.id === id);
+    if (item) {
+      item.read = true;
+      this.saveState();
+    }
+  }
+
+  markAllNotificationsRead(role = this.state.currentRole) {
+    const list = this.getNotifications(role);
+    list.forEach(n => { n.read = true; });
     this.saveState();
   }
 }

@@ -91,5 +91,10 @@ assert(collegesHTML.includes('National Institute of Ayurveda') && collegesHTML.i
 const insightsHTML = ui.getMinistryInsightsHTML(state);
 assert(insightsHTML.includes('National Ayush Mission') && insightsHTML.includes('Schedule T GMP Manufacturing'), 'Ministry Insights rendered with high-growth competencies and scholarship grants');
 
-console.log('--- All 12 UI Views Rendered Successfully without Errors! ---');
+// 13. Test Notifications Screen HTML (Accessible across all sections)
+const notifsHTML = ui.getNotificationsHTML(state);
+assert(notifsHTML.includes('Notifications & System Alerts') && notifsHTML.includes('Dabur India Ltd viewed your verified skill profile') && notifsHTML.includes('Filter Notifications'), 'Notifications screen rendered with real-time alert streams & filtering');
+
+console.log('--- All 13 UI Views Rendered Successfully without Errors! ---');
+
 

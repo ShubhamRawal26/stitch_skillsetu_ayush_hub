@@ -592,7 +592,151 @@ window.SKILLSETU_DATA = {
         sponsor: "National Skill Development Corporation (NSDC) & Ministry of Ayush"
       }
     ]
+  },
+
+  notificationsByRole: {
+    student: [
+      {
+        id: "notif-s-1",
+        type: "job",
+        title: "Dabur India Ltd viewed your verified skill profile",
+        message: "Your 95% compatibility match for the Ayurvedic Formulation QC role in Sahibabad was reviewed by the talent acquisition team.",
+        avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=80&auto=format&fit=crop&q=80",
+        author: "Dabur India Ltd",
+        timeAgo: "15m ago",
+        read: false,
+        actionLabel: "View Opportunity",
+        actionView: "student-dashboard"
+      },
+      {
+        id: "notif-s-2",
+        type: "grant",
+        title: "New Ministry Research Fellowship Grant Live",
+        message: "National Ayush Mission (NAM) announced ₹25,000/mo fellowship for BAMS scholars with Schedule T GMP certification.",
+        avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80",
+        author: "Ministry of Ayush",
+        timeAgo: "2h ago",
+        read: false,
+        actionLabel: "View Grants",
+        actionView: "ministry-insights"
+      },
+      {
+        id: "notif-s-3",
+        type: "assessment",
+        title: "Schedule T GMP Diagnostic Ready",
+        message: "National Ayush Skill Registry has updated clinical benchmark standards for 2026. Take the 5-question diagnostic quiz.",
+        avatar: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=80&auto=format&fit=crop&q=80",
+        author: "SkillSetu Benchmark Engine",
+        timeAgo: "1d ago",
+        read: true,
+        actionLabel: "Take Assessment",
+        actionView: "assessment"
+      },
+      {
+        id: "notif-s-4",
+        type: "college",
+        title: "National Institute of Ayurveda campus drive scheduled",
+        message: "Patanjali Research & Himalaya Wellness campus placements drive scheduled for next month. Check participating companies.",
+        avatar: "https://images.unsplash.com/photo-1562774053-701939374585?w=80&auto=format&fit=crop&q=80",
+        author: "NIA Placement Cell",
+        timeAgo: "2d ago",
+        read: true,
+        actionLabel: "Explore Colleges",
+        actionView: "colleges"
+      }
+    ],
+    industry: [
+      {
+        id: "notif-i-1",
+        type: "candidate",
+        title: "New verified candidate applied: Shubham Rawal",
+        message: "Shubham Rawal (BAMS, 95% Match, Schedule T GMP Verified) submitted application for Ayurvedic Formulation QC.",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT",
+        author: "Shubham Rawal",
+        timeAgo: "20m ago",
+        read: false,
+        actionLabel: "Review Candidate",
+        actionView: "industry-dashboard"
+      },
+      {
+        id: "notif-i-2",
+        type: "college",
+        title: "Campus recruitment drive confirmed with NIA Jaipur",
+        message: "National Institute of Ayurveda accepted your request for on-campus batch interviews for 45 final year scholars.",
+        avatar: "https://images.unsplash.com/photo-1562774053-701939374585?w=80&auto=format&fit=crop&q=80",
+        author: "NIA Jaipur Placement Cell",
+        timeAgo: "3h ago",
+        read: false,
+        actionLabel: "View Colleges",
+        actionView: "colleges"
+      },
+      {
+        id: "notif-i-3",
+        type: "system",
+        title: "Schedule T GMP Compliance Subsidy notification",
+        message: "Ministry of Ayush released 50% modernization reimbursement guidelines for pharmaceutical partner factories.",
+        avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80",
+        author: "Ministry Secretariat",
+        timeAgo: "1d ago",
+        read: true,
+        actionLabel: "View Standards",
+        actionView: "ministry-insights"
+      }
+    ],
+    college: [
+      {
+        id: "notif-c-1",
+        type: "system",
+        title: "18 students completed Schedule T GMP Bridge Module",
+        message: "Cohort readiness score for NIA Jaipur batch increased from 74% to 84% following bridge module completion.",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80",
+        author: "Curriculum Analytics Engine",
+        timeAgo: "1h ago",
+        read: false,
+        actionLabel: "View Cohort",
+        actionView: "college-dashboard"
+      },
+      {
+        id: "notif-c-2",
+        type: "industry",
+        title: "Dabur India Ltd requested on-campus placement drive",
+        message: "Corporate recruiter submitted drive request for 15 formulation QC openings. Placement officer action required.",
+        avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=80&auto=format&fit=crop&q=80",
+        author: "Dabur India Ltd",
+        timeAgo: "4h ago",
+        read: false,
+        actionLabel: "View Directory",
+        actionView: "colleges"
+      }
+    ],
+    ministry: [
+      {
+        id: "notif-m-1",
+        type: "system",
+        title: "Rajasthan Ayush Directorate submitted Q3 workforce audit",
+        message: "State deficit in Ayurvedic quality manufacturing narrowed by 14% with 1,840 certified students placed.",
+        avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80",
+        author: "State Governance Portal",
+        timeAgo: "30m ago",
+        read: false,
+        actionLabel: "View Heatmap",
+        actionView: "ministry-dashboard"
+      },
+      {
+        id: "notif-m-2",
+        type: "grant",
+        title: "NAM fellowship grant disbursal batch ready",
+        message: "128 verified clinical scholars qualified for Central Govt monthly fellowship stipends.",
+        avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80",
+        author: "National Ayush Mission",
+        timeAgo: "5h ago",
+        read: false,
+        actionLabel: "View National Insights",
+        actionView: "ministry-insights"
+      }
+    ]
   }
 };
+
 
 

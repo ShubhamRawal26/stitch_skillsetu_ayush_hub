@@ -22,14 +22,14 @@ window.AppUI = {
     // Handle hash changes for browser history
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.replace('#', '') || 'home';
-      if (['home', 'roles', 'login', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard'].includes(hash)) {
+      if (['home', 'roles', 'login', 'feed', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(hash)) {
         window.appState.setView(hash);
       }
     });
 
     // On page load/refresh: start at landing page if no hash
     const initialHash = window.location.hash.replace('#', '');
-    if (initialHash && ['home', 'roles', 'login', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard'].includes(initialHash)) {
+    if (initialHash && ['home', 'roles', 'login', 'feed', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(initialHash)) {
       window.appState.setView(initialHash);
     } else {
       // Default to landing page on fresh load or refresh
@@ -337,6 +337,9 @@ window.AppUI = {
       case 'ministry-insights':
         contentHTML = this.getMinistryInsightsHTML(state);
         break;
+      case 'notifications':
+        contentHTML = this.getNotificationsHTML(state);
+        break;
       default:
         contentHTML = this.getLandingHTML(state);
     }
@@ -496,9 +499,9 @@ window.AppUI = {
             </a>
 
             <!-- 5. Notifications -->
-            <a href="javascript:void(0)" onclick="AppUI.showToast('${role === 'industry' ? '2 candidates matched your Ayurvedic QC job opening!' : 'You have 2 new opportunity matches based on your latest GMP benchmark!'}', 'info')" class="linkedin-nav-item" title="Notifications">
-              <span class="material-symbols-outlined">notifications</span>
-              <span class="badge-count">2</span>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('notifications')" class="linkedin-nav-item ${state.currentView === 'notifications' ? 'active' : ''}" title="View all notifications & alerts">
+              <span class="material-symbols-outlined ${state.currentView === 'notifications' ? 'fill-icon' : ''}">notifications</span>
+              ${window.appState.getUnreadNotificationsCount(role) > 0 ? `<span class="badge-count">${window.appState.getUnreadNotificationsCount(role)}</span>` : ''}
               <span>Notifications</span>
             </a>
 
@@ -556,6 +559,10 @@ window.AppUI = {
 
           <!-- Mobile Hamburger & Actions -->
           <div class="flex lg:hidden items-center gap-2">
+            <button onclick="AppUI.navigate('notifications')" class="p-1.5 text-slate-600 hover:text-primary transition-colors rounded-full relative" title="Notifications">
+              <span class="material-symbols-outlined text-2xl">notifications</span>
+              ${window.appState.getUnreadNotificationsCount(role) > 0 ? `<span class="badge-count">${window.appState.getUnreadNotificationsCount(role)}</span>` : ''}
+            </button>
             <button onclick="AppUI.openEditProfileModal()" class="p-1 text-slate-600 hover:text-primary transition-colors" title="Edit Profile">
               <img src="${profileAvatar}" alt="${profileName}" class="w-7 h-7 rounded-full object-cover border border-primary/40 shadow-sm" />
             </button>
@@ -584,6 +591,12 @@ window.AppUI = {
           <div class="flex flex-col gap-1 mb-4">
             <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'feed' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
               <span class="material-symbols-outlined text-lg text-primary">feed</span> Home Feed
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('notifications')" class="flex items-center justify-between px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'notifications' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg text-primary">notifications</span> Notifications
+              </span>
+              ${window.appState.getUnreadNotificationsCount(role) > 0 ? `<span class="px-2 py-0.5 rounded-full bg-primary text-white text-[10px] font-bold">${window.appState.getUnreadNotificationsCount(role)} new</span>` : ''}
             </a>
             ${role === 'student' ? `
               <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
@@ -834,6 +847,13 @@ window.AppUI = {
                   <span>National Workforce Insights</span>
                 </a>
               `}
+              <a href="javascript:void(0)" onclick="AppUI.navigate('notifications')" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors border-t border-slate-100 pt-2.5 mt-1">
+                <span class="flex items-center gap-2.5">
+                  <span class="material-symbols-outlined text-amber-600 text-[18px]">notifications</span>
+                  <span>Alerts & Notifications</span>
+                </span>
+                ${window.appState.getUnreadNotificationsCount(role) > 0 ? `<span class="px-2 py-0.5 rounded-full bg-primary text-white text-[10px] font-bold">${window.appState.getUnreadNotificationsCount(role)} new</span>` : ''}
+              </a>
             </div>
           </div>
 
@@ -1411,6 +1431,189 @@ window.AppUI = {
                 `).join('')}
               </div>
             </div>
+          </div>
+        </div>
+      </main>
+    `;
+  },
+
+  activeNotificationFilter: 'all',
+
+  setNotificationFilter(filter) {
+    this.activeNotificationFilter = filter;
+    this.renderCurrentView();
+  },
+
+  handleNotificationClick(notifId, actionView) {
+    window.appState.markNotificationRead(notifId);
+    if (actionView) {
+      this.navigate(actionView);
+    } else {
+      this.renderCurrentView();
+    }
+  },
+
+  handleMarkAllNotificationsRead() {
+    const role = window.appState.state.currentRole || 'student';
+    window.appState.markAllNotificationsRead(role);
+    this.showToast('All notifications marked as read!', 'success');
+    this.renderCurrentView();
+  },
+
+  // Dedicated Notifications View (Accessible in every section)
+  getNotificationsHTML(state) {
+    const role = state.currentRole || 'student';
+    const profile = window.appState.getProfileForRole(role);
+    const allNotifs = window.appState.getNotifications(role);
+    const unreadCount = window.appState.getUnreadNotificationsCount(role);
+
+    // Apply active filter
+    const filter = this.activeNotificationFilter || 'all';
+    let filteredNotifs = allNotifs;
+    if (filter === 'unread') {
+      filteredNotifs = allNotifs.filter(n => !n.read);
+    } else if (filter === 'job') {
+      filteredNotifs = allNotifs.filter(n => n.type === 'job' || n.type === 'candidate');
+    } else if (filter === 'grant') {
+      filteredNotifs = allNotifs.filter(n => n.type === 'grant' || n.type === 'system');
+    }
+
+    return `
+      <main class="pt-24 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <!-- Header & Breadcrumb -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-5">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold mb-2">
+              <span class="material-symbols-outlined text-[16px] text-primary">notifications_active</span>
+              Real-Time Alert Center • ${role === 'student' ? 'Student Scholar' : role === 'industry' ? 'Enterprise Recruiter' : role === 'college' ? 'Faculty Portal' : 'Ministry Admin'}
+            </div>
+            <h1 class="font-display-lg text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Notifications & System Alerts</h1>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+              Stay updated on recruiter profile viewings, competency benchmarks, Ministry research fellowships, and campus placement drives.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.handleMarkAllNotificationsRead()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-label-md text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs">
+              <span class="material-symbols-outlined text-base text-primary">done_all</span> Mark All as Read
+            </button>
+            <button onclick="AppUI.navigate('feed')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base">arrow_back</span> Back to Feed
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- LEFT COLUMN: Notification Filter Tabs & Preferences (4 cols) -->
+          <div class="lg:col-span-4 space-y-4">
+            <!-- Filter Pills Card -->
+            <div class="linkedin-card p-4 space-y-2">
+              <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-slate-500 mb-2">Filter Notifications</h3>
+              
+              <button onclick="AppUI.setNotificationFilter('all')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${filter === 'all' ? 'bg-primary text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'}">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">list_alt</span> All Notifications
+                </span>
+                <span class="px-2 py-0.5 rounded-full ${filter === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'} text-[11px] font-extrabold">${allNotifs.length}</span>
+              </button>
+
+              <button onclick="AppUI.setNotificationFilter('unread')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${filter === 'unread' ? 'bg-primary text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'}">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">mark_email_unread</span> Unread Alerts
+                </span>
+                <span class="px-2 py-0.5 rounded-full ${filter === 'unread' ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-800'} text-[11px] font-extrabold">${unreadCount}</span>
+              </button>
+
+              <button onclick="AppUI.setNotificationFilter('job')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${filter === 'job' ? 'bg-primary text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'}">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">work</span> ${role === 'industry' ? 'Candidate Applications' : 'Jobs & Placements'}
+                </span>
+                <span class="material-symbols-outlined text-xs opacity-60">chevron_right</span>
+              </button>
+
+              <button onclick="AppUI.setNotificationFilter('grant')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${filter === 'grant' ? 'bg-primary text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'}">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">policy</span> Grants & Governance
+                </span>
+                <span class="material-symbols-outlined text-xs opacity-60">chevron_right</span>
+              </button>
+            </div>
+
+            <!-- Notification Settings / Preferences Card -->
+            <div class="linkedin-card p-5 space-y-3.5">
+              <h3 class="font-bold text-slate-900 text-sm">Alert Preferences</h3>
+              <div class="space-y-3 text-xs text-slate-600">
+                <label class="flex items-center justify-between cursor-pointer">
+                  <span>Email summary for new job matches</span>
+                  <input type="checkbox" checked onchange="AppUI.showToast('Notification preference updated', 'info')" class="rounded text-primary focus:ring-primary h-4 w-4" />
+                </label>
+                <label class="flex items-center justify-between cursor-pointer">
+                  <span>SMS alert for campus placement drives</span>
+                  <input type="checkbox" checked onchange="AppUI.showToast('Notification preference updated', 'info')" class="rounded text-primary focus:ring-primary h-4 w-4" />
+                </label>
+                <label class="flex items-center justify-between cursor-pointer">
+                  <span>Central Ministry grant announcements</span>
+                  <input type="checkbox" checked onchange="AppUI.showToast('Notification preference updated', 'info')" class="rounded text-primary focus:ring-primary h-4 w-4" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Notification Items Stream (8 cols) -->
+          <div class="lg:col-span-8 space-y-3.5">
+            ${filteredNotifs.length === 0 ? `
+              <div class="linkedin-card p-12 text-center space-y-3">
+                <div class="w-16 h-16 rounded-full bg-emerald-50 text-primary flex items-center justify-center mx-auto">
+                  <span class="material-symbols-outlined text-3xl">notifications_off</span>
+                </div>
+                <h3 class="font-bold text-slate-900 text-base">No notifications found</h3>
+                <p class="text-xs text-slate-500 max-w-sm mx-auto">You're all caught up! When recruiters, peers, or the Ministry take actions, they'll appear right here.</p>
+                <button onclick="AppUI.setNotificationFilter('all')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold">Show All Notifications</button>
+              </div>
+            ` : filteredNotifs.map(n => `
+              <div class="linkedin-card p-4 transition-all hover:shadow-md ${!n.read ? 'bg-emerald-50/30 border-l-4 border-l-primary' : 'bg-white border-l-4 border-l-transparent'} flex items-start gap-4">
+                <!-- Left Avatar / Icon -->
+                <div class="relative shrink-0 mt-0.5">
+                  <img src="${n.avatar}" alt="${n.author}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-xs" />
+                  <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${n.type === 'job' || n.type === 'candidate' ? 'bg-blue-600' : n.type === 'grant' ? 'bg-purple-600' : n.type === 'assessment' ? 'bg-emerald-600' : 'bg-slate-700'} text-white flex items-center justify-center text-[11px] shadow-xs">
+                    <span class="material-symbols-outlined text-[13px]">
+                      ${n.type === 'job' ? 'work' : n.type === 'candidate' ? 'person' : n.type === 'grant' ? 'card_membership' : n.type === 'assessment' ? 'assignment' : 'policy'}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Middle Content -->
+                <div class="flex-1 space-y-1.5 cursor-pointer" onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug">${n.title}</h4>
+                    <span class="text-[10px] text-slate-400 font-semibold shrink-0 ml-2">${n.timeAgo}</span>
+                  </div>
+                  <p class="text-xs text-slate-600 leading-relaxed">${n.message}</p>
+                  
+                  <div class="flex items-center gap-2 pt-1">
+                    <span class="text-[10px] font-bold text-primary">${n.author}</span>
+                    <span class="text-slate-300">•</span>
+                    <span class="text-[10px] text-slate-400 capitalize">${n.type} update</span>
+                  </div>
+                </div>
+
+                <!-- Right Action Button -->
+                <div class="shrink-0 flex flex-col items-end gap-2">
+                  ${!n.read ? `
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread alert"></span>
+                  ` : ''}
+                  <button onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')" class="px-3 py-1.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 whitespace-nowrap">
+                    <span>${n.actionLabel || 'View'}</span>
+                    <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                  </button>
+                  ${!n.read ? `
+                    <button onclick="AppUI.handleNotificationClick('${n.id}', null)" class="text-[10px] text-slate-400 hover:text-slate-700 font-semibold hover:underline">
+                      Mark read
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>
       </main>
