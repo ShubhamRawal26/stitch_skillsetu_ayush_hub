@@ -102,6 +102,15 @@ assert(notifsHTML.includes('Notifications & System Alerts') && notifsHTML.includ
 ui.openInternshipDetailModal('OPP-DABUR-01');
 assert(lastInsertedHTML.includes('Dabur India Ltd') && lastInsertedHTML.includes('Verified Competency Breakdown') && lastInsertedHTML.includes('1-Click Submit Application'), 'Internship modal renders match score and skill breakdown');
 
-console.log('--- All 14 UI Views & Interactive Modals Rendered Successfully without Errors! ---');
+// 15. Test Full-Screen LinkedIn-Style Dedicated Profile View
+ui.activeProfileQuery = 'me';
+const myProfileHTML = ui.getProfileHTML(state);
+assert(myProfileHTML.includes('Shubham Rawal') && myProfileHTML.includes('Analytics & Benchmark Metrics') && myProfileHTML.includes('Clinical Experience & Internships') && myProfileHTML.includes('Education & Qualifications'), 'Full-screen dedicated LinkedIn profile page rendered for student');
+
+ui.activeProfileQuery = 'Dr. Priya Sharma';
+const priyaProfileHTML = ui.getProfileHTML(state);
+assert(priyaProfileHTML.includes('Dr. Priya Sharma') && priyaProfileHTML.includes('Connect') && priyaProfileHTML.includes('Message') && priyaProfileHTML.includes('Ayush Peers & Scholars'), 'Full-screen dedicated LinkedIn profile page rendered for other professional');
+
+console.log('--- All 15 Full-Screen Views & Pages Rendered Successfully without Errors! ---');
 
 

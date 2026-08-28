@@ -22,14 +22,14 @@ window.AppUI = {
     // Handle hash changes for browser history
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.replace('#', '') || 'home';
-      if (['home', 'roles', 'login', 'feed', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(hash)) {
+      if (['home', 'roles', 'login', 'feed', 'profile', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(hash)) {
         window.appState.setView(hash);
       }
     });
 
     // On page load/refresh: start at landing page if no hash
     const initialHash = window.location.hash.replace('#', '');
-    if (initialHash && ['home', 'roles', 'login', 'feed', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(initialHash)) {
+    if (initialHash && ['home', 'roles', 'login', 'feed', 'profile', 'student-dashboard', 'assessment', 'industry-dashboard', 'college-dashboard', 'ministry-dashboard', 'colleges', 'ministry-insights', 'notifications'].includes(initialHash)) {
       window.appState.setView(initialHash);
     } else {
       // Default to landing page on fresh load or refresh
@@ -339,6 +339,9 @@ window.AppUI = {
         break;
       case 'notifications':
         contentHTML = this.getNotificationsHTML(state);
+        break;
+      case 'profile':
+        contentHTML = this.getProfileHTML(state);
         break;
       default:
         contentHTML = this.getLandingHTML(state);
@@ -742,20 +745,23 @@ window.AppUI = {
               </div>
               <!-- Avatar -->
               <div class="px-4 pb-4 -mt-8 relative">
-                <div class="relative inline-block group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to upload/change photo">
+                <div class="relative inline-block group cursor-pointer" onclick="AppUI.openFullProfileModal('me')" title="Click to view full LinkedIn profile">
                   <img src="${profileAvatar}" alt="${profileName}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md group-hover:opacity-85 transition-opacity" />
                   <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
-                    <span class="material-symbols-outlined text-sm">photo_camera</span>
+                    <span class="material-symbols-outlined text-sm">visibility</span>
                   </div>
                 </div>
-                <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:underline" onclick="AppUI.navigate('${profileTargetView}')">${profileName}</h2>
+                <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:text-primary hover:underline" onclick="AppUI.openFullProfileModal('me')">${profileName}</h2>
                 <p class="text-[11px] text-slate-500 leading-tight mt-0.5">${profileProgram}</p>
                 <p class="text-[10px] text-slate-400 mt-0.5">${profileInstitution}</p>
 
-                <!-- Edit Profile Button -->
-                <div class="mt-2.5">
-                  <button onclick="AppUI.openEditProfileModal()" class="w-full py-1.5 px-3 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold transition-all border border-emerald-200/80 flex items-center justify-center gap-1">
-                    <span class="material-symbols-outlined text-[14px] text-primary">edit</span> Edit Profile
+                <!-- Profile Action Buttons -->
+                <div class="mt-2.5 flex items-center gap-1.5">
+                  <button onclick="AppUI.openFullProfileModal('me')" class="flex-1 py-1.5 px-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-[11px] font-bold transition-all shadow-xs flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">person</span> View Profile
+                  </button>
+                  <button onclick="AppUI.openEditProfileModal()" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold transition-all border border-slate-200 flex items-center justify-center" title="Edit Profile">
+                    <span class="material-symbols-outlined text-[13px]">edit</span>
                   </button>
                 </div>
 
@@ -912,11 +918,11 @@ window.AppUI = {
                 <div class="linkedin-card p-4 sm:p-5 space-y-3.5 relative" id="${post.id}">
                   <!-- Author Header & Three-Dots Post Settings Menu -->
                   <div class="flex items-start justify-between relative">
-                    <div class="flex items-center gap-3">
-                      <img src="${post.authorAvatar}" alt="${post.authorName}" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
+                    <div class="flex items-center gap-3 cursor-pointer group" onclick="AppUI.openFullProfileModal('${post.authorName}')" title="Click to view full LinkedIn profile">
+                      <img src="${post.authorAvatar}" alt="${post.authorName}" class="w-10 h-10 rounded-full object-cover border border-slate-200 group-hover:ring-2 group-hover:ring-primary/40 transition-all" />
                       <div>
                         <div class="flex items-center gap-1.5">
-                          <h3 class="font-bold text-slate-900 text-sm">${post.authorName}</h3>
+                          <h3 class="font-bold text-slate-900 text-sm group-hover:text-primary group-hover:underline">${post.authorName}</h3>
                           <span class="material-symbols-outlined text-primary text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
                         </div>
                         <p class="text-[11px] text-slate-500 leading-tight">${post.authorRole}</p>
@@ -1115,12 +1121,12 @@ window.AppUI = {
                       <!-- Comments List Stream -->
                       <div class="space-y-2.5 pt-1">
                         ${comments.map(c => `
-                          <div class="flex items-start gap-2.5 bg-slate-50/80 p-2.5 rounded-xl border border-slate-100">
-                            <img src="${c.authorAvatar}" alt="${c.authorName}" class="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0 mt-0.5" />
+                          <div class="flex items-start gap-2.5 bg-slate-50/80 p-2.5 rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-100/90 transition-colors group" onclick="AppUI.openFullProfileModal('${c.authorName}')" title="Click to view full LinkedIn profile">
+                            <img src="${c.authorAvatar}" alt="${c.authorName}" class="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0 mt-0.5 group-hover:ring-1 group-hover:ring-primary/40" />
                             <div class="flex-1 text-xs">
                               <div class="flex justify-between items-start">
                                 <div>
-                                  <span class="font-bold text-slate-900">${c.authorName}</span>
+                                  <span class="font-bold text-slate-900 group-hover:text-primary group-hover:underline">${c.authorName}</span>
                                   <p class="text-[10px] text-slate-400">${c.authorRole}</p>
                                 </div>
                                 <span class="text-[10px] text-slate-400">${c.timeAgo}</span>
@@ -2436,10 +2442,10 @@ window.AppUI = {
         <!-- Welcome Header -->
         <section class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 glass-panel p-6 rounded-2xl">
           <div class="flex items-center gap-4">
-            <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to change photo / upload from gallery">
+            <div class="relative group cursor-pointer" onclick="AppUI.openFullProfileModal('me')" title="Click to view full LinkedIn profile">
               <img src="${student.avatar}" alt="${student.name}" class="w-16 h-16 rounded-full object-cover border-2 border-primary/30 shadow-md group-hover:opacity-85 transition-opacity" />
               <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
-                <span class="material-symbols-outlined text-base">photo_camera</span>
+                <span class="material-symbols-outlined text-base">visibility</span>
               </div>
             </div>
             <div>
@@ -2447,11 +2453,14 @@ window.AppUI = {
                 <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-container/10 text-primary text-[11px] font-bold border border-primary/20">
                   <span class="material-symbols-outlined text-[13px]">verified</span> Verified Ayush Student
                 </div>
-                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
-                  <span class="material-symbols-outlined text-[12px] text-primary">edit</span> Edit Profile
+                <button onclick="AppUI.openFullProfileModal('me')" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-primary">person</span> View Profile
+                </button>
+                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[10px] font-bold border border-slate-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-slate-600">edit</span> Edit
                 </button>
               </div>
-              <h1 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface">Welcome back, ${student.name}</h1>
+              <h1 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface cursor-pointer hover:text-primary transition-colors" onclick="AppUI.openFullProfileModal('me')">Welcome back, ${student.name}</h1>
               <p class="font-body-md text-xs sm:text-sm text-on-surface-variant">${student.program} • ${student.institution}</p>
             </div>
           </div>
@@ -3171,9 +3180,438 @@ window.AppUI = {
     // Rerender active modal with applied status
     this.openInternshipDetailModal(oppId);
     
-    // Also re-render background view
-    this.renderCurrentView();
   },
+
+  // 6.6 Full-Screen LinkedIn-Style Dedicated Profile View & Navigation
+  openFullProfileModal(profileQuery = 'me') {
+    this.activeProfileQuery = profileQuery;
+    this.navigate('profile');
+  },
+
+  openProfilePage(profileQuery = 'me') {
+    this.activeProfileQuery = profileQuery;
+    this.navigate('profile');
+  },
+
+  getProfileHTML(state) {
+    const profileQuery = this.activeProfileQuery || 'me';
+    const student = state.student || window.appState.state.student;
+    const gmpSkill = student.skills?.["GMP"] || { current: 42, expected: 78 };
+    const candidates = state.candidates || window.appState.state.candidates || [];
+
+    let isMe = false;
+    let name = student.name;
+    let headline = `${student.program} @ ${student.institution}`;
+    let institution = student.institution;
+    let avatar = student.avatar;
+    let location = "Jaipur, Rajasthan, India";
+    let about = "Final year Bachelor of Ayurvedic Medicine and Surgery (BAMS) scholar at National Institute of Ayurveda (NIA) Jaipur. Passionate about evidence-based clinical diagnostics, herbal drug standardization under Schedule T GMP guidelines, and Panchakarma therapies. Actively seeking clinical and pharmaceutical formulation internship opportunities.";
+    let match = student.overallMatch || 92;
+    let verifiedBadges = student.verifiedBadges || [
+      { name: "Clinical Panchakarma Benchmark", issuer: "NIA Jaipur", date: "Verified 2026" },
+      { name: "Schedule T GMP Specialist", issuer: "Ministry of Ayush", date: "Verified 2026" },
+      { name: "Herbology Standardization", issuer: "AIIA New Delhi", date: "Verified 2026" }
+    ];
+    let skills = [
+      { name: "Panchakarma Therapy", score: student.skills?.Panchakarma?.current || 85, icon: "spa" },
+      { name: "Herbology & Dravyaguna", score: student.skills?.Herbology?.current || 80, icon: "eco" },
+      { name: "Patient Care & Nadi", score: student.skills?.PatientCare?.current || 88, icon: "stethoscope" },
+      { name: "Pulse & Rog Nidan", score: student.skills?.Diagnostics?.current || 75, icon: "vital_signs" },
+      { name: "Schedule T GMP", score: gmpSkill.current, icon: "verified" },
+      { name: "Clinical Research & GCP", score: student.skills?.Research?.current || 65, icon: "science" }
+    ];
+    let education = [
+      { school: student.institution || "National Institute of Ayurveda (NIA), Jaipur", degree: "Bachelor of Ayurvedic Medicine and Surgery - BAMS", dates: "2021 - 2026", grade: "8.6 / 10 CGPA • Clinical Honors" }
+    ];
+    let experience = [
+      { role: "Clinical Intern (BAMS Resident)", company: "National Institute of Ayurveda Hospital", dates: "Jun 2025 - Present (12 Months)", location: "Jaipur, Rajasthan", desc: "Conducted bedside pulse diagnostics (Nadi Pariksha), managed classical Panchakarma therapy cycles (Vamana, Virechana, Basti), and recorded patient case histories." },
+      { role: "Herbal Drug Extraction Fellow", company: "Ayush Phytochemistry Research Facility", dates: "Jan 2025 - May 2025", location: "Jaipur", desc: "Standardized raw botanical extracts using HPTLC fingerprinting and audited compliance batch records under Schedule T guidelines." }
+    ];
+    let coverBg = "bg-gradient-to-r from-emerald-900 via-teal-800 to-emerald-700";
+
+    // Resolve other profiles
+    if (profileQuery === 'me' || profileQuery === student.name || profileQuery === 'student') {
+      isMe = true;
+    } else {
+      const foundCandidate = candidates.find(c => c.id === profileQuery || c.name.toLowerCase() === String(profileQuery).toLowerCase());
+      if (foundCandidate) {
+        name = foundCandidate.name;
+        headline = `${foundCandidate.education} • ${foundCandidate.institution}`;
+        institution = foundCandidate.institution;
+        avatar = foundCandidate.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(foundCandidate.name)}&background=047857&color=fff`;
+        match = foundCandidate.match || 90;
+        about = `Ayush healthcare scholar and clinical specialist at ${foundCandidate.institution}. Specialized in verified competency standards with verified benchmarks in ${foundCandidate.verifiedSkills?.join(', ')}.`;
+      } else if (String(profileQuery).includes('Priya')) {
+        name = "Dr. Priya Sharma";
+        headline = "BAMS Resident & Herbology Specialist @ All India Institute of Ayurveda (AIIA), New Delhi";
+        institution = "All India Institute of Ayurveda (AIIA), New Delhi";
+        avatar = "https://images.unsplash.com/photo-1594824813501-4890d23b3780?w=200&auto=format&fit=crop&q=80";
+        location = "New Delhi, India";
+        match = 94;
+        about = "BAMS Resident Physician at AIIA New Delhi focusing on integrating classical Ashtavidha diagnostics with modern phytochemistry. Completed national certification in Schedule T GMP batch processing.";
+      } else if (String(profileQuery).includes('Aditi')) {
+        name = "Dr. Aditi Sharma";
+        headline = "MD (Ay) Scholar • Clinical Trial Management & Dravyaguna @ AIIA New Delhi";
+        institution = "All India Institute of Ayurveda (AIIA)";
+        avatar = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&auto=format&fit=crop&q=80";
+        location = "New Delhi, India";
+        match = 96;
+        about = "Postgraduate clinical researcher with 2+ years of trial monitoring experience under Ministry of Ayush clinical research guidelines.";
+      } else if (String(profileQuery).includes('Dabur')) {
+        name = "Dabur India Ltd";
+        headline = "Ayush Healthcare, Wellness & Pharmaceutical Enterprise • Verified Recruiter";
+        institution = "Dabur Research & Development Center, Sahibabad";
+        avatar = "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&auto=format&fit=crop&q=80";
+        location = "Sahibabad / NCR, India • 240,000+ Followers";
+        match = 100;
+        about = "India's premier Ayurvedic formulations enterprise with over 138 years of scientific trust. Actively partnering with SkillSetu to recruit top-performing BAMS and MD Ayurveda graduates.";
+      } else {
+        name = String(profileQuery);
+        headline = "Ayush Healthcare Professional • SkillSetu Verified Network";
+        institution = "Ministry of Ayush Ecosystem";
+        avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=047857&color=fff`;
+        location = "India";
+        about = "Verified member of the National SkillSetu Ayush professional network.";
+      }
+    }
+
+    return `
+      ${this.getNavbarHTML(state)}
+      <main class="pt-20 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-6xl mx-auto w-full">
+        <!-- Top Back Bar -->
+        <div class="flex items-center justify-between mb-4">
+          <button onclick="AppUI.navigate('feed')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-primary font-bold text-xs shadow-xs hover:bg-slate-50 transition-all">
+            <span class="material-symbols-outlined text-base">arrow_back</span>
+            <span>Back to Feed</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+              Ministry Verified Ayush Profile
+            </span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <!-- MAIN COLUMN (8 cols) -->
+          <div class="lg:col-span-8 space-y-4">
+            
+            <!-- 1. LinkedIn Hero Card -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm relative">
+              <!-- Cover Banner -->
+              <div class="h-44 sm:h-60 ${coverBg} relative">
+                <div class="absolute inset-0 bg-black/15"></div>
+                <div class="absolute top-3 right-3 flex items-center gap-2">
+                  ${isMe ? `
+                    <button onclick="AppUI.openEditProfileModal()" class="px-3.5 py-1.5 bg-black/40 hover:bg-black/60 text-white rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-sm">
+                      <span class="material-symbols-outlined text-sm">photo_camera</span> Edit Cover
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- Profile Details Header Area -->
+              <div class="px-5 sm:px-8 pb-6">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 sm:-mt-20 gap-4 mb-4">
+                  <!-- Avatar -->
+                  <div class="relative inline-block">
+                    <img src="${avatar}" alt="${name}" class="w-28 sm:w-36 h-28 sm:h-36 rounded-full object-cover border-4 border-white shadow-xl bg-white" />
+                    <span class="absolute bottom-2 right-2 w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm" title="Verified SkillSetu Profile">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                    </span>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="flex flex-wrap items-center gap-2 pt-2 sm:pt-0">
+                    ${isMe ? `
+                      <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">edit</span> Edit Profile
+                      </button>
+                      <button onclick="AppUI.showToast('Profile link copied to clipboard!', 'success')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1">
+                        <span class="material-symbols-outlined text-base">share</span> Share
+                      </button>
+                    ` : `
+                      <button onclick="AppUI.showToast('Connection request sent to ${name}!', 'success')" class="px-5 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">person_add</span> Connect
+                      </button>
+                      <button onclick="AppUI.showToast('Direct message chat initialized with ${name}.', 'info')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">chat</span> Message
+                      </button>
+                    `}
+                  </div>
+                </div>
+
+                <!-- Name & Headline -->
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">${name}</h1>
+                    <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-extrabold uppercase tracking-wider">
+                      Verified Scholar
+                    </span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-700 font-medium leading-normal">${headline}</p>
+                  <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 pt-1">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> ${location}</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">school</span> ${institution}</span>
+                    <span class="text-primary font-bold">500+ Connections</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Analytics & Highlights Strip -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-base">analytics</span>
+                  Analytics & Benchmark Metrics
+                </h3>
+                <span class="text-[10px] text-slate-400 font-semibold">Updated Today</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                  <div class="text-[10px] text-slate-500 font-bold uppercase">Overall Match</div>
+                  <div class="text-lg font-extrabold text-primary mt-0.5">${match}% Fit</div>
+                  <div class="text-[10px] text-emerald-600 font-semibold">Top 5% Cohort</div>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                  <div class="text-[10px] text-slate-500 font-bold uppercase">Profile Views</div>
+                  <div class="text-lg font-extrabold text-slate-900 mt-0.5">142 Views</div>
+                  <div class="text-[10px] text-primary font-semibold">+18% this week</div>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                  <div class="text-[10px] text-slate-500 font-bold uppercase">Recruiter Queries</div>
+                  <div class="text-lg font-extrabold text-slate-900 mt-0.5">32 Searches</div>
+                  <div class="text-[10px] text-blue-600 font-semibold">Dabur, Himalaya</div>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                  <div class="text-[10px] text-slate-500 font-bold uppercase">Verified Badges</div>
+                  <div class="text-lg font-extrabold text-secondary mt-0.5">${verifiedBadges.length} Certified</div>
+                  <div class="text-[10px] text-emerald-700 font-semibold">Ayush Ministry</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. About Section -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-2">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">person</span>
+                About
+              </h3>
+              <p class="text-xs text-slate-700 leading-relaxed">${about}</p>
+            </div>
+
+            <!-- 4. Verified Skill Scores & Radar Breakdown -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-base">verified</span>
+                  Verified Competencies & Scores
+                </h3>
+                <button onclick="AppUI.navigate('student-dashboard')" class="text-xs text-primary font-bold hover:underline">
+                  View Skill Dashboard →
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                ${skills.map(s => {
+                  const isPass = s.score >= 75;
+                  return `
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                      <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-primary text-lg">${s.icon}</span>
+                        <div>
+                          <div class="font-bold text-slate-900 text-xs">${s.name}</div>
+                          <div class="text-[10px] text-slate-400">Industry Standard: 75%</div>
+                        </div>
+                      </div>
+                      <span class="px-2 py-1 rounded-lg text-xs font-extrabold ${isPass ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-700'}">
+                        ${s.score}%
+                      </span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- 5. Experience & Clinical Postings -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-4">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">work</span>
+                Clinical Experience & Internships
+              </h3>
+              <div class="space-y-4">
+                ${experience.map(exp => `
+                  <div class="flex items-start gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center justify-center shrink-0 mt-0.5">
+                      <span class="material-symbols-outlined text-xl">local_hospital</span>
+                    </div>
+                    <div class="flex-1 text-xs">
+                      <h4 class="font-bold text-slate-900 text-sm">${exp.role}</h4>
+                      <p class="font-semibold text-slate-700">${exp.company}</p>
+                      <p class="text-[10px] text-slate-400">${exp.dates} • ${exp.location}</p>
+                      <p class="text-slate-600 mt-1 leading-relaxed">${exp.desc}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- 6. Education -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-4">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">school</span>
+                Education & Qualifications
+              </h3>
+              <div class="space-y-3">
+                ${education.map(edu => `
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-800 border border-purple-200 flex items-center justify-center shrink-0 mt-0.5">
+                      <span class="material-symbols-outlined text-xl">account_balance</span>
+                    </div>
+                    <div class="flex-1 text-xs">
+                      <h4 class="font-bold text-slate-900 text-sm">${edu.school}</h4>
+                      <p class="font-semibold text-slate-700">${edu.degree}</p>
+                      <p class="text-[10px] text-slate-400">${edu.dates}</p>
+                      <p class="text-emerald-700 font-bold mt-0.5">${edu.grade}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- 7. Verified Licenses & Certifications -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">card_membership</span>
+                Licenses & Certifications
+              </h3>
+              <div class="space-y-2.5">
+                ${verifiedBadges.map(b => `
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs">
+                    <div class="flex items-center gap-2.5">
+                      <span class="material-symbols-outlined text-primary text-xl">verified</span>
+                      <div>
+                        <div class="font-bold text-slate-900">${b.name}</div>
+                        <div class="text-[10px] text-slate-500">${b.issuer} • ${b.date}</div>
+                      </div>
+                    </div>
+                    <span class="px-2.5 py-1 bg-white border border-slate-200 text-slate-700 font-bold text-[10px] rounded-lg">
+                      Verified
+                    </span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT SIDEBAR (4 cols) -->
+          <div class="lg:col-span-4 space-y-4">
+            <!-- 1. People Also Viewed -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3.5">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">group</span>
+                Ayush Peers & Scholars
+              </h3>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2 p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                  <div class="flex items-center gap-2.5 cursor-pointer" onclick="AppUI.openFullProfileModal('Dr. Priya Sharma')">
+                    <img src="https://images.unsplash.com/photo-1594824813501-4890d23b3780?w=100&auto=format&fit=crop&q=80" alt="Dr. Priya Sharma" class="w-9 h-9 rounded-full object-cover border border-slate-200" />
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs hover:text-primary">Dr. Priya Sharma</h4>
+                      <p class="text-[10px] text-slate-500">BAMS Resident @ AIIA</p>
+                    </div>
+                  </div>
+                  <button onclick="AppUI.openFullProfileModal('Dr. Priya Sharma')" class="px-2.5 py-1 rounded-lg border border-primary text-primary hover:bg-primary hover:text-white text-[11px] font-bold transition-colors">
+                    View
+                  </button>
+                </div>
+
+                <div class="flex items-center justify-between gap-2 p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                  <div class="flex items-center gap-2.5 cursor-pointer" onclick="AppUI.openFullProfileModal('Dr. Aditi Sharma')">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&auto=format&fit=crop&q=80" alt="Dr. Aditi Sharma" class="w-9 h-9 rounded-full object-cover border border-slate-200" />
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs hover:text-primary">Dr. Aditi Sharma</h4>
+                      <p class="text-[10px] text-slate-500">MD (Ay) Research Fellow</p>
+                    </div>
+                  </div>
+                  <button onclick="AppUI.openFullProfileModal('Dr. Aditi Sharma')" class="px-2.5 py-1 rounded-lg border border-primary text-primary hover:bg-primary hover:text-white text-[11px] font-bold transition-colors">
+                    View
+                  </button>
+                </div>
+
+                <div class="flex items-center justify-between gap-2 p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                  <div class="flex items-center gap-2.5 cursor-pointer" onclick="AppUI.openFullProfileModal('CAND-RAJEEV')">
+                    <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs border border-emerald-200">
+                      RV
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs hover:text-primary">Rajeev Verma</h4>
+                      <p class="text-[10px] text-slate-500">B.Sc Yoga @ SVYASA</p>
+                    </div>
+                  </div>
+                  <button onclick="AppUI.openFullProfileModal('CAND-RAJEEV')" class="px-2.5 py-1 rounded-lg border border-primary text-primary hover:bg-primary hover:text-white text-[11px] font-bold transition-colors">
+                    View
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Matching Internships -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-3">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">work</span>
+                Top Matching Internships
+              </h3>
+              <div class="space-y-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs">Formulation & QC Intern</h4>
+                      <p class="text-[10px] text-slate-500">Dabur India Ltd • Sahibabad</p>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">95% Match</span>
+                  </div>
+                  <button onclick="AppUI.openInternshipDetailModal('OPP-DABUR-01')" class="w-full py-1.5 bg-primary text-white font-bold text-xs rounded-lg hover:bg-emerald-800 transition-colors">
+                    1-Click Apply
+                  </button>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs">Clinical Herbology Fellow</h4>
+                      <p class="text-[10px] text-slate-500">Patanjali Research • Haridwar</p>
+                    </div>
+                    <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-md">90% Match</span>
+                  </div>
+                  <button onclick="AppUI.openInternshipDetailModal('OPP-PATANJALI-02')" class="w-full py-1.5 bg-primary text-white font-bold text-xs rounded-lg hover:bg-emerald-800 transition-colors">
+                    1-Click Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Verified Institution Credential -->
+            <div class="bg-gradient-to-br from-emerald-800 to-teal-900 rounded-2xl p-5 text-white shadow-md space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-2xl text-emerald-300">verified_user</span>
+                <h4 class="font-bold text-sm">SkillSetu Verified Profile</h4>
+              </div>
+              <p class="text-xs text-emerald-100/90 leading-relaxed">
+                All competency benchmark scores and clinical postings on this profile are authenticated by apex Ayush institutions and accredited under National Ayush Mission guidelines.
+              </p>
+              <div class="pt-2 border-t border-white/20 text-[10px] text-emerald-200">
+                Credential ID: AYU-2026-IND-88491
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    `;
+  },
+
   getIndustryDashboardHTML(state) {
     const profile = window.appState.getProfileForRole('industry');
     const candidates = state.candidates.filter(c => {
