@@ -191,4 +191,33 @@
   backdrop-filter: blur(16px);
   border: 1px solid rgba(16, 185, 129, 0.3);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  max-width: 95vw;
 }
+
+/* Mobile Navigation Drawer Animations */
+.mobile-nav-enter {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.mobile-nav-enter.active {
+  max-height: 480px;
+  opacity: 1;
+}
+
+/* Responsive touch targets */
+@media (max-width: 768px) {
+  #toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 80px;
+    align-items: center;
+  }
+  .toast {
+    min-width: unset;
+    width: 100%;
+  }
+}
+

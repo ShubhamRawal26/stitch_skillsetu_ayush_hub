@@ -11,6 +11,7 @@ window.AppUI = {
   activeFilterDegree: '',
   searchQuery: '',
   selectedStateDetail: null,
+  mobileMenuOpen: false,
 
   init() {
     // Setup state subscription
@@ -38,18 +39,39 @@ window.AppUI = {
   },
 
   navigate(viewName) {
+    this.closeMobileMenu();
     window.location.hash = viewName;
     window.appState.setView(viewName);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    const headerEl = document.getElementById('global-header');
+    if (headerEl) {
+      headerEl.innerHTML = this.getNavbarHTML(window.appState.state);
+    }
+  },
+
+  closeMobileMenu() {
+    if (this.mobileMenuOpen) {
+      this.mobileMenuOpen = false;
+      const headerEl = document.getElementById('global-header');
+      if (headerEl) {
+        headerEl.innerHTML = this.getNavbarHTML(window.appState.state);
+      }
+    }
+  },
+
   selectRoleAndLogin(role) {
+    this.closeMobileMenu();
     window.appState.selectRoleForAuth(role);
     this.navigate('login');
     this.showToast(`Selected ${role.toUpperCase()} portal. Please sign in to continue.`, 'info');
   },
 
   handleLoginSubmit() {
+    this.closeMobileMenu();
     const role = window.appState.state.currentRole || 'student';
     window.appState.setRole(role);
     const roleNames = {
@@ -141,71 +163,133 @@ window.AppUI = {
   getNavbarHTML(state) {
     const isFocused = state.currentView === 'assessment';
     return `
-      <div class="flex justify-between items-center px-4 md:px-margin-desktop h-20 max-w-container-max mx-auto w-full">
-        <!-- Logo & Title -->
-        <div class="flex items-center gap-3 cursor-pointer" onclick="AppUI.navigate('home')">
-          <div class="w-10 h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20">
-            <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+      <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <!-- Logo & Title -->
+          <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="AppUI.navigate('home')">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+            </div>
+            <div>
+              <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight">SkillSetu</span>
+              <span class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-[10px]">Ministry of Ayush</span>
+            </div>
           </div>
-          <div>
-            <span class="font-display-lg-mobile text-[22px] font-bold text-primary tracking-tight">SkillSetu</span>
-            <span class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-[10px]">Ministry of Ayush</span>
-          </div>
-        </div>
 
-        ${!isFocused ? `
-          <!-- Center Nav Links -->
-          <nav class="hidden lg:flex items-center gap-6 font-label-md text-label-md">
-            <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="${state.currentView === 'home' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Home</a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="${state.currentView === 'roles' || state.currentView === 'login' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Portals & Login</a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="${state.currentView === 'student-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Student</a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="${state.currentView === 'industry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Industry</a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="${state.currentView === 'college-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">College</a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="${state.currentView === 'ministry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Ministry Admin</a>
-          </nav>
+          ${!isFocused ? `
+            <!-- Center Nav Links (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-6 font-label-md text-label-md">
+              <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="${state.currentView === 'home' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Home</a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="${state.currentView === 'roles' || state.currentView === 'login' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Portals & Login</a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="${state.currentView === 'student-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Student</a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="${state.currentView === 'industry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Industry</a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="${state.currentView === 'college-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">College</a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="${state.currentView === 'ministry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Ministry Admin</a>
+            </nav>
 
-          <!-- Right Action Controls -->
-          <div class="flex items-center gap-3">
-            <!-- Portal Quick Switcher Dropdown -->
-            <div class="relative">
-              <select id="role-quick-select" onchange="AppUI.handleRoleSwitch(this.value)" class="bg-surface-container-lowest border border-outline-variant/60 text-on-surface rounded-xl px-3 py-1.5 font-label-sm text-[13px] font-semibold text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm">
-                <option value="student" ${state.currentRole === 'student' && state.currentView === 'student-dashboard' ? 'selected' : ''}>Student Portal</option>
-                <option value="industry" ${state.currentRole === 'industry' && state.currentView === 'industry-dashboard' ? 'selected' : ''}>Industry Portal</option>
-                <option value="college" ${state.currentRole === 'college' && state.currentView === 'college-dashboard' ? 'selected' : ''}>College & Faculty Portal</option>
-                <option value="ministry" ${state.currentRole === 'ministry' && state.currentView === 'ministry-dashboard' ? 'selected' : ''}>Ministry Admin Portal</option>
-              </select>
+            <!-- Right Action Controls (Desktop) -->
+            <div class="hidden lg:flex items-center gap-3">
+              <!-- Portal Quick Switcher Dropdown -->
+              <div class="relative">
+                <select id="role-quick-select" onchange="AppUI.handleRoleSwitch(this.value)" class="bg-surface-container-lowest border border-outline-variant/60 text-on-surface rounded-xl px-3 py-1.5 font-label-sm text-[13px] font-semibold text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm">
+                  <option value="student" ${state.currentRole === 'student' && state.currentView === 'student-dashboard' ? 'selected' : ''}>Student Portal</option>
+                  <option value="industry" ${state.currentRole === 'industry' && state.currentView === 'industry-dashboard' ? 'selected' : ''}>Industry Portal</option>
+                  <option value="college" ${state.currentRole === 'college' && state.currentView === 'college-dashboard' ? 'selected' : ''}>College & Faculty</option>
+                  <option value="ministry" ${state.currentRole === 'ministry' && state.currentView === 'ministry-dashboard' ? 'selected' : ''}>Ministry Admin</option>
+                </select>
+              </div>
+
+              <!-- Notifications -->
+              <button onclick="AppUI.showToast('You have 2 new opportunity matches based on your latest GMP benchmark!', 'info')" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50 relative">
+                <span class="material-symbols-outlined text-[22px]">notifications</span>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full animate-ping"></span>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+              </button>
+
+              <!-- User Avatar & Mini Profile -->
+              <div class="flex items-center gap-2 pl-2 border-l border-outline-variant/40 cursor-pointer" onclick="AppUI.navigate('roles')">
+                <img src="${state.student.avatar}" alt="${state.student.name}" class="w-9 h-9 rounded-full object-cover border border-primary/30 shadow-sm" />
+                <div class="hidden sm:block text-left">
+                  <div class="font-label-sm text-[13px] font-bold text-on-surface leading-tight">${state.student.name.split(' ')[0]}</div>
+                  <div class="text-[11px] text-on-surface-variant leading-none">${state.currentRole.toUpperCase()}</div>
+                </div>
+              </div>
             </div>
 
-            <!-- Notifications -->
-            <button onclick="AppUI.showToast('You have 2 new opportunity matches based on your latest GMP benchmark!', 'info')" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50 relative">
-              <span class="material-symbols-outlined text-[22px]">notifications</span>
-              <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full animate-ping"></span>
-              <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
-            </button>
+            <!-- Mobile Hamburger & Actions -->
+            <div class="flex lg:hidden items-center gap-2">
+              <button onclick="AppUI.showToast('2 new opportunity matches ready!', 'info')" class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded-full relative">
+                <span class="material-symbols-outlined text-2xl">notifications</span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+              </button>
+              <button onclick="AppUI.toggleMobileMenu()" class="p-2 rounded-xl text-on-surface hover:bg-surface-container-high border border-outline-variant/40 flex items-center justify-center transition-colors">
+                <span class="material-symbols-outlined text-2xl">${this.mobileMenuOpen ? 'close' : 'menu'}</span>
+              </button>
+            </div>
+          ` : `
+            <!-- Assessment focused header -->
+            <div class="flex items-center gap-4">
+              <span class="text-on-surface-variant font-label-md text-xs sm:text-sm font-medium">Ayush Skill Benchmark Assessment</span>
+              <button onclick="AppUI.navigate('student-dashboard')" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+          `}
+        </div>
 
-            <!-- User Avatar & Mini Profile -->
-            <div class="flex items-center gap-2 pl-2 border-l border-outline-variant/40 cursor-pointer" onclick="AppUI.navigate('roles')">
-              <img src="${state.student.avatar}" alt="${state.student.name}" class="w-9 h-9 rounded-full object-cover border border-primary/30 shadow-sm" />
-              <div class="hidden sm:block text-left">
-                <div class="font-label-sm text-[13px] font-bold text-on-surface leading-tight">${state.student.name.split(' ')[0]}</div>
-                <div class="text-[11px] text-on-surface-variant leading-none">${state.currentRole.toUpperCase()}</div>
+        <!-- Mobile Navigation Drawer -->
+        ${!isFocused ? `
+          <div id="mobile-nav-drawer" class="mobile-nav-enter ${this.mobileMenuOpen ? 'active' : ''} lg:hidden border-t border-outline-variant/30 py-4 px-2">
+            <div class="flex flex-col gap-1 mb-4">
+              <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'home' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">home</span> Home
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'roles' || state.currentView === 'login' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">how_to_reg</span> Portals & Login
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">school</span> Student Portal
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">assignment</span> Take Skill Assessment
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">domain</span> Industry Portal
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'college-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">account_balance</span> College & Faculty
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">admin_panel_settings</span> Ministry Admin
+              </a>
+            </div>
+
+            <!-- Mobile Quick Role Switcher -->
+            <div class="pt-3 border-t border-outline-variant/30">
+              <div class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Switch Active Role</div>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="AppUI.handleRoleSwitch('student'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'student' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                  <span class="material-symbols-outlined text-sm">school</span> Student
+                </button>
+                <button onclick="AppUI.handleRoleSwitch('industry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'industry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                  <span class="material-symbols-outlined text-sm">domain</span> Industry
+                </button>
+                <button onclick="AppUI.handleRoleSwitch('college'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'college' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                  <span class="material-symbols-outlined text-sm">account_balance</span> College
+                </button>
+                <button onclick="AppUI.handleRoleSwitch('ministry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'ministry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                  <span class="material-symbols-outlined text-sm">admin_panel_settings</span> Ministry
+                </button>
               </div>
             </div>
           </div>
-        ` : `
-          <!-- Assessment focused header -->
-          <div class="flex items-center gap-4">
-            <span class="text-on-surface-variant font-label-md text-sm">Ayush Skill Benchmark Assessment</span>
-            <button onclick="AppUI.navigate('student-dashboard')" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
-              <span class="material-symbols-outlined">close</span>
-            </button>
-          </div>
-        `}
+        ` : ''}
       </div>
     `;
   },
 
   handleRoleSwitch(role) {
+    this.closeMobileMenu();
     window.appState.setRole(role);
     this.showToast(`Switched to ${role.toUpperCase()} portal`, 'info');
   },
@@ -1583,19 +1667,19 @@ window.AppUI = {
     if (!barEl) {
       barEl = document.createElement('div');
       barEl.id = 'demo-controller-bar';
-      barEl.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 z-50 demo-bar px-4 py-2.5 rounded-full flex items-center gap-2 md:gap-3 text-white text-xs shadow-2xl';
+      barEl.className = 'fixed bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-50 demo-bar px-3 sm:px-4 py-2 sm:py-2.5 rounded-full flex items-center gap-1.5 sm:gap-2 md:gap-3 text-white text-[11px] sm:text-xs shadow-2xl overflow-x-auto hide-scrollbar whitespace-nowrap max-w-[96vw]';
       document.body.appendChild(barEl);
     }
 
     barEl.innerHTML = `
-      <span class="hidden sm:inline-block font-bold text-primary-fixed uppercase tracking-wider text-[11px] px-2 py-0.5 rounded bg-primary-fixed/20">SIH Demo</span>
-      <button onclick="AppUI.navigate('student-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'student-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">1. Student</button>
-      <button onclick="AppUI.navigate('assessment')" class="px-2.5 py-1 rounded-full ${state.currentView === 'assessment' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">2. Assessment</button>
-      <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-2.5 py-1 rounded-full hover:bg-white/10 text-white/80 transition-all">3. Bridge Course</button>
-      <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'industry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">4. Industry</button>
-      <button onclick="AppUI.navigate('college-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'college-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">5. College</button>
-      <button onclick="AppUI.navigate('ministry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'ministry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">6. Ministry</button>
-      <button onclick="window.appState.resetDemo(); AppUI.renderCurrentView();" class="px-2.5 py-1 rounded-full bg-error/30 text-error-container hover:bg-error/50 font-bold transition-all ml-1 flex items-center gap-1" title="Reset Demo Data">
+      <span class="hidden md:inline-block font-bold text-primary-fixed uppercase tracking-wider text-[10px] px-2 py-0.5 rounded bg-primary-fixed/20">SIH Demo</span>
+      <button onclick="AppUI.navigate('student-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'student-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">1. Student</button>
+      <button onclick="AppUI.navigate('assessment')" class="px-2.5 py-1 rounded-full ${state.currentView === 'assessment' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">2. Assessment</button>
+      <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-2.5 py-1 rounded-full hover:bg-white/10 text-white/80 transition-all shrink-0">3. Bridge Course</button>
+      <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'industry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">4. Industry</button>
+      <button onclick="AppUI.navigate('college-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'college-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">5. College</button>
+      <button onclick="AppUI.navigate('ministry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'ministry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">6. Ministry</button>
+      <button onclick="window.appState.resetDemo(); AppUI.renderCurrentView();" class="px-2.5 py-1 rounded-full bg-error/30 text-error-container hover:bg-error/50 font-bold transition-all ml-1 flex items-center gap-1 shrink-0" title="Reset Demo Data">
         <span class="material-symbols-outlined text-[12px]">restart_alt</span>
         <span>Reset</span>
       </button>
