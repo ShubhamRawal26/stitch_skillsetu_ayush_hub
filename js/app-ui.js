@@ -211,7 +211,7 @@ window.AppUI = {
       return `
         <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
           <div class="flex justify-between items-center h-14 md:h-16">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="AppUI.navigate('home')" title="Return to SkillSetu Home">
               <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-extrabold shadow-sm">
                 <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">spa</span>
               </div>
@@ -234,8 +234,8 @@ window.AppUI = {
         <div class="flex justify-between items-center h-14 md:h-16">
           <!-- Left Logo & Search Bar -->
           <div class="flex items-center gap-2.5">
-            <!-- Brand Logo -->
-            <div class="flex items-center gap-2 cursor-pointer" onclick="AppUI.navigate('feed')">
+            <!-- Brand Logo (Redirects to Home) -->
+            <div class="flex items-center gap-2 cursor-pointer" onclick="AppUI.navigate('home')" title="Go to SkillSetu Home">
               <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-primary flex items-center justify-center text-white font-extrabold shadow-sm shrink-0">
                 <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">spa</span>
               </div>
