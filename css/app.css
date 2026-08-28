@@ -19,6 +19,11 @@
   --color-tertiary-container: #fc7c78;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
 /* Glassmorphism Styles based on Stitch DESIGN.md */
 .glass-panel {
   background: rgba(255, 255, 255, 0.75);

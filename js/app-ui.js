@@ -175,29 +175,30 @@ window.AppUI = {
         <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
           <div class="flex justify-between items-center h-16 md:h-20">
             <!-- Brand Logo -->
-            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="AppUI.navigate('home')">
+            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer shrink-0" onclick="AppUI.navigate('home')">
               <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
                 <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
               </div>
-              <div>
-                <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight">SkillSetu</span>
-                <span class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-[10px]">Ministry of Ayush</span>
+              <div class="text-left">
+                <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight block leading-tight">SkillSetu</span>
+                <span class="text-primary font-label-sm text-[10px] font-bold block leading-none">Ministry of Ayush</span>
               </div>
             </div>
 
-            <!-- Public Center Links -->
-            <nav class="hidden md:flex items-center gap-6 font-label-md text-sm text-slate-600 font-semibold">
-              <a href="#problem-solution" class="hover:text-primary transition-colors">Ecosystem</a>
-              <a href="#capabilities" class="hover:text-primary transition-colors">Platform Capabilities</a>
-              <a href="#disciplines" class="hover:text-primary transition-colors">Disciplines</a>
-              <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
+            <!-- Public Center Links (Properly Centered & Aligned) -->
+            <nav class="hidden md:flex items-center gap-8 font-label-md text-sm text-slate-700 font-semibold mx-auto">
+              <a href="#ecosystem" class="hover:text-primary transition-colors py-1">Ecosystem</a>
+              <a href="#capabilities" class="hover:text-primary transition-colors py-1">Platform Capabilities</a>
+              <a href="#disciplines" class="hover:text-primary transition-colors py-1">Disciplines</a>
+              <a href="#faq" class="hover:text-primary transition-colors py-1">FAQ</a>
             </nav>
 
-            <!-- Public Right Action: Sign In Button -->
-            <div class="flex items-center gap-3">
-              <button onclick="AppUI.navigate('roles')" class="px-5 py-2.5 bg-primary text-white rounded-xl font-label-md text-xs sm:text-sm font-bold hover:bg-primary/90 transition-all shadow-md flex items-center gap-2 transform hover:-translate-y-0.5">
-                <span class="material-symbols-outlined text-base">login</span>
-                <span>Sign In / Login</span>
+            <!-- Public Right Action: Launch Platform Button -->
+            <div class="flex items-center gap-3 shrink-0">
+              <button onclick="AppUI.navigate('roles')" class="px-5 py-2.5 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5 group">
+                <span class="material-symbols-outlined text-lg group-hover:rotate-12 transition-transform">rocket_launch</span>
+                <span>Launch Platform</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
             </div>
           </div>
@@ -770,11 +771,11 @@ window.AppUI = {
               SkillSetu connects 42,850+ Ayush scholars and doctors with 1,240+ verified pharmaceutical enterprises, hospitals, and clinical research centers. Take a 10-minute competency diagnostic, bridge curriculum deficits, and get hired directly.
             </p>
 
-            <!-- Single Prominent Login / Sign In Button (LinkedIn Primary Style) -->
+            <!-- Single Prominent Login / Launch Button -->
             <div class="stagger-item delay-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-6">
-              <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
-                <span class="material-symbols-outlined text-xl">login</span>
-                <span>Sign In / Login to SkillSetu</span>
+              <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 group">
+                <span class="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform">rocket_launch</span>
+                <span>Launch SkillSetu Platform</span>
                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
             </div>
@@ -868,8 +869,8 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- Problem vs Solution (LinkedIn Talent Insight Style) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <!-- Problem vs Solution (Ecosystem) -->
+        <section id="ecosystem" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div class="stagger-item delay-5 linkedin-card p-6 sm:p-8 border-l-4 border-l-rose-500">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-md text-xs font-bold mb-4">
               <span class="material-symbols-outlined text-sm">warning</span> The Academic-Industry Challenge
@@ -897,8 +898,8 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- How It Works in 4 Steps (LinkedIn Learning Pathway Style) -->
-        <section class="stagger-item delay-6 mb-16">
+        <!-- How It Works in 4 Steps (Platform Capabilities) -->
+        <section id="capabilities" class="stagger-item delay-6 mb-16">
           <div class="text-center mb-10 max-w-2xl mx-auto">
             <span class="text-xs font-bold uppercase tracking-wider text-primary">Simple Career Pathway</span>
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">How SkillSetu Accelerates Your Career</h2>
@@ -952,8 +953,8 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- Supported Ayush Branches -->
-        <section class="stagger-item delay-7 mb-16">
+        <!-- Supported Ayush Branches (Disciplines) -->
+        <section id="disciplines" class="stagger-item delay-7 mb-16">
           <div class="text-center mb-10 max-w-2xl mx-auto">
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Ayush Disciplines Supported</h2>
             <p class="font-body-md text-xs sm:text-sm text-slate-600">Standardized competency frameworks tailored for all traditional healthcare branches.</p>
@@ -995,7 +996,7 @@ window.AppUI = {
         </section>
 
         <!-- Interactive FAQ Section with Type-Opening Animations -->
-        <section class="stagger-item delay-8 mb-16 max-w-4xl mx-auto">
+        <section id="faq" class="stagger-item delay-8 mb-16 max-w-4xl mx-auto">
           <div class="text-center mb-10">
             <span class="text-xs font-bold uppercase tracking-wider text-primary">Got Questions?</span>
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">Frequently Asked Questions</h2>
