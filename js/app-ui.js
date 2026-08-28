@@ -3572,17 +3572,84 @@ window.AppUI = {
         </div>
 
         <!-- Placement Trends Bar Chart -->
-        <section class="glass-panel rounded-2xl p-6 md:p-8">
-          <h3 class="font-headline-sm text-lg font-bold text-on-surface mb-1">Quarterly Placement Trajectory</h3>
-          <p class="text-xs text-on-surface-variant mb-6">Aggregate placement clearance through SkillSetu verified pipelines</p>
-          
-          <div class="h-44 flex items-end justify-between gap-4 px-4 pb-4 border-b border-outline-variant/40">
-            ${min.placementTrends.map(tr => `
-              <div class="flex-1 flex flex-col items-center gap-2 group">
-                <div class="w-full max-w-[60px] ${tr.highlight ? 'bg-primary shadow-lg shadow-primary/30' : 'bg-primary/30'} rounded-t-lg transition-all duration-300 group-hover:bg-primary" style="height: ${tr.height}%"></div>
-                <span class="font-label-sm text-xs font-semibold text-on-surface">${tr.quarter} (${tr.value})</span>
+        <section class="glass-panel rounded-2xl p-6 md:p-8 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-200/80 pb-4">
+            <div>
+              <div class="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
+                <span class="material-symbols-outlined text-sm">trending_up</span> National Employment Stream
               </div>
-            `).join('')}
+              <h3 class="font-headline-sm text-xl font-bold text-on-surface">Quarterly Placement Trajectory</h3>
+              <p class="text-xs text-on-surface-variant">Aggregate student placement clearance through SkillSetu verified pipelines</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg text-xs font-bold shadow-xs">
+                <span class="material-symbols-outlined text-sm text-emerald-600">arrow_upward</span> +106% YoY Growth
+              </span>
+            </div>
+          </div>
+          
+          <!-- Chart Visual Container -->
+          <div class="bg-surface-container-lowest rounded-2xl p-6 border border-slate-200/80 relative">
+            <!-- Grid Reference Lines -->
+            <div class="absolute left-6 right-6 top-10 border-t border-dashed border-slate-200"></div>
+            <div class="absolute left-6 right-6 top-24 border-t border-dashed border-slate-200"></div>
+            <div class="absolute left-6 right-6 top-36 border-t border-dashed border-slate-200"></div>
+
+            <!-- Bars Container with defined height -->
+            <div class="h-64 flex items-end justify-between gap-3 sm:gap-8 px-4 sm:px-12 pb-3 border-b-2 border-slate-300 relative z-10">
+              ${min.placementTrends.map(tr => `
+                <div class="flex-1 flex flex-col items-center h-full justify-end group">
+                  <!-- Value Badge on Top of Bar -->
+                  <div class="mb-2 text-center">
+                    <span class="text-xs sm:text-sm font-extrabold ${tr.highlight ? 'text-emerald-900 bg-emerald-100 ring-2 ring-emerald-300' : 'text-slate-800 bg-slate-100 border border-slate-200'} px-2.5 py-0.5 rounded-md shadow-xs inline-block">
+                      ${tr.value} Placed
+                    </span>
+                    ${tr.highlight ? `<div class="text-[9px] font-bold text-emerald-700 uppercase tracking-tight mt-0.5">Record High</div>` : ''}
+                  </div>
+
+                  <!-- Vertical Bar Track -->
+                  <div class="w-full max-w-[72px] bg-slate-100 rounded-t-xl overflow-hidden flex flex-col justify-end h-full shadow-inner">
+                    <div 
+                      class="w-full ${tr.highlight ? 'bg-gradient-to-t from-emerald-800 via-emerald-600 to-emerald-400 shadow-lg shadow-emerald-700/20' : 'bg-gradient-to-t from-slate-600 to-primary/80'} rounded-t-xl transition-all duration-700 hover:opacity-90 flex items-center justify-center"
+                      style="height: ${tr.height}%;"
+                    >
+                      <span class="text-white font-extrabold text-xs opacity-90 hidden sm:inline">${tr.value}</span>
+                    </div>
+                  </div>
+
+                  <!-- Quarter Label under Bar -->
+                  <div class="mt-3 text-center">
+                    <span class="font-bold text-slate-900 text-xs sm:text-sm block">${tr.quarter}</span>
+                    <span class="text-[10px] text-slate-400 font-medium">Verified Pool</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Mini Summary Footer Inside Chart -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 pt-4 border-t border-slate-200 text-xs">
+              <div class="flex items-center gap-2.5 p-2.5 bg-slate-50 rounded-xl">
+                <span class="material-symbols-outlined text-primary text-xl">group</span>
+                <div>
+                  <div class="text-[10px] text-slate-500 font-bold uppercase">Total Candidates Placed</div>
+                  <div class="text-sm font-extrabold text-slate-900">35,600+ Students</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2.5 p-2.5 bg-emerald-50 rounded-xl border border-emerald-100">
+                <span class="material-symbols-outlined text-emerald-700 text-xl">trending_up</span>
+                <div>
+                  <div class="text-[10px] text-emerald-800 font-bold uppercase">Quarterly Velocity</div>
+                  <div class="text-sm font-extrabold text-emerald-900">+34.7% per Quarter</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2.5 p-2.5 bg-blue-50 rounded-xl border border-blue-100">
+                <span class="material-symbols-outlined text-blue-700 text-xl">corporate_fare</span>
+                <div>
+                  <div class="text-[10px] text-blue-800 font-bold uppercase">Partner Enterprises</div>
+                  <div class="text-sm font-extrabold text-blue-900">140+ Ayush Companies</div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
