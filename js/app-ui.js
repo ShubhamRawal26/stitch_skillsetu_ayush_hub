@@ -169,10 +169,10 @@ window.AppUI = {
             <!-- Portal Quick Switcher Dropdown -->
             <div class="relative">
               <select id="role-quick-select" onchange="AppUI.handleRoleSwitch(this.value)" class="bg-surface-container-lowest border border-outline-variant/60 text-on-surface rounded-xl px-3 py-1.5 font-label-sm text-[13px] font-semibold text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm">
-                <option value="student" ${state.currentRole === 'student' && state.currentView === 'student-dashboard' ? 'selected' : ''}>🎓 Student View</option>
-                <option value="industry" ${state.currentRole === 'industry' && state.currentView === 'industry-dashboard' ? 'selected' : ''}>🏭 Industry Portal</option>
-                <option value="college" ${state.currentRole === 'college' && state.currentView === 'college-dashboard' ? 'selected' : ''}>🏛️ College Portal</option>
-                <option value="ministry" ${state.currentRole === 'ministry' && state.currentView === 'ministry-dashboard' ? 'selected' : ''}>🇮🇳 Ministry Admin</option>
+                <option value="student" ${state.currentRole === 'student' && state.currentView === 'student-dashboard' ? 'selected' : ''}>Student Portal</option>
+                <option value="industry" ${state.currentRole === 'industry' && state.currentView === 'industry-dashboard' ? 'selected' : ''}>Industry Portal</option>
+                <option value="college" ${state.currentRole === 'college' && state.currentView === 'college-dashboard' ? 'selected' : ''}>College & Faculty Portal</option>
+                <option value="ministry" ${state.currentRole === 'ministry' && state.currentView === 'ministry-dashboard' ? 'selected' : ''}>Ministry Admin Portal</option>
               </select>
             </div>
 
@@ -501,10 +501,10 @@ window.AppUI = {
             <div>
               <div class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Switch Target Role</div>
               <div class="grid grid-cols-2 gap-2 text-xs">
-                <button onclick="window.appState.selectRoleForAuth('student')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'student' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🎓 Student</button>
-                <button onclick="window.appState.selectRoleForAuth('industry')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'industry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🏭 Industry</button>
-                <button onclick="window.appState.selectRoleForAuth('college')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'college' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🏛️ College</button>
-                <button onclick="window.appState.selectRoleForAuth('ministry')" class="p-2 rounded-lg bg-surface text-left font-medium ${role === 'ministry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}">🇮🇳 Ministry</button>
+                <button onclick="window.appState.selectRoleForAuth('student')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'student' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">school</span> Student</button>
+                <button onclick="window.appState.selectRoleForAuth('industry')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'industry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">domain</span> Industry</button>
+                <button onclick="window.appState.selectRoleForAuth('college')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'college' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">account_balance</span> College</button>
+                <button onclick="window.appState.selectRoleForAuth('ministry')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'ministry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">admin_panel_settings</span> Ministry</button>
               </div>
             </div>
           </div>
@@ -640,7 +640,7 @@ window.AppUI = {
                 <text x="88" y="29" text-anchor="start" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Herbology (${student.skills.Herbology.current}%)</text>
                 <text x="88" y="73" text-anchor="start" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Patient Care (${student.skills.PatientCare.current}%)</text>
                 <text x="50" y="97" text-anchor="middle" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Diagnostics (${student.skills.Diagnostics.current}%)</text>
-                <text x="12" y="73" text-anchor="end" font-family="Inter" font-size="3.2" font-weight="600" fill="${isGmpDeficit ? '#ba1a1a' : '#006c49'}">GMP (${student.skills.GMP.current}%) ${isGmpDeficit ? '⚠️' : '✓'}</text>
+                <text x="12" y="73" text-anchor="end" font-family="Inter" font-size="3.2" font-weight="600" fill="${isGmpDeficit ? '#ba1a1a' : '#006c49'}">GMP (${student.skills.GMP.current}%)</text>
                 <text x="12" y="29" text-anchor="end" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Research (${student.skills.Research.current}%)</text>
               </svg>
             </div>
@@ -745,8 +745,9 @@ window.AppUI = {
                       ${opp.requiredSkills.map(s => {
                         const isSatisfied = (s === 'GMP Compliance' || s === 'GMP') ? gmpSkill.current >= 78 : true;
                         return `
-                          <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold ${isSatisfied ? 'bg-primary-container/10 text-primary border border-primary/20' : 'bg-error-container/20 text-error border border-error/20'}">
-                            ${s} ${isSatisfied ? '✓' : '⚠️'}
+                          <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1 ${isSatisfied ? 'bg-primary-container/10 text-primary border border-primary/20' : 'bg-error-container/20 text-error border border-error/20'}">
+                            <span class="material-symbols-outlined text-[13px]">${isSatisfied ? 'check_circle' : 'warning'}</span>
+                            ${s}
                           </span>
                         `;
                       }).join('')}
@@ -804,12 +805,16 @@ window.AppUI = {
               <div class="font-bold text-primary flex items-center gap-1">
                 <span class="material-symbols-outlined text-base">insights</span> Competency Feedback:
               </div>
-              <p class="text-on-surface-variant">✓ Strong conceptual mastery in <strong>Tridosha Diagnostics & Dravyaguna Herbology</strong>.</p>
-              <p class="${state.student.skills.GMP.current < 78 ? 'text-error font-medium' : 'text-primary font-medium'}">
-                ${state.student.skills.GMP.current < 78 
-                  ? '⚠️ <strong>GMP Compliance (Schedule T)</strong> requires bridge upskilling before industrial formulation clearance.'
-                  : '✓ <strong>GMP Schedule T Compliance</strong> validated for pharmaceutical manufacturing.'
-                }
+              <p class="text-on-surface-variant flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-sm text-primary">check_circle</span>
+                <span>Strong conceptual mastery in <strong>Tridosha Diagnostics & Dravyaguna Herbology</strong>.</span>
+              </p>
+              <p class="flex items-center gap-1.5 ${state.student.skills.GMP.current < 78 ? 'text-error font-medium' : 'text-primary font-medium'}">
+                <span class="material-symbols-outlined text-sm ${state.student.skills.GMP.current < 78 ? 'text-error' : 'text-primary'}">${state.student.skills.GMP.current < 78 ? 'warning' : 'check_circle'}</span>
+                <span>${state.student.skills.GMP.current < 78 
+                  ? '<strong>GMP Compliance (Schedule T)</strong> requires bridge upskilling before industrial formulation clearance.'
+                  : '<strong>GMP Schedule T Compliance</strong> validated for pharmaceutical manufacturing.'
+                }</span>
               </p>
             </div>
 
@@ -1013,7 +1018,7 @@ window.AppUI = {
         window.appState.completeBridgeCourse(courseId);
         const modal = document.getElementById('bridge-modal');
         if (modal) modal.remove();
-        AppUI.showToast("🎉 Bridge Course Completed! GMP Skill boosted from 42% to 85%. Dabur match upgraded to 95%!", "success");
+        AppUI.showToast("Bridge Course Completed! GMP Skill boosted from 42% to 85%. Dabur match upgraded to 95%!", "success");
       }, 700);
     }, 900);
   },
@@ -1114,8 +1119,9 @@ window.AppUI = {
                   <span class="text-[11px] font-semibold text-on-surface">${c.status}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <button onclick="AppUI.toggleCandidateShortlist('${c.id}')" class="px-3 py-1 rounded-lg text-xs font-semibold ${c.shortlisted ? 'bg-secondary text-white' : 'border border-outline-variant text-on-surface hover:bg-surface-variant'} transition-colors">
-                    ${c.shortlisted ? '★ Shortlisted' : '☆ Shortlist'}
+                  <button onclick="AppUI.toggleCandidateShortlist('${c.id}')" class="px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 ${c.shortlisted ? 'bg-secondary text-white' : 'border border-outline-variant text-on-surface hover:bg-surface-variant'} transition-colors">
+                    <span class="material-symbols-outlined text-[14px]">${c.shortlisted ? 'bookmark_added' : 'bookmark_add'}</span>
+                    <span>${c.shortlisted ? 'Shortlisted' : 'Shortlist'}</span>
                   </button>
                   <button onclick="AppUI.openCandidateProfileModal('${c.id}')" class="text-primary font-semibold text-xs hover:underline flex items-center gap-0.5">
                     Profile <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -1165,7 +1171,10 @@ window.AppUI = {
               <div class="font-bold text-on-surface mb-1.5 uppercase text-[10px]">Verified Technical Competencies</div>
               <div class="flex flex-wrap gap-1.5">
                 ${cand.verifiedSkills.map(s => `
-                  <span class="px-2.5 py-1 bg-primary-container/10 text-primary border border-primary/20 rounded-lg text-xs font-semibold">✓ ${s}</span>
+                  <span class="px-2.5 py-1 bg-primary-container/10 text-primary border border-primary/20 rounded-lg text-xs font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">verified</span>
+                    ${s}
+                  </span>
                 `).join('')}
               </div>
             </div>
@@ -1586,7 +1595,10 @@ window.AppUI = {
       <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'industry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">4. Industry</button>
       <button onclick="AppUI.navigate('college-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'college-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">5. College</button>
       <button onclick="AppUI.navigate('ministry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'ministry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all">6. Ministry</button>
-      <button onclick="window.appState.resetDemo(); AppUI.renderCurrentView();" class="px-2.5 py-1 rounded-full bg-error/30 text-error-container hover:bg-error/50 font-bold transition-all ml-1" title="Reset Demo Data">↺ Reset</button>
+      <button onclick="window.appState.resetDemo(); AppUI.renderCurrentView();" class="px-2.5 py-1 rounded-full bg-error/30 text-error-container hover:bg-error/50 font-bold transition-all ml-1 flex items-center gap-1" title="Reset Demo Data">
+        <span class="material-symbols-outlined text-[12px]">restart_alt</span>
+        <span>Reset</span>
+      </button>
     `;
   },
 
