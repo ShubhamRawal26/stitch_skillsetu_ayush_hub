@@ -307,6 +307,66 @@ class AppStateManager {
     }
   }
 
+  deletePost(postId) {
+    if (!this.state.feedPosts) return;
+    this.state.feedPosts = this.state.feedPosts.filter(p => p.id !== postId);
+    this.saveState();
+  }
+
+  editPost(postId, newContent) {
+    if (!newContent || !newContent.trim()) return false;
+    const post = (this.state.feedPosts || []).find(p => p.id === postId);
+    if (post) {
+      post.content = newContent.trim();
+      post.isEdited = true;
+      this.saveState();
+      return true;
+    }
+    return false;
+  }
+
+  toggleSavePost(postId) {
+    const post = (this.state.feedPosts || []).find(p => p.id === postId);
+    if (post) {
+      post.saved = !post.saved;
+      this.saveState();
+      return post.saved;
+    }
+    return false;
+  }
+
+  addPostComment(postId, commentText) {
+    if (!commentText || !commentText.trim()) return null;
+    const post = (this.state.feedPosts || []).find(p => p.id === postId);
+    if (post) {
+      if (!post.commentsList) post.commentsList = [];
+      const newComment = {
+        id: `comment-${Date.now()}`,
+        authorName: this.state.student.name,
+        authorRole: `${this.state.student.program} @ ${this.state.student.institution}`,
+        authorAvatar: this.state.student.avatar,
+        timeAgo: "Just now",
+        content: commentText.trim()
+      };
+      post.commentsList.push(newComment);
+      post.comments = (post.comments || 0) + 1;
+      this.saveState();
+      return newComment;
+    }
+    return null;
+  }
+
+  repostPost(postId) {
+    const post = (this.state.feedPosts || []).find(p => p.id === postId);
+    if (post) {
+      post.reposted = !post.reposted;
+      post.reposts = post.reposted ? (post.reposts || 0) + 1 : Math.max(0, (post.reposts || 1) - 1);
+      this.saveState();
+      return post.reposted;
+    }
+    return false;
+  }
+
   createPost(content, tag = "Skill Milestone") {
     if (!content || !content.trim()) return null;
     const newPost = {
@@ -327,7 +387,9 @@ class AppStateManager {
       likes: 1,
       comments: 0,
       reposts: 0,
-      liked: true
+      liked: true,
+      saved: false,
+      commentsList: []
     };
     if (!this.state.feedPosts) this.state.feedPosts = [];
     this.state.feedPosts.unshift(newPost);

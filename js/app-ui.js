@@ -893,10 +893,27 @@ window.AppUI = {
 
             <!-- Posts List -->
             <div class="space-y-4">
-              ${posts.map(post => `
-                <div class="linkedin-card p-4 sm:p-5 space-y-3.5" id="${post.id}">
-                  <!-- Author Header -->
-                  <div class="flex items-start justify-between">
+              ${posts.filter(p => !this.hiddenPostIds.has(p.id)).map(post => {
+                const isMyPost = post.authorName === student.name || post.authorType === 'student';
+                const cleanTime = (post.timeAgo || 'Just now').replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Just now';
+                const isMenuOpen = this.openPostMenuId === post.id;
+                const isCommentsOpen = this.expandedCommentPostIds.has(post.id);
+                const isEditing = this.editingPostId === post.id;
+                const comments = post.commentsList || [
+                  {
+                    id: `c-init-${post.id}`,
+                    authorName: 'Dr. Anand Verma',
+                    authorRole: 'Ayush Practitioner @ Ministry of Ayush',
+                    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+                    timeAgo: '1h',
+                    content: 'Excellent milestone and contribution to the Ayush ecosystem!'
+                  }
+                ];
+
+                return `
+                <div class="linkedin-card p-4 sm:p-5 space-y-3.5 relative" id="${post.id}">
+                  <!-- Author Header & Three-Dots Post Settings Menu -->
+                  <div class="flex items-start justify-between relative">
                     <div class="flex items-center gap-3">
                       <img src="${post.authorAvatar}" alt="${post.authorName}" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
                       <div>
@@ -905,19 +922,70 @@ window.AppUI = {
                           <span class="material-symbols-outlined text-primary text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
                         </div>
                         <p class="text-[11px] text-slate-500 leading-tight">${post.authorRole}</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1"><span>${post.timeAgo}</span> <span class="material-symbols-outlined text-[12px]">public</span></p>
+                        <p class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1">
+                          <span>${cleanTime}</span>
+                          <span>•</span>
+                          <span class="material-symbols-outlined text-[12px]">public</span>
+                          ${post.isEdited ? '<span class="text-slate-400 italic">(edited)</span>' : ''}
+                        </p>
                       </div>
                     </div>
 
-                    <button class="p-1 text-slate-400 hover:text-slate-600 rounded-full">
-                      <span class="material-symbols-outlined text-lg">more_horiz</span>
-                    </button>
+                    <!-- Post Setting Three Dots Menu Button & Dropdown -->
+                    <div class="relative">
+                      <button onclick="AppUI.togglePostMenu('${post.id}')" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors" title="Post options">
+                        <span class="material-symbols-outlined text-lg">more_horiz</span>
+                      </button>
+
+                      <!-- Floating Post Settings Dropdown Menu -->
+                      ${isMenuOpen ? `
+                        <div class="absolute right-0 top-9 w-60 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-30 text-xs font-semibold">
+                          <button onclick="AppUI.handleToggleSave('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2.5 text-slate-700">
+                            <span class="material-symbols-outlined text-base ${post.saved ? 'text-primary' : 'text-slate-500'}">${post.saved ? 'bookmark_added' : 'bookmark_border'}</span>
+                            <span>${post.saved ? 'Saved in Bookmarks ✓' : 'Save Post'}</span>
+                          </button>
+                          <button onclick="AppUI.handleCopyPostLink('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2.5 text-slate-700">
+                            <span class="material-symbols-outlined text-base text-slate-500">link</span>
+                            <span>Copy link to post</span>
+                          </button>
+                          ${isMyPost ? `
+                            <button onclick="AppUI.handleStartEditPost('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2.5 text-slate-700">
+                              <span class="material-symbols-outlined text-base text-primary">edit</span>
+                              <span>Edit post text</span>
+                            </button>
+                            <button onclick="AppUI.handleDeletePost('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-red-50 flex items-center gap-2.5 text-red-600">
+                              <span class="material-symbols-outlined text-base text-red-500">delete</span>
+                              <span>Delete post</span>
+                            </button>
+                          ` : `
+                            <button onclick="AppUI.handleHidePost('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2.5 text-slate-700">
+                              <span class="material-symbols-outlined text-base text-slate-500">visibility_off</span>
+                              <span>I don't want to see this</span>
+                            </button>
+                            <button onclick="AppUI.handleReportPost('${post.id}')" class="w-full text-left px-3.5 py-2 hover:bg-red-50 flex items-center gap-2.5 text-red-600">
+                              <span class="material-symbols-outlined text-base text-red-500">flag</span>
+                              <span>Report post</span>
+                            </button>
+                          `}
+                        </div>
+                      ` : ''}
+                    </div>
                   </div>
 
-                  <!-- Post Text Content -->
-                  <div class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-2">
-                    ${post.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
-                  </div>
+                  <!-- Post Text Content (or Edit View) -->
+                  ${isEditing ? `
+                    <div class="space-y-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                      <textarea id="edit-post-input-${post.id}" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-transparent resize-none" rows="3">${post.content}</textarea>
+                      <div class="flex justify-end gap-2">
+                        <button onclick="AppUI.handleCancelEditPost()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-600 font-bold text-xs hover:bg-slate-100">Cancel</button>
+                        <button onclick="AppUI.handleSaveEditPost('${post.id}')" class="px-3 py-1.5 rounded-lg bg-primary text-white font-bold text-xs hover:bg-emerald-800">Save Changes</button>
+                      </div>
+                    </div>
+                  ` : `
+                    <div class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-2">
+                      ${post.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+                    </div>
+                  `}
 
                   <!-- Opportunity Card Preview (if Company Job Post) -->
                   ${post.hasOpportunity ? `
@@ -990,7 +1058,7 @@ window.AppUI = {
                     </div>
                   ` : ''}
 
-                  <!-- Reaction Counts -->
+                  <!-- Reaction Counts & Metrics -->
                   <div class="flex justify-between items-center pt-2 text-[11px] text-slate-500 border-b border-slate-100 pb-2">
                     <div class="flex items-center gap-1">
                       <span class="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-xs">
@@ -999,10 +1067,10 @@ window.AppUI = {
                       <span class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xs">
                         <svg class="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66l.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
                       </span>
-                      <span class="ml-1">${post.likes} reactions</span>
+                      <span class="ml-1 font-semibold">${post.likes} reactions</span>
                     </div>
-                    <div>
-                      <span>${post.comments} comments</span> • <span>${post.reposts} reposts</span>
+                    <div class="flex items-center gap-2">
+                      <span class="cursor-pointer hover:underline" onclick="AppUI.togglePostComments('${post.id}')">${post.comments || 0} comments</span> • <span class="cursor-pointer hover:underline" onclick="AppUI.handleRepost('${post.id}')">${post.reposts || 0} reposts</span>
                     </div>
                   </div>
 
@@ -1012,21 +1080,63 @@ window.AppUI = {
                       <span class="material-symbols-outlined text-[18px]">thumb_up</span>
                       <span>${post.liked ? 'Liked' : 'Like'}</span>
                     </button>
-                    <button onclick="AppUI.showToast('Comments thread loaded.', 'info')" class="post-action-btn">
+                    <button onclick="AppUI.togglePostComments('${post.id}')" class="post-action-btn ${isCommentsOpen ? 'text-primary font-bold bg-emerald-50/70' : ''}">
                       <span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
                       <span>Comment</span>
                     </button>
-                    <button onclick="AppUI.showToast('Post shared with your Ayush network.', 'success')" class="post-action-btn">
+                    <button onclick="AppUI.handleRepost('${post.id}')" class="post-action-btn ${post.reposted ? 'text-primary font-bold' : ''}">
                       <span class="material-symbols-outlined text-[18px]">repeat</span>
-                      <span>Repost</span>
+                      <span>${post.reposted ? 'Reposted' : 'Repost'}</span>
                     </button>
-                    <button onclick="AppUI.showToast('Post link copied to clipboard.', 'info')" class="post-action-btn">
+                    <button onclick="AppUI.handleSendPost('${post.id}')" class="post-action-btn">
                       <span class="material-symbols-outlined text-[18px]">send</span>
                       <span>Send</span>
                     </button>
                   </div>
+
+                  <!-- Inline Expandable Comment Section -->
+                  ${isCommentsOpen ? `
+                    <div class="pt-3 border-t border-slate-100 space-y-3">
+                      <!-- Add New Comment Input Box -->
+                      <div class="flex items-start gap-2.5">
+                        <img src="${student.avatar}" alt="${student.name}" class="w-8 h-8 rounded-full object-cover border border-slate-200 shrink-0 mt-0.5" />
+                        <div class="flex-1 flex gap-2">
+                          <input 
+                            id="comment-input-${post.id}"
+                            type="text" 
+                            placeholder="Add a comment on this Ayush opportunity..." 
+                            class="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                            onkeydown="if(event.key === 'Enter') AppUI.handlePostComment('${post.id}')"
+                          />
+                          <button onclick="AppUI.handlePostComment('${post.id}')" class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-emerald-800 transition-colors shrink-0">
+                            Post
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Comments List Stream -->
+                      <div class="space-y-2.5 pt-1">
+                        ${comments.map(c => `
+                          <div class="flex items-start gap-2.5 bg-slate-50/80 p-2.5 rounded-xl border border-slate-100">
+                            <img src="${c.authorAvatar}" alt="${c.authorName}" class="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0 mt-0.5" />
+                            <div class="flex-1 text-xs">
+                              <div class="flex justify-between items-start">
+                                <div>
+                                  <span class="font-bold text-slate-900">${c.authorName}</span>
+                                  <p class="text-[10px] text-slate-400">${c.authorRole}</p>
+                                </div>
+                                <span class="text-[10px] text-slate-400">${c.timeAgo}</span>
+                              </div>
+                              <p class="text-slate-700 mt-1 leading-snug">${c.content}</p>
+                            </div>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
                 </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>
           </div>
 
@@ -1468,6 +1578,100 @@ window.AppUI = {
     window.appState.markAllNotificationsRead(role);
     this.showToast('All notifications marked as read!', 'success');
     this.renderCurrentView();
+  },
+
+  openPostMenuId: null,
+  expandedCommentPostIds: new Set(),
+  editingPostId: null,
+  hiddenPostIds: new Set(),
+
+  togglePostMenu(postId) {
+    this.openPostMenuId = this.openPostMenuId === postId ? null : postId;
+    this.renderCurrentView();
+  },
+
+  handleToggleSave(postId) {
+    const isSaved = window.appState.toggleSavePost(postId);
+    this.openPostMenuId = null;
+    this.showToast(isSaved ? 'Bookmark added! Post saved to your repository.' : 'Post removed from saved items.', isSaved ? 'success' : 'info');
+    this.renderCurrentView();
+  },
+
+  handleCopyPostLink(postId) {
+    this.openPostMenuId = null;
+    const url = `${window.location.origin}${window.location.pathname}#feed?post=${postId}`;
+    navigator.clipboard?.writeText?.(url);
+    this.showToast('Post link copied to clipboard!', 'success');
+  },
+
+  handleStartEditPost(postId) {
+    this.openPostMenuId = null;
+    this.editingPostId = postId;
+    this.renderCurrentView();
+  },
+
+  handleCancelEditPost() {
+    this.editingPostId = null;
+    this.renderCurrentView();
+  },
+
+  handleSaveEditPost(postId) {
+    const textarea = document.getElementById(`edit-post-input-${postId}`);
+    if (textarea && textarea.value.trim()) {
+      window.appState.editPost(postId, textarea.value.trim());
+      this.editingPostId = null;
+      this.showToast('Post updated successfully!', 'success');
+      this.renderCurrentView();
+    }
+  },
+
+  handleDeletePost(postId) {
+    this.openPostMenuId = null;
+    window.appState.deletePost(postId);
+    this.showToast('Post deleted successfully.', 'info');
+    this.renderCurrentView();
+  },
+
+  handleHidePost(postId) {
+    this.openPostMenuId = null;
+    this.hiddenPostIds.add(postId);
+    this.showToast('Post hidden from your feed.', 'info');
+    this.renderCurrentView();
+  },
+
+  handleReportPost(postId) {
+    this.openPostMenuId = null;
+    this.showToast('Report submitted for Ayush Community Review. Thank you.', 'info');
+    this.renderCurrentView();
+  },
+
+  togglePostComments(postId) {
+    if (this.expandedCommentPostIds.has(postId)) {
+      this.expandedCommentPostIds.delete(postId);
+    } else {
+      this.expandedCommentPostIds.add(postId);
+    }
+    this.renderCurrentView();
+  },
+
+  handlePostComment(postId) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    if (input && input.value.trim()) {
+      window.appState.addPostComment(postId, input.value.trim());
+      input.value = '';
+      this.showToast('Comment published!', 'success');
+      this.renderCurrentView();
+    }
+  },
+
+  handleRepost(postId) {
+    const isReposted = window.appState.repostPost(postId);
+    this.showToast(isReposted ? 'Reposted to your Ayush professional network!' : 'Repost removed.', isReposted ? 'success' : 'info');
+    this.renderCurrentView();
+  },
+
+  handleSendPost(postId) {
+    this.showToast('Direct message sharing link copied to clipboard.', 'info');
   },
 
   // Dedicated Notifications View (Accessible in every section)
