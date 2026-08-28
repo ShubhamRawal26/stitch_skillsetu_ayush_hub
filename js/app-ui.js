@@ -1238,7 +1238,7 @@ window.AppUI = {
                 Connect traditional Ayush wisdom with verified competencies, bridge courses, and top industry placements.
               </p>
 
-              <div class="p-4 rounded-xl bg-white/70 border border-primary/15 mb-4">
+              <div class="p-4 rounded-xl bg-white/70 border border-primary/15 mb-4 shadow-sm">
                 <div class="flex items-center gap-3 mb-2">
                   <div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
                     <span class="material-symbols-outlined text-xl">${cfg.icon}</span>
@@ -1251,13 +1251,19 @@ window.AppUI = {
               </div>
             </div>
 
-            <div>
-              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Switch Target Role</div>
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <button onclick="window.appState.selectRoleForAuth('student')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'student' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">school</span> Student</button>
-                <button onclick="window.appState.selectRoleForAuth('industry')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'industry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">domain</span> Industry</button>
-                <button onclick="window.appState.selectRoleForAuth('college')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'college' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">account_balance</span> College</button>
-                <button onclick="window.appState.selectRoleForAuth('ministry')" class="p-2 rounded-lg bg-surface text-left font-medium flex items-center gap-1.5 ${role === 'ministry' ? 'border-2 border-primary bg-primary/10 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary'}"><span class="material-symbols-outlined text-sm text-primary">admin_panel_settings</span> Ministry</button>
+            <!-- Portal Security Badges -->
+            <div class="pt-6 border-t border-primary/15 space-y-3">
+              <div class="flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-base">verified_user</span>
+                <span>256-Bit SSL Encrypted Portal</span>
+              </div>
+              <div class="flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-base">badge</span>
+                <span>Verified Stakeholder Credentials</span>
+              </div>
+              <div class="flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-base">lock</span>
+                <span>Ministry of Ayush Data Protection</span>
               </div>
             </div>
           </div>
@@ -1291,17 +1297,11 @@ window.AppUI = {
                 <input type="password" value="••••••••••••" class="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/60 rounded-xl text-xs focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20" />
               </div>
 
-              <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-xs font-semibold hover:bg-primary/90 transition-all shadow-md mt-2 flex items-center justify-center gap-2">
+              <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-xs sm:text-sm font-bold hover:bg-emerald-800 transition-all shadow-md mt-4 flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
                 <span>Sign In to ${role === 'student' ? 'Student' : role === 'industry' ? 'Industry' : role === 'college' ? 'College' : 'Ministry'} Dashboard</span>
                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
             </form>
-
-            <div class="mt-6 pt-4 border-t border-outline-variant/30 text-center">
-              <button onclick="AppUI.handleLoginSubmit();" class="w-full py-2.5 px-4 border border-outline-variant rounded-xl font-label-md text-xs text-on-surface hover:bg-surface-variant flex items-center justify-center gap-2 transition-colors">
-                <span class="material-symbols-outlined text-primary text-base">lock_open</span> One-Click Demo Login
-              </button>
-            </div>
           </div>
         </div>
       </main>
