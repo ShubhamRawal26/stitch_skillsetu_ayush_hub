@@ -153,8 +153,9 @@ window.AppUI = {
 
     appEl.innerHTML = contentHTML;
 
-    // Render Judge Controller Bar
-    this.renderJudgeController(state);
+    // Remove any legacy demo bar element if present
+    const legacyBar = document.getElementById('demo-controller-bar');
+    if (legacyBar) legacyBar.remove();
 
     // Reattach dynamic event listeners
     this.attachEventListeners();
@@ -1659,36 +1660,6 @@ window.AppUI = {
 
   exportNationalReport() {
     this.showToast("National Impact CSV summary report generated and downloaded.", "success");
-  },
-
-  // 10. Judge Demo Tour & Quick Bar
-  renderJudgeController(state) {
-    let barEl = document.getElementById('demo-controller-bar');
-    if (!barEl) {
-      barEl = document.createElement('div');
-      barEl.id = 'demo-controller-bar';
-      barEl.className = 'fixed bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-50 demo-bar px-3 sm:px-4 py-2 sm:py-2.5 rounded-full flex items-center gap-1.5 sm:gap-2 md:gap-3 text-white text-[11px] sm:text-xs shadow-2xl overflow-x-auto hide-scrollbar whitespace-nowrap max-w-[96vw]';
-      document.body.appendChild(barEl);
-    }
-
-    barEl.innerHTML = `
-      <span class="hidden md:inline-block font-bold text-primary-fixed uppercase tracking-wider text-[10px] px-2 py-0.5 rounded bg-primary-fixed/20">SIH Demo</span>
-      <button onclick="AppUI.navigate('student-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'student-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">1. Student</button>
-      <button onclick="AppUI.navigate('assessment')" class="px-2.5 py-1 rounded-full ${state.currentView === 'assessment' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">2. Assessment</button>
-      <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-2.5 py-1 rounded-full hover:bg-white/10 text-white/80 transition-all shrink-0">3. Bridge Course</button>
-      <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'industry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">4. Industry</button>
-      <button onclick="AppUI.navigate('college-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'college-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">5. College</button>
-      <button onclick="AppUI.navigate('ministry-dashboard')" class="px-2.5 py-1 rounded-full ${state.currentView === 'ministry-dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'hover:bg-white/10 text-white/80'} transition-all shrink-0">6. Ministry</button>
-      <button onclick="window.appState.resetDemo(); AppUI.renderCurrentView();" class="px-2.5 py-1 rounded-full bg-error/30 text-error-container hover:bg-error/50 font-bold transition-all ml-1 flex items-center gap-1 shrink-0" title="Reset Demo Data">
-        <span class="material-symbols-outlined text-[12px]">restart_alt</span>
-        <span>Reset</span>
-      </button>
-    `;
-  },
-
-  startDemoTour() {
-    this.navigate('student-dashboard');
-    this.showToast("Starting SIH 2026 Judge Walkthrough: Welcome to the Student Competency Dashboard!", "info");
   },
 
   handleApplyOpportunity(oppId) {

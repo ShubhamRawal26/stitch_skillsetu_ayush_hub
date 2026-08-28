@@ -185,15 +185,6 @@
   }
 }
 
-/* Demo quick bar dock */
-.demo-bar {
-  background: rgba(22, 29, 25, 0.95);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-  max-width: 95vw;
-}
-
 /* Mobile Navigation Drawer Animations */
 .mobile-nav-enter {
   max-height: 0;
