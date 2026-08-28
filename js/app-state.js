@@ -316,7 +316,7 @@ class AppStateManager {
       authorRole: `${this.state.student.program} @ ${this.state.student.institution}`,
       authorAvatar: this.state.student.avatar,
       authorBadge: "Verified Student Scholar",
-      timeAgo: "Just now • 🌐",
+      timeAgo: "Just now",
       content: content.trim(),
       hasBadge: true,
       badgeData: {
@@ -362,42 +362,62 @@ class AppStateManager {
   }
 
   // Helper for Radar Chart coordinate calculation
-  getRadarCoordinates(skillsObj, size = 100) {
+  getRadarCoordinates(skillsObj, size = 100, customCenterX = null, customCenterY = null, customMaxRadius = null) {
     // 6-axis radar (60 deg increments)
     const axes = [
-      { key: "Panchakarma", angle: -90 }, // Top
-      { key: "Herbology", angle: -30 },    // Top-Right
-      { key: "PatientCare", angle: 30 },   // Bottom-Right
-      { key: "Diagnostics", angle: 90 },   // Bottom
-      { key: "GMP", angle: 150 },          // Bottom-Left
-      { key: "Research", angle: 210 }      // Top-Left
+      { key: "Panchakarma", angle: -90, label: "Panchakarma Therapy" },       // Top
+      { key: "Herbology", angle: -30, label: "Herbology & Dravyaguna" },       // Top-Right
+      { key: "PatientCare", angle: 30, label: "Patient Care & Clinical Nadi" }, // Bottom-Right
+      { key: "Diagnostics", angle: 90, label: "Pulse Diagnostics" },           // Bottom
+      { key: "GMP", angle: 150, label: "Schedule T GMP" },                     // Bottom-Left
+      { key: "Research", angle: 210, label: "Clinical Research & GCP" }        // Top-Left
     ];
 
-    const center = size / 2;
-    const maxRadius = (size / 2) * 0.78;
+    const centerX = customCenterX !== null ? customCenterX : size / 2;
+    const centerY = customCenterY !== null ? customCenterY : size / 2;
+    const maxRadius = customMaxRadius !== null ? customMaxRadius : (size / 2) * 0.78;
 
     const currentPoints = [];
     const expectedPoints = [];
+    const axisDetails = [];
 
     axes.forEach(axis => {
       const rad = (axis.angle * Math.PI) / 180;
-      const skill = skillsObj[axis.key] || { current: 50, expected: 80 };
+      const skill = skillsObj[axis.key] || { current: 50, expected: 80, label: axis.label };
 
       const rCurrent = (skill.current / 100) * maxRadius;
       const rExpected = (skill.expected / 100) * maxRadius;
 
-      const xCurr = center + rCurrent * Math.cos(rad);
-      const yCurr = center + rCurrent * Math.sin(rad);
+      const xCurr = centerX + rCurrent * Math.cos(rad);
+      const yCurr = centerY + rCurrent * Math.sin(rad);
       currentPoints.push(`${xCurr.toFixed(1)},${yCurr.toFixed(1)}`);
 
-      const xExp = center + rExpected * Math.cos(rad);
-      const yExp = center + rExpected * Math.sin(rad);
+      const xExp = centerX + rExpected * Math.cos(rad);
+      const yExp = centerY + rExpected * Math.sin(rad);
       expectedPoints.push(`${xExp.toFixed(1)},${yExp.toFixed(1)}`);
+
+      const xTip = centerX + maxRadius * Math.cos(rad);
+      const yTip = centerY + maxRadius * Math.sin(rad);
+
+      axisDetails.push({
+        key: axis.key,
+        label: skill.label || axis.label,
+        angle: axis.angle,
+        current: skill.current,
+        expected: skill.expected,
+        xCurr: parseFloat(xCurr.toFixed(1)),
+        yCurr: parseFloat(yCurr.toFixed(1)),
+        xExp: parseFloat(xExp.toFixed(1)),
+        yExp: parseFloat(yExp.toFixed(1)),
+        xTip: parseFloat(xTip.toFixed(1)),
+        yTip: parseFloat(yTip.toFixed(1))
+      });
     });
 
     return {
       currentPolygon: currentPoints.join(" "),
-      expectedPolygon: expectedPoints.join(" ")
+      expectedPolygon: expectedPoints.join(" "),
+      axisDetails
     };
   }
 

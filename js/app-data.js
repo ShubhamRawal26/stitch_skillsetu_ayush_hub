@@ -359,8 +359,8 @@ window.SKILLSETU_DATA = {
       authorRole: "Ayush Healthcare & Pharma Enterprise • 240k followers",
       authorAvatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
       authorBadge: "Verified Recruiter",
-      timeAgo: "2h • 🌐",
-      content: "🚀 <strong>We are hiring 15 Ayurvedic Formulation & Quality Control Interns</strong> for our flagship Sahibabad GMP Manufacturing Facility!\n\nCandidates will gain hands-on training in <strong>Schedule T GMP batch processing, HPTLC standardization, and API extract validation</strong>. Eligible: Final Year BAMS / MD Scholars with SkillSetu verified benchmarks.",
+      timeAgo: "2h",
+      content: "<strong>We are hiring 15 Ayurvedic Formulation & Quality Control Interns</strong> for our flagship Sahibabad GMP Manufacturing Facility!\n\nCandidates will gain hands-on training in <strong>Schedule T GMP batch processing, HPTLC standardization, and API extract validation</strong>. Eligible: Final Year BAMS / MD Scholars with SkillSetu verified benchmarks.",
       hasOpportunity: true,
       opportunityData: {
         id: "OPP-DABUR-01",
@@ -383,8 +383,8 @@ window.SKILLSETU_DATA = {
       authorRole: "BAMS Resident @ All India Institute of Ayurveda (AIIA), New Delhi",
       authorAvatar: "https://images.unsplash.com/photo-1594824813501-4890d23b3780?w=120&auto=format&fit=crop&q=80",
       authorBadge: "Verified Student Scholar",
-      timeAgo: "4h • 🌐",
-      content: "Thrilled to share that I just completed the <strong>National Ayush Diagnostic Assessment</strong> on SkillSetu and scored <strong>88% in Clinical Logic & Herbology</strong>! 🌿🎓\n\nAlso wrapped up the 2-week <em>Schedule T GMP Compliance Bridge Module</em>. Huge thank you to the Ministry of Ayush and our NIA mentors for creating this direct bridge to industry.",
+      timeAgo: "4h",
+      content: "Thrilled to share that I just completed the <strong>National Ayush Diagnostic Assessment</strong> on SkillSetu and scored <strong>88% in Clinical Logic & Herbology</strong>!\n\nAlso wrapped up the 2-week <em>Schedule T GMP Compliance Bridge Module</em>. Huge thank you to the Ministry of Ayush and our NIA mentors for creating this direct bridge to industry.",
       hasBadge: true,
       badgeData: {
         title: "Schedule T GMP & Clinical Diagnostics Certified",
@@ -403,8 +403,8 @@ window.SKILLSETU_DATA = {
       authorRole: "Herbal Drug Discovery & Phytochemistry • 180k followers",
       authorAvatar: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=120&auto=format&fit=crop&q=80",
       authorBadge: "Verified Research Partner",
-      timeAgo: "1d • 🌐",
-      content: "🔬 <strong>Applications Open: Clinical Herbology & Metabolomics Research Fellowships</strong>\n\nJoin our Haridwar R&D team working on clinical validation of Rasayana formulations. High-stipend fellowship with direct pre-placement offers (PPO) for top performers on SkillSetu.",
+      timeAgo: "1d",
+      content: "<strong>Applications Open: Clinical Herbology & Metabolomics Research Fellowships</strong>\n\nJoin our Haridwar R&D team working on clinical validation of Rasayana formulations. High-stipend fellowship with direct pre-placement offers (PPO) for top performers on SkillSetu.",
       hasOpportunity: true,
       opportunityData: {
         id: "OPP-PATANJALI-02",
@@ -427,8 +427,8 @@ window.SKILLSETU_DATA = {
       authorRole: "Deemed to be University • Ministry of Ayush • Jaipur",
       authorAvatar: "https://images.unsplash.com/photo-1562774053-701939374585?w=120&auto=format&fit=crop&q=80",
       authorBadge: "Accredited National Institute",
-      timeAgo: "2d • 🌐",
-      content: "🎉 <strong>Proud Institutional Milestone:</strong> 48 BAMS final-year scholars from NIA Jaipur have cleared verified industry interviews at Dabur, Himalaya, and Kottakkal Arya Vaidya Sala this quarter!\n\nBy integrating SkillSetu's bridge modules into semester training, cohort industry-readiness increased from 52% to 84%.",
+      timeAgo: "2d",
+      content: "<strong>Proud Institutional Milestone:</strong> 48 BAMS final-year scholars from NIA Jaipur have cleared verified industry interviews at Dabur, Himalaya, and Kottakkal Arya Vaidya Sala this quarter!\n\nBy integrating SkillSetu's bridge modules into semester training, cohort industry-readiness increased from 52% to 84%.",
       hasMetrics: true,
       metricsData: {
         placed: "48 Students Placed",

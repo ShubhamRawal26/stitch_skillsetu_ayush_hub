@@ -888,7 +888,7 @@ window.AppUI = {
             <!-- Feed Sort / Filter Bar -->
             <div class="flex items-center justify-between text-xs text-slate-500 px-1">
               <div class="h-[1px] bg-slate-200 flex-1 mr-3"></div>
-              <span class="font-medium">Sort by: <strong class="text-slate-800 cursor-pointer">Top Ayush Opportunities ▾</strong></span>
+              <span class="font-medium">Sort by: <strong class="text-slate-800 cursor-pointer inline-flex items-center">Top Ayush Opportunities <span class="material-symbols-outlined text-sm align-middle ml-0.5">expand_more</span></strong></span>
             </div>
 
             <!-- Posts List -->
@@ -905,7 +905,7 @@ window.AppUI = {
                           <span class="material-symbols-outlined text-primary text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
                         </div>
                         <p class="text-[11px] text-slate-500 leading-tight">${post.authorRole}</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5">${post.timeAgo}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1"><span>${post.timeAgo}</span> <span class="material-symbols-outlined text-[12px]">public</span></p>
                       </div>
                     </div>
 
@@ -993,8 +993,12 @@ window.AppUI = {
                   <!-- Reaction Counts -->
                   <div class="flex justify-between items-center pt-2 text-[11px] text-slate-500 border-b border-slate-100 pb-2">
                     <div class="flex items-center gap-1">
-                      <span class="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">👍</span>
-                      <span class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[9px] font-bold">🌿</span>
+                      <span class="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-xs">
+                        <svg class="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                      </span>
+                      <span class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xs">
+                        <svg class="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66l.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+                      </span>
                       <span class="ml-1">${post.likes} reactions</span>
                     </div>
                     <div>
@@ -1438,6 +1442,12 @@ window.AppUI = {
   },
 
   activeNotificationFilter: 'all',
+  studentChartTab: 'radar',
+
+  setStudentChartTab(tab) {
+    this.studentChartTab = tab;
+    this.renderCurrentView();
+  },
 
   setNotificationFilter(filter) {
     this.activeNotificationFilter = filter;
@@ -2198,9 +2208,26 @@ window.AppUI = {
   // 4. Student Dashboard HTML
   getStudentDashboardHTML(state) {
     const student = state.student;
-    const radar = window.appState.getRadarCoordinates(student.skills, 100);
     const gmpSkill = student.skills["GMP"];
     const isGmpDeficit = gmpSkill.current < gmpSkill.expected;
+
+    const nationalAverages = {
+      Panchakarma: 72,
+      Herbology: 68,
+      PatientCare: 74,
+      Diagnostics: 66,
+      GMP: 50,
+      Research: 58
+    };
+
+    const allSkillsList = [
+      { key: "Panchakarma", name: "Panchakarma Therapy", icon: "spa", current: student.skills.Panchakarma.current, expected: student.skills.Panchakarma.expected, natAvg: nationalAverages.Panchakarma, focus: "Snehana, Swedana, Vamana, Virechana & Basti Protocols" },
+      { key: "Herbology", name: "Herbology & Dravyaguna", icon: "eco", current: student.skills.Herbology.current, expected: student.skills.Herbology.expected, natAvg: nationalAverages.Herbology, focus: "Phytochemistry, HPTLC Standardization & Extract R&D" },
+      { key: "PatientCare", name: "Patient Care & Clinical Nadi", icon: "stethoscope", current: student.skills.PatientCare.current, expected: student.skills.PatientCare.expected, natAvg: nationalAverages.PatientCare, focus: "Nadi Pariksha, Prakriti Analysis & Bedside Diagnosis" },
+      { key: "Diagnostics", name: "Pulse & Rog Nidan", icon: "vital_signs", current: student.skills.Diagnostics.current, expected: student.skills.Diagnostics.expected, natAvg: nationalAverages.Diagnostics, focus: "Ashtavidha Pariksha & Clinical Lab Interpretation" },
+      { key: "GMP", name: "Schedule T GMP Compliance", icon: "verified", current: student.skills.GMP.current, expected: student.skills.GMP.expected, natAvg: nationalAverages.GMP, focus: "AYUSH Schedule T SOPs, Cleanroom QC & Batch Records" },
+      { key: "Research", name: "Clinical Research & GCP", icon: "science", current: student.skills.Research.current, expected: student.skills.Research.expected, natAvg: nationalAverages.Research, focus: "GCP Compliance, Pharmacovigilance & Case Documentation" }
+    ];
 
     return `
       <main class="pt-28 pb-24 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-8">
@@ -2239,60 +2266,128 @@ window.AppUI = {
         </section>
 
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          <!-- Skill Radar Chart (Bento Cell) -->
-          <div class="xl:col-span-2 glass-panel rounded-2xl p-6 md:p-8 shadow-sm flex flex-col">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <div>
-                <h2 class="font-headline-sm text-xl font-bold text-on-surface">Interactive Skill Assessment Radar</h2>
-                <p class="font-body-md text-xs text-on-surface-variant">Real-time competency mapping vs. Ayush Industry baselines</p>
-              </div>
-              <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
-                  <span class="w-3 h-3 rounded-full bg-primary-container"></span>
-                  <span class="font-label-sm text-xs">Current Skill</span>
+          <!-- Simple & Intuitive Skill Bar Chart (Bento Cell) -->
+          <div class="xl:col-span-2 glass-panel rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
+            <div>
+              <!-- Card Header -->
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-200/80 pb-4">
+                <div>
+                  <div class="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
+                    <span class="material-symbols-outlined text-sm">bar_chart</span> Skill Assessment
+                  </div>
+                  <h2 class="font-headline-sm text-xl sm:text-2xl font-bold text-on-surface">Your Skill Scores Bar Chart</h2>
+                  <p class="font-body-md text-xs text-on-surface-variant">Clear visual comparison of your scores against the required 75% Industry Target</p>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-3 h-3 rounded-full bg-outline-variant"></span>
-                  <span class="font-label-sm text-xs">Industry Baseline</span>
-                </div>
-                <button onclick="AppUI.navigate('assessment')" class="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-primary/90 transition-all flex items-center gap-1 shadow-sm">
-                  <span class="material-symbols-outlined text-sm">quiz</span> Take Assessment
+                <button onclick="AppUI.navigate('assessment')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm shrink-0">
+                  <span class="material-symbols-outlined text-sm">quiz</span> Retake Quiz
                 </button>
+              </div>
+
+              <!-- Main Visual Column Bar Chart -->
+              <div class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-slate-200/80 relative">
+                <!-- Y-Axis Target Reference Line (75%) -->
+                <div class="absolute left-10 sm:left-14 right-4 sm:right-6 top-[30%] border-t-2 border-dashed border-slate-400 z-10 pointer-events-none flex justify-end">
+                  <span class="bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full -translate-y-1/2 shadow-xs">
+                    Industry Target: 75%
+                  </span>
+                </div>
+
+                <!-- 6 Column Bars Container -->
+                <div class="h-64 sm:h-72 flex items-end justify-between gap-2 sm:gap-4 pt-8 pb-2 border-b-2 border-slate-200 px-2 sm:px-6 relative">
+                  ${allSkillsList.map(s => {
+                    const isDeficit = s.current < 75;
+                    const heightPercent = Math.min(100, Math.max(10, s.current));
+                    return `
+                      <div class="flex-1 flex flex-col items-center h-full justify-end group">
+                        <!-- Score Number on top of bar -->
+                        <div class="mb-1.5 text-center">
+                          <span class="text-xs sm:text-sm font-extrabold ${isDeficit ? 'text-red-600 bg-red-50 border border-red-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'} px-2 py-0.5 rounded-md shadow-xs block">
+                            ${s.current}%
+                          </span>
+                        </div>
+
+                        <!-- The Animated Vertical Bar -->
+                        <div class="w-full max-w-[52px] bg-slate-100 rounded-t-xl overflow-hidden flex flex-col justify-end h-full shadow-inner">
+                          <div 
+                            class="w-full ${isDeficit ? 'bg-gradient-to-t from-red-600 to-red-400 shadow-md ring-2 ring-red-300' : 'bg-gradient-to-t from-emerald-700 to-emerald-500 shadow-md'} rounded-t-xl transition-all duration-700 hover:opacity-90 flex items-center justify-center"
+                            style="height: ${heightPercent}%;"
+                          >
+                            <span class="text-white font-extrabold text-[10px] opacity-80 hidden sm:inline">${s.current}%</span>
+                          </div>
+                        </div>
+
+                        <!-- Bar Status Pill (Passed / Needs Fix) -->
+                        <div class="mt-2 text-center">
+                          ${isDeficit ? `
+                            <span class="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-extrabold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">
+                              <span class="material-symbols-outlined text-[11px]">warning</span> Low
+                            </span>
+                          ` : `
+                            <span class="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
+                              <span class="material-symbols-outlined text-[11px]">check</span> Pass
+                            </span>
+                          `}
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- Skill Names under each Bar -->
+                <div class="flex justify-between gap-2 sm:gap-4 px-2 sm:px-6 pt-3 text-center">
+                  ${allSkillsList.map(s => `
+                    <div class="flex-1 flex flex-col items-center">
+                      <span class="material-symbols-outlined text-primary text-base sm:text-lg mb-0.5">${s.icon}</span>
+                      <span class="font-bold text-slate-800 text-[11px] sm:text-xs leading-tight line-clamp-1">${s.name.split(' ')[0]}</span>
+                      <span class="text-[9px] text-slate-400 hidden sm:block">${s.name.split(' ').slice(1, 3).join(' ')}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Clear Action Summary Box -->
+              <div class="mt-5 p-4 rounded-xl ${isGmpDeficit ? 'bg-amber-50 border border-amber-200' : 'bg-emerald-50 border border-emerald-200'} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full ${isGmpDeficit ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'} flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-xl">${isGmpDeficit ? 'notification_important' : 'verified'}</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">
+                      ${isGmpDeficit ? '1 Skill Below Target: Schedule T GMP (42%)' : 'All 6 Skills Verified & Passed!'}
+                    </h4>
+                    <p class="text-[11px] text-slate-600">
+                      ${isGmpDeficit ? 'Take the free 2-week bridge module to reach 85% and qualify for Dabur India Ltd internships.' : 'You qualify for 100% of open Ayush pharma and hospital roles.'}
+                    </p>
+                  </div>
+                </div>
+                ${isGmpDeficit ? `
+                  <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center">
+                    <span>Fix Score (Bridge Course)</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                  </button>
+                ` : `
+                  <button onclick="AppUI.navigate('opportunities')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center">
+                    <span>View Jobs</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                  </button>
+                `}
               </div>
             </div>
 
-            <!-- Radar SVG Container -->
-            <div class="flex-1 min-h-[360px] relative rounded-xl border border-primary/10 bg-background/60 flex items-center justify-center p-4">
-              <svg class="w-full h-full max-w-[440px] max-h-[440px]" viewBox="0 0 100 100">
-                <!-- Concentric Web Polygons (20%, 40%, 60%, 80%, 100%) -->
-                <polygon fill="none" points="50,10 84.6,30 84.6,70 50,90 15.4,70 15.4,30" stroke="#bbcabf" stroke-width="0.3" stroke-dasharray="1,1"></polygon>
-                <polygon fill="none" points="50,18 77.7,34 77.7,66 50,82 22.3,66 22.3,34" stroke="#bbcabf" stroke-width="0.3"></polygon>
-                <polygon fill="none" points="50,26 70.8,38 70.8,62 50,74 29.2,62 29.2,38" stroke="#bbcabf" stroke-width="0.3"></polygon>
-                <polygon fill="none" points="50,34 63.9,42 63.9,58 50,66 36.1,58 36.1,42" stroke="#bbcabf" stroke-width="0.3"></polygon>
-                <polygon fill="none" points="50,42 56.9,46 56.9,54 50,58 43.1,54 43.1,46" stroke="#bbcabf" stroke-width="0.3"></polygon>
-
-                <!-- Axis Lines -->
-                <line x1="50" y1="50" x2="50" y2="10" stroke="#bbcabf" stroke-width="0.4"></line>
-                <line x1="50" y1="50" x2="84.6" y2="30" stroke="#bbcabf" stroke-width="0.4"></line>
-                <line x1="50" y1="50" x2="84.6" y2="70" stroke="#bbcabf" stroke-width="0.4"></line>
-                <line x1="50" y1="50" x2="50" y2="90" stroke="#bbcabf" stroke-width="0.4"></line>
-                <line x1="50" y1="50" x2="15.4" y2="70" stroke="#bbcabf" stroke-width="0.4"></line>
-                <line x1="50" y1="50" x2="15.4" y2="30" stroke="#bbcabf" stroke-width="0.4"></line>
-
-                <!-- Industry Expected Polygon (Dashed Grey) -->
-                <polygon points="${radar.expectedPolygon}" fill="none" stroke="#6c7a71" stroke-width="1.2" stroke-dasharray="2,1.5"></polygon>
-
-                <!-- Current Skill Polygon (Emerald Gradient Fill) -->
-                <polygon class="radar-polygon" points="${radar.currentPolygon}" fill="rgba(16, 185, 129, 0.28)" stroke="#006c49" stroke-width="1.8"></polygon>
-
-                <!-- Axis Labels with Score Badges -->
-                <text x="50" y="6" text-anchor="middle" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Panchakarma (${student.skills.Panchakarma.current}%)</text>
-                <text x="88" y="29" text-anchor="start" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Herbology (${student.skills.Herbology.current}%)</text>
-                <text x="88" y="73" text-anchor="start" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Patient Care (${student.skills.PatientCare.current}%)</text>
-                <text x="50" y="97" text-anchor="middle" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Diagnostics (${student.skills.Diagnostics.current}%)</text>
-                <text x="12" y="73" text-anchor="end" font-family="Inter" font-size="3.2" font-weight="600" fill="${isGmpDeficit ? '#ba1a1a' : '#006c49'}">GMP (${student.skills.GMP.current}%)</text>
-                <text x="12" y="29" text-anchor="end" font-family="Inter" font-size="3.2" font-weight="600" fill="#161d19">Research (${student.skills.Research.current}%)</text>
-              </svg>
+            <!-- Simple Chart Legend -->
+            <div class="flex flex-wrap items-center justify-center gap-6 pt-5 mt-5 border-t border-slate-200/80 w-full text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-sm bg-emerald-600 shadow-xs"></span>
+                <span class="font-bold text-slate-700">Green Bar = Passed (&ge; 75%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-sm bg-red-500 shadow-xs"></span>
+                <span class="font-bold text-slate-700">Red Bar = Needs Bridge Course (&lt; 75%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 border-t-2 border-dashed border-slate-700"></span>
+                <span class="font-bold text-slate-600">Industry Target Line (75%)</span>
+              </div>
             </div>
           </div>
 
