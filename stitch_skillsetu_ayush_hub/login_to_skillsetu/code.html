@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillSetu - Login &amp; Signup</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2b322d",
+                        "on-primary": "#ffffff",
+                        "surface": "#f4fbf4",
+                        "tertiary-fixed": "#ffdad7",
+                        "tertiary-container": "#fc7c78",
+                        "surface-dim": "#d4dcd5",
+                        "tertiary": "#a43a3a",
+                        "on-background": "#161d19",
+                        "outline-variant": "#bbcabf",
+                        "background": "#f4fbf4",
+                        "primary-container": "#10b981",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#161d19",
+                        "inverse-on-surface": "#ebf3eb",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-container": "#711419",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#002113",
+                        "surface-variant": "#dde4dd",
+                        "surface-container-highest": "#dde4dd",
+                        "on-primary-fixed-variant": "#005236",
+                        "outline": "#6c7a71",
+                        "inverse-primary": "#4edea3",
+                        "on-primary-container": "#00422b",
+                        "surface-tint": "#006c49",
+                        "secondary-fixed-dim": "#4fdbc8",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "surface-container-low": "#eef6ee",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#71f8e4",
+                        "secondary-container": "#6df5e1",
+                        "on-secondary-container": "#006f64",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "surface-bright": "#f4fbf4",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#410005",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#3c4a42",
+                        "on-error-container": "#93000a",
+                        "primary": "#006c49",
+                        "secondary": "#006b5f",
+                        "surface-container": "#e8f0e9",
+                        "primary-fixed": "#6ffbbe",
+                        "surface-container-high": "#e3eae3",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-secondary-fixed-variant": "#005048"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .ambient-glow {
+            box-shadow: 0px 10px 30px rgba(16, 185, 129, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-gutter relative overflow-hidden">
+<!-- Decorative Background Elements -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+<div class="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-primary-container/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-20%] left-[-10%] w-[60%] h-[60%] bg-secondary-container/10 rounded-full blur-3xl"></div>
+</div>
+<main class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 glass-panel ambient-glow rounded-xl overflow-hidden shadow-sm">
+<!-- Left Panel: Branding / Imagery -->
+<div class="hidden md:flex flex-col justify-between p-10 bg-surface-container-low/50 relative border-r border-primary/15">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">SkillSetu</h1>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Empowering Ayush Professionals</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Join the digital ecosystem connecting traditional wisdom with modern governance and continuous learning.</p>
+</div>
+<div class="relative z-10 mt-12 h-64 rounded-lg overflow-hidden border border-outline-variant/30 shadow-sm">
+<div class="bg-cover bg-center w-full h-full" data-alt="A modern, bright, light-mode illustration representing traditional Ayurvedic medicine seamlessly integrated with digital technology. The scene features glowing, translucent emerald green geometric data nodes floating around classic Ayush elements like a mortar and pestle or herbal leaves. The lighting is soft and premium, evoking a sense of institutional trust, clarity, and health." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCkMud4uKZOOw2GqwASC96CVtAnQZ43Tasf0bl7Wna3UVa8JKUvj7GPzRTUp8Bm5lw7AgAg9Bh6YCgZ-w2zNjTAA7fSFr_BV5IFHGK9OBDv9rVb7IB3wBE9n8-rT7Vx6jY8UylMj4w6th6m26MT2_pAYJeFYCLcP7-_OZsEgTtvIbBmqZtU6fmjRgtOQQCCGrSmQh97hthYGegvDvYuA6CCPJcvYNQozDLVTnnCkHxcMZJPv0vExIFi')"></div>
+</div>
+<div class="relative z-10 mt-8">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Ministry of Ayush, Government of India</p>
+</div>
+</div>
+<!-- Right Panel: Login / Signup Form -->
+<div class="p-8 md:p-12 flex flex-col justify-center bg-surface-container-lowest">
+<!-- Context Header -->
+<div class="mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 text-primary mb-4 border border-primary/20">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-label-sm text-label-sm">Login as Ministry Admin</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-2" id="form-title">Welcome Back</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your credentials to access the portal.</p>
+</div>
+<!-- Tab Toggle -->
+<div class="flex bg-surface-variant/50 p-1 rounded-lg mb-8" role="tablist">
+<button aria-selected="true" class="flex-1 py-2 text-center font-label-md text-label-md rounded-md bg-white text-primary shadow-sm transition-all" id="tab-login" onclick="switchTab('login')" role="tab">Sign In</button>
+<button aria-selected="false" class="flex-1 py-2 text-center font-label-md text-label-md rounded-md text-on-surface-variant hover:text-primary transition-all" id="tab-signup" onclick="switchTab('signup')" role="tab">Create Account</button>
+</div>
+<!-- Google Sign In -->
+<button class="w-full flex items-center justify-center gap-3 py-3 px-4 border border-outline-variant rounded-lg hover:bg-surface-variant/30 transition-colors mb-6 group">
+<svg class="w-5 h-5" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" fill="#FFC107"></path>
+<path d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" fill="#FF3D00"></path>
+<path d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" fill="#4CAF50"></path>
+<path d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" fill="#1976D2"></path>
+</svg>
+<span class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Sign in with Google</span>
+</button>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex-1 h-px bg-outline-variant/50"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Or</span>
+<div class="flex-1 h-px bg-outline-variant/50"></div>
+</div>
+<!-- Form -->
+<form class="space-y-5" id="auth-form">
+<div class="hidden" id="name-field">
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="fullName">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">person</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-[#f1f5f9] focus:bg-white border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg font-body-md text-body-md text-on-surface transition-all placeholder:text-outline/70" id="fullName" placeholder="Dr. John Doe" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">mail</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-[#f1f5f9] focus:bg-white border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg font-body-md text-body-md text-on-surface transition-all placeholder:text-outline/70" id="email" placeholder="name@ayush.gov.in" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline" href="#" id="forgot-password">Forgot Password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">lock</span>
+<input class="w-full pl-10 pr-10 py-2.5 bg-[#f1f5f9] focus:bg-white border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg font-body-md text-body-md text-on-surface transition-all placeholder:text-outline/70" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full py-3 px-4 bg-primary text-white font-label-md text-label-md rounded-lg hover:bg-primary/90 hover:shadow-md transition-all active:scale-[0.98]" id="submit-btn" type="submit">
+                    Sign In
+                </button>
+</form>
+</div>
+</main>
+<script>
+        function switchTab(tab) {
+            const loginBtn = document.getElementById('tab-login');
+            const signupBtn = document.getElementById('tab-signup');
+            const nameField = document.getElementById('name-field');
+            const forgotPwd = document.getElementById('forgot-password');
+            const submitBtn = document.getElementById('submit-btn');
+            const formTitle = document.getElementById('form-title');
+
+            if (tab === 'login') {
+                // UI State for Login
+                loginBtn.setAttribute('aria-selected', 'true');
+                loginBtn.className = 'flex-1 py-2 text-center font-label-md text-label-md rounded-md bg-white text-primary shadow-sm transition-all';
+                
+                signupBtn.setAttribute('aria-selected', 'false');
+                signupBtn.className = 'flex-1 py-2 text-center font-label-md text-label-md rounded-md text-on-surface-variant hover:text-primary transition-all';
+                
+                // Form Fields
+                nameField.classList.add('hidden');
+                forgotPwd.classList.remove('hidden');
+                submitBtn.textContent = 'Sign In';
+                formTitle.textContent = 'Welcome Back';
+
+            } else {
+                // UI State for Signup
+                signupBtn.setAttribute('aria-selected', 'true');
+                signupBtn.className = 'flex-1 py-2 text-center font-label-md text-label-md rounded-md bg-white text-primary shadow-sm transition-all';
+                
+                loginBtn.setAttribute('aria-selected', 'false');
+                loginBtn.className = 'flex-1 py-2 text-center font-label-md text-label-md rounded-md text-on-surface-variant hover:text-primary transition-all';
+                
+                // Form Fields
+                nameField.classList.remove('hidden');
+                forgotPwd.classList.add('hidden');
+                submitBtn.textContent = 'Create Account';
+                formTitle.textContent = 'Create an Account';
+            }
+        }
+        
+        // Prevent default form submission for demo
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body></html>

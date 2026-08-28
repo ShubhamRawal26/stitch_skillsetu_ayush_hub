@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ministry Admin - National Impact</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#161d19",
+                      "background": "#f4fbf4",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "primary": "#006c49",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#00422b",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005048",
+                      "surface": "#f4fbf4",
+                      "primary-fixed-dim": "#4edea3",
+                      "on-background": "#161d19",
+                      "surface-dim": "#d4dcd5",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#3c4a42",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "on-primary-fixed": "#002113",
+                      "secondary-container": "#6df5e1",
+                      "surface-container-highest": "#dde4dd",
+                      "secondary": "#006b5f",
+                      "on-secondary-container": "#006f64",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2b322d",
+                      "secondary-fixed": "#71f8e4",
+                      "error": "#ba1a1a",
+                      "tertiary": "#a43a3a",
+                      "on-tertiary-container": "#711419",
+                      "on-tertiary-fixed": "#410005",
+                      "tertiary-container": "#fc7c78",
+                      "on-secondary-fixed": "#00201c",
+                      "primary-fixed": "#6ffbbe",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-bright": "#f4fbf4",
+                      "primary-container": "#10b981",
+                      "outline-variant": "#bbcabf",
+                      "outline": "#6c7a71",
+                      "secondary-fixed-dim": "#4fdbc8",
+                      "surface-tint": "#006c49",
+                      "surface-variant": "#dde4dd",
+                      "surface-container": "#e8f0e9",
+                      "surface-container-low": "#eef6ee",
+                      "tertiary-fixed": "#ffdad7",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#4edea3",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#ebf3eb",
+                      "surface-container-high": "#e3eae3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .glass-panel-heavy {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 10px 30px rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        
+        /* Ambient subtle background grid */
+        body {
+            background-color: #f8fafc;
+            background-image: linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="text-on-background bg-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full py-8 px-4 z-40 bg-surface-container-low/70 dark:bg-surface-container-lowest/10 backdrop-blur-2xl border-r border-primary/15 dark:border-primary-fixed-dim/15 shadow-sm w-64">
+<div class="flex items-center gap-3 mb-10 px-4">
+<img alt="Ministry of Ayush Seal" class="w-10 h-10 object-contain rounded-full" data-alt="Official seal of the Ministry of Ayush, rendered in a modern, flat vector style with vibrant emerald and subtle gold accents. The design is crisp, clean, and institutional, fitting a premium digital governance dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHpZFrTaNaJGtiXuAczIizymwq-43g6r9xb2KGuYzl_5I3tbfe-xTnB7hSp64UUUwafkVmq_VDcM8A6OPkOt4umxPuM2IP-WhxoiseU8qfwmE73yK_a-yQG_uvSsGr_JFctGIzxkDMQSNNEcWdTHTtcpON9eehVE6hAEs3Wqfxcdb6lcA2-PSVlx2GcmpcpqnICuisT5h28x7X2s8GUOm2eiCiEFMEQBe93No8ugpRNF1qzdcVau2o"/>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">Ministry Admin</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Ayush Governance Portal</p>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-lg font-semibold hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-md text-label-md">Partnerships</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md text-label-md">Compliance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+<div class="mt-auto space-y-4 pt-6 border-t border-outline-variant/30">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-surface-variant text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">swap_horiz</span>
+                Switch Role
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">help_center</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-error hover:bg-error-container/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Mobile Only for Shell completeness, hidden on Desktop as per spec) -->
+<header class="lg:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-xl border-b border-primary/15 dark:border-primary-fixed-dim/15 shadow-[0px_10px_30px_rgba(16,185,129,0.08)]">
+<div class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary dark:text-primary-fixed-dim text-2xl">SkillSetu</div>
+<div class="flex gap-4">
+<button class="text-primary dark:text-primary-fixed-dim opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-primary dark:text-primary-fixed-dim opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<div class="p-margin-mobile lg:p-margin-desktop mt-16 lg:mt-0 flex-1 max-w-container-max mx-auto w-full">
+<div class="mb-10">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">National Impact Overview</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time metrics on skill development and placement across India.</p>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- Metric Card 1 -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-10 -mt-10 blur-2xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined">school</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Students Enrolled</p>
+<p class="font-display-lg text-display-lg text-on-surface">1.2M</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+12% this quarter</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-10 -mt-10 blur-2xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-4 text-secondary">
+<span class="material-symbols-outlined">work</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">National Placement Rate</p>
+<p class="font-display-lg text-display-lg text-on-surface">68.4%</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+4.2% YoY</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-full -mr-10 -mt-10 blur-2xl group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center mb-4 text-tertiary">
+<span class="material-symbols-outlined">corporate_fare</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Active Industry Partners</p>
+<p class="font-display-lg text-display-lg text-on-surface">8,450</p>
+<div class="mt-4 flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">horizontal_rule</span>
+<span>Stable</span>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/5 rounded-full -mr-10 -mt-10 blur-2xl group-hover:bg-primary-container/10 transition-colors"></div>
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center mb-4 text-on-primary-container">
+<span class="material-symbols-outlined">model_training</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Programs Active</p>
+<p class="font-display-lg text-display-lg text-on-surface">342</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>12 new this month</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+<!-- Heatmap Section (Takes up 2 columns) -->
+<div class="lg:col-span-2 glass-panel-heavy rounded-xl p-6 flex flex-col h-[500px]">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Skill Gap Index</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Regional analysis of demand vs. certified supply.</p>
+</div>
+<button class="p-2 rounded-lg bg-surface hover:bg-surface-variant transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant">filter_list</span>
+</button>
+</div>
+<div class="flex-1 bg-surface-container-low rounded-lg border border-outline-variant/30 relative overflow-hidden flex items-center justify-center">
+<!-- Placeholder for Map Visualization -->
+<img class="w-full h-full object-cover opacity-80" data-alt="A highly stylized, minimal data visualization heatmap of India. The map uses a sophisticated color scale of pale emerald greens to deep emerald to indicate varying levels of data density. The background is a clean off-white (#f8fafc) and the aesthetic is modern, tech-forward, and institutional, fitting a premium dashboard." data-location="India" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaRbzENdHMlEi_VI5RBHv6BgwvaQXhN1PNggdac-O08d_wVyQx2pcZBMq_neWMQiXzKec-Xm9zX-d-2S3XAdzfsJ2wX6YOIUFAv3VFWDKPpgM9MOKKUgkQ5fY6LC4HiDYZcPBeKZpDcp3khu5SNPzN2JIkRMRPWrExbLpf63FTAmYXhf_Cf-A2UTTSj7YYg-gfSF_QenEAf8YmkW4dwteyuw5G4BHbM_xYz1u7GEjDOB1JvFmBV1By"/>
+<!-- Example Map Overlays -->
+<div class="absolute top-[30%] left-[30%] flex flex-col items-center">
+<div class="w-3 h-3 bg-tertiary rounded-full shadow-[0_0_10px_rgba(164,58,58,0.5)] animate-pulse"></div>
+<span class="mt-1 bg-surface/90 backdrop-blur text-xs font-label-sm px-2 py-1 rounded shadow-sm border border-outline-variant/50">Rajasthan: High</span>
+</div>
+<div class="absolute top-[50%] left-[40%] flex flex-col items-center">
+<div class="w-3 h-3 bg-secondary rounded-full shadow-[0_0_10px_rgba(0,107,95,0.5)]"></div>
+<span class="mt-1 bg-surface/90 backdrop-blur text-xs font-label-sm px-2 py-1 rounded shadow-sm border border-outline-variant/50">Maharashtra: Med</span>
+</div>
+</div>
+<div class="flex gap-4 mt-4 justify-center">
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-primary rounded-full"></div><span class="font-label-sm text-label-sm">Low Gap</span></div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-secondary rounded-full"></div><span class="font-label-sm text-label-sm">Medium Gap</span></div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-tertiary rounded-full"></div><span class="font-label-sm text-label-sm">High Gap</span></div>
+</div>
+</div>
+<!-- Top Skills & Trends Sidebar -->
+<div class="flex flex-col gap-6">
+<!-- Top Skills -->
+<div class="glass-panel rounded-xl p-6 flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4">Top Industry Demands</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container/20 flex items-center justify-center text-primary font-bold text-sm">1</div>
+<span class="font-label-md text-label-md text-on-surface">Data Analytics</span>
+</div>
+<span class="text-primary"><span class="material-symbols-outlined text-sm">arrow_upward</span></span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant font-bold text-sm">2</div>
+<span class="font-label-md text-label-md text-on-surface">Cloud Computing</span>
+</div>
+<span class="text-primary"><span class="material-symbols-outlined text-sm">arrow_upward</span></span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant font-bold text-sm">3</div>
+<span class="font-label-md text-label-md text-on-surface">Digital Marketing</span>
+</div>
+<span class="text-on-surface-variant"><span class="material-symbols-outlined text-sm">horizontal_rule</span></span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant font-bold text-sm">4</div>
+<span class="font-label-md text-label-md text-on-surface">Ayurvedic Pharmacy</span>
+</div>
+<span class="text-primary"><span class="material-symbols-outlined text-sm">arrow_upward</span></span>
+</li>
+</ul>
+</div>
+<!-- Placement Trend Chart -->
+<div class="glass-panel rounded-xl p-6">
+<h3 class="font-label-md text-label-md text-on-surface mb-2">Placement Trend (H1)</h3>
+<div class="h-32 bg-surface-container-low rounded border border-outline-variant/30 flex items-end p-2 gap-1 justify-between relative">
+<!-- Abstract Bar Chart Representation -->
+<div class="w-full bg-primary/20 rounded-t h-[30%] hover:bg-primary/40 transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Jan</div>
+</div>
+<div class="w-full bg-primary/30 rounded-t h-[45%] hover:bg-primary/50 transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Feb</div>
+</div>
+<div class="w-full bg-primary/50 rounded-t h-[40%] hover:bg-primary/60 transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Mar</div>
+</div>
+<div class="w-full bg-primary/60 rounded-t h-[65%] hover:bg-primary/70 transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Apr</div>
+</div>
+<div class="w-full bg-primary/80 rounded-t h-[80%] hover:bg-primary transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">May</div>
+</div>
+<div class="w-full bg-primary rounded-t h-[95%] shadow-[0_0_15px_rgba(16,185,129,0.3)] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Jun</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 px-gutter flex flex-col items-center gap-6 bg-surface-container-highest dark:bg-surface-dim border-t border-outline-variant mt-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">SkillSetu</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline transition-all font-label-sm text-label-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline transition-all font-label-sm text-label-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline transition-all font-label-sm text-label-sm" href="#">Accessibility Guidelines</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline transition-all font-label-sm text-label-sm" href="#">Contact Us</a>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-lg">© 2024 Ministry of Ayush, Government of India. All Rights Reserved.</p>
+</footer>
+</main>
+</body></html>

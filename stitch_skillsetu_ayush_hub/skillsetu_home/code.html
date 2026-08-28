@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillSetu - Bridging Ayush Education</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#161d19",
+                      "background": "#f4fbf4",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "primary": "#006c49",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#00422b",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005048",
+                      "surface": "#f4fbf4",
+                      "primary-fixed-dim": "#4edea3",
+                      "on-background": "#161d19",
+                      "surface-dim": "#d4dcd5",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#3c4a42",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "on-primary-fixed": "#002113",
+                      "secondary-container": "#6df5e1",
+                      "surface-container-highest": "#dde4dd",
+                      "secondary": "#006b5f",
+                      "on-secondary-container": "#006f64",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2b322d",
+                      "secondary-fixed": "#71f8e4",
+                      "error": "#ba1a1a",
+                      "tertiary": "#a43a3a",
+                      "on-tertiary-container": "#711419",
+                      "on-tertiary-fixed": "#410005",
+                      "tertiary-container": "#fc7c78",
+                      "on-secondary-fixed": "#00201c",
+                      "primary-fixed": "#6ffbbe",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-bright": "#f4fbf4",
+                      "primary-container": "#10b981",
+                      "outline-variant": "#bbcabf",
+                      "outline": "#6c7a71",
+                      "secondary-fixed-dim": "#4fdbc8",
+                      "surface-tint": "#006c49",
+                      "surface-variant": "#dde4dd",
+                      "surface-container": "#e8f0e9",
+                      "surface-container-low": "#eef6ee",
+                      "tertiary-fixed": "#ffdad7",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#4edea3",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#ebf3eb",
+                      "surface-container-high": "#e3eae3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .ambient-glow {
+            box-shadow: 0px 10px 30px rgba(16, 185, 129, 0.08);
+        }
+        .bg-gradient-radial {
+            background-image: radial-gradient(circle, var(--tw-gradient-stops));
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-lg min-h-screen relative overflow-x-hidden">
+<!-- Atmospheric Gradients -->
+<div class="absolute top-0 left-0 w-full h-[800px] bg-gradient-radial from-secondary-container/20 via-background to-background -z-10 pointer-events-none"></div>
+<div class="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary-container/10 blur-[100px] -z-10 pointer-events-none"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-20 max-w-container-max mx-auto bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-xl border-b border-primary/15 shadow-[0px_10px_30px_rgba(16,185,129,0.08)]">
+<div class="flex items-center gap-2">
+<span class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary">SkillSetu</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-label-md text-label-md">
+<a class="text-primary border-b-2 border-primary pb-1 opacity-80 scale-95 transition-all" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Programs</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Network</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, professional portrait of a person representing a user profile avatar in a clean, brightly lit modern interface setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfmfnHg4dNYMe0nkV70XIXrg9ZfYcLAZ5L047fONvYCf_EouChO69CO3KN4NiTJi_XJEYy79ERbjIocSG9hh7rU4nS-otleRc4iZUrI7ocGiMbAfO76LPndqi-OjclNc1NTNJTjUFcr8UyIvi42j1K_ZB-AXhiQ86dWhHYY9ouL8cHiBbL5ku_3ZYOolfLlCKqfeVMU8sarpZtV4ore4M6BD1zfCwi-2_A_Y7SSmMePRAkzcTDwro8"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-32 pb-24 px-gutter max-w-container-max mx-auto">
+<!-- Hero Section -->
+<section class="flex flex-col items-center text-center mt-12 md:mt-24 mb-[120px] fade-in-up">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-label-sm mb-6">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified">verified</span>
+                Ministry of Ayush Initiative
+            </div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface max-w-4xl mb-6 tracking-tight">
+                Bridging Ayush Education with <span class="text-primary">Industry-Ready Skills</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-10">
+                Empowering the next generation of Ayush professionals through comprehensive skill development, industry partnerships, and advanced certification pathways.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+<button class="px-8 py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-on-primary-container transition-colors shadow-md">
+                    Explore Programs
+                </button>
+<button class="px-8 py-3 glass-panel text-primary rounded-lg font-label-md text-label-md hover:bg-surface-variant/50 transition-colors">
+                    Learn More
+                </button>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-[120px] fade-in-up delay-100">
+<div class="glass-panel p-6 rounded-xl flex flex-col items-center justify-center text-center ambient-glow">
+<span class="font-headline-md text-headline-md text-primary mb-1">42k+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Students Enrolled</span>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col items-center justify-center text-center ambient-glow">
+<span class="font-headline-md text-headline-md text-primary mb-1">1.2k+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Industry Partners</span>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col items-center justify-center text-center ambient-glow">
+<span class="font-headline-md text-headline-md text-primary mb-1">350+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ayush Colleges</span>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col items-center justify-center text-center ambient-glow">
+<span class="font-headline-md text-headline-md text-primary mb-1">98%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Placement Rate</span>
+</div>
+</section>
+<!-- Portals Bento Grid -->
+<section class="mb-[80px] fade-in-up delay-200">
+<div class="text-center mb-12">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Choose Your Portal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Access specialized tools and resources tailored for your role.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Student Card -->
+<div class="glass-panel p-8 rounded-xl ambient-glow group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">Student</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Access courses, track progress, and discover placement opportunities in the Ayush sector.</p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md group-hover:gap-3 transition-all" href="#">
+                        Login <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Industry Card -->
+<div class="glass-panel p-8 rounded-xl ambient-glow group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">Industry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Partner with institutions, recruit skilled professionals, and shape curriculum.</p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md group-hover:gap-3 transition-all" href="#">
+                        Login <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- College Card -->
+<div class="glass-panel p-8 rounded-xl ambient-glow group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">College</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Manage student enrollments, faculty resources, and institutional performance metrics.</p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md group-hover:gap-3 transition-all" href="#">
+                        Login <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Ministry Card -->
+<div class="glass-panel p-8 rounded-xl ambient-glow group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">Ministry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Oversee nationwide programs, analyze data trends, and manage governance policies.</p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md group-hover:gap-3 transition-all" href="#">
+                        Login <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-gutter flex flex-col items-center gap-6 bg-surface-container-highest border-t border-outline-variant mt-20">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">SkillSetu</div>
+<div class="flex flex-wrap justify-center gap-6 font-label-sm text-label-sm text-on-surface-variant">
+<a class="hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="hover:underline transition-all" href="#">Terms of Service</a>
+<a class="hover:underline transition-all" href="#">Accessibility Guidelines</a>
+<a class="hover:underline transition-all" href="#">Contact Us</a>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-center mt-4">
+            © 2024 Ministry of Ayush, Government of India. All Rights Reserved.
+        </div>
+</footer>
+</body></html>

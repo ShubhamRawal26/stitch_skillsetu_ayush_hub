@@ -1,0 +1,20 @@
+{
+  "name": "skillsetu-ayush-prototype",
+  "version": "1.0.0",
+  "description": "SkillSetu - Portal for Academia - Industry Collaboration for Skill Mapping, Internships and Placement (SIH26044) - Ministry of Ayush",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve -l 3000 .",
+    "dev": "npx -y serve -l 3000 ."
+  },
+  "keywords": [
+    "skillsetu",
+    "ayush",
+    "sih2026",
+    "skill-mapping",
+    "internship",
+    "placement"
+  ],
+  "author": "SkillSetu SIH Team",
+  "license": "MIT"
+}

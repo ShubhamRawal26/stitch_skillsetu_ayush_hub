@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillSetu - Assessment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#161d19",
+                      "background": "#f4fbf4",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "primary": "#006c49",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#00422b",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005048",
+                      "surface": "#f4fbf4",
+                      "primary-fixed-dim": "#4edea3",
+                      "on-background": "#161d19",
+                      "surface-dim": "#d4dcd5",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#3c4a42",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "on-primary-fixed": "#002113",
+                      "secondary-container": "#6df5e1",
+                      "surface-container-highest": "#dde4dd",
+                      "secondary": "#006b5f",
+                      "on-secondary-container": "#006f64",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2b322d",
+                      "secondary-fixed": "#71f8e4",
+                      "error": "#ba1a1a",
+                      "tertiary": "#a43a3a",
+                      "on-tertiary-container": "#711419",
+                      "on-tertiary-fixed": "#410005",
+                      "tertiary-container": "#fc7c78",
+                      "on-secondary-fixed": "#00201c",
+                      "primary-fixed": "#6ffbbe",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-bright": "#f4fbf4",
+                      "primary-container": "#10b981",
+                      "outline-variant": "#bbcabf",
+                      "outline": "#6c7a71",
+                      "secondary-fixed-dim": "#4fdbc8",
+                      "surface-tint": "#006c49",
+                      "surface-variant": "#dde4dd",
+                      "surface-container": "#e8f0e9",
+                      "surface-container-low": "#eef6ee",
+                      "tertiary-fixed": "#ffdad7",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#4edea3",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#ebf3eb",
+                      "surface-container-high": "#e3eae3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .option-hover:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        .option-selected {
+            background: rgba(16, 185, 129, 0.1) !important;
+            border-color: #10b981 !important;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) - Rendered for structural context, though technically a focused flow, providing a persistent brand anchor -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-20 max-w-container-max mx-auto bg-surface/70 backdrop-blur-xl border-b border-primary/15 shadow-[0px_10px_30px_rgba(16,185,129,0.08)]">
+<div class="flex items-center gap-8">
+<span class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary">SkillSetu</span>
+<div class="hidden md:flex gap-6">
+<!-- Navigation is suppressed due to active assessment flow -->
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-12 px-gutter md:px-margin-desktop flex justify-center items-start">
+<!-- Assessment Container (Glassmorphism) -->
+<div class="glass-panel rounded-xl shadow-[0px_10px_30px_rgba(16,185,129,0.08)] w-full max-w-3xl p-8 md:p-12 relative overflow-hidden transition-all duration-500" id="assessment-container">
+<!-- Progress Header -->
+<div class="mb-12" id="progress-header">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase">Ayurvedic Principles</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Question <span id="current-q">1</span> of 5</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[20%] rounded-full transition-all duration-500 ease-out" id="progress-bar"></div>
+</div>
+</div>
+<!-- Question View (Q1) -->
+<div class="transition-opacity duration-300" id="question-view">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-8">Which of the following best describes the primary function of the 'Vata' dosha?</h2>
+<div class="flex flex-col gap-4">
+<button class="assessment-option w-full text-left p-6 rounded-lg border border-outline-variant bg-surface-container-lowest option-hover transition-all duration-200 flex items-center justify-between group">
+<span class="font-body-lg text-body-lg text-on-surface">Governs movement and communication in the body.</span>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary-container flex items-center justify-center transition-colors">
+<div class="w-3 h-3 rounded-full bg-primary-container opacity-0 transition-opacity"></div>
+</div>
+</button>
+<button class="assessment-option w-full text-left p-6 rounded-lg border border-outline-variant bg-surface-container-lowest option-hover transition-all duration-200 flex items-center justify-between group">
+<span class="font-body-lg text-body-lg text-on-surface">Controls digestion, metabolism, and energy production.</span>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary-container flex items-center justify-center transition-colors">
+<div class="w-3 h-3 rounded-full bg-primary-container opacity-0 transition-opacity"></div>
+</div>
+</button>
+<button class="assessment-option w-full text-left p-6 rounded-lg border border-outline-variant bg-surface-container-lowest option-hover transition-all duration-200 flex items-center justify-between group">
+<span class="font-body-lg text-body-lg text-on-surface">Provides structure, lubrication, and stability.</span>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary-container flex items-center justify-center transition-colors">
+<div class="w-3 h-3 rounded-full bg-primary-container opacity-0 transition-opacity"></div>
+</div>
+</button>
+</div>
+<div class="mt-12 flex justify-end">
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-8 py-3 rounded-lg opacity-50 cursor-not-allowed transition-all duration-300" disabled="" id="next-btn">
+                        Next Question
+                    </button>
+</div>
+</div>
+<!-- Results View (Hidden initially) -->
+<div class="hidden text-center transition-opacity duration-300 opacity-0" id="results-view">
+<div class="w-24 h-24 mx-auto mb-6 bg-primary-container/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary-container" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-2">Assessment Complete</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">You've successfully validated your knowledge.</p>
+<div class="glass-panel rounded-xl p-8 mb-8 inline-block">
+<div class="text-6xl font-bold text-primary mb-2">80%</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Score Achieved</div>
+</div>
+<div class="flex justify-center gap-4">
+<button class="border border-primary text-primary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-primary/5 transition-colors">
+                        Review Answers
+                    </button>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-6 py-3 rounded-lg hover:opacity-90 transition-opacity">
+                        Return to Dashboard
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const options = document.querySelectorAll('.assessment-option');
+            const nextBtn = document.getElementById('next-btn');
+            let isSelected = false;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Reset all options
+                    options.forEach(opt => {
+                        opt.classList.remove('option-selected');
+                        opt.querySelector('.w-3').classList.remove('opacity-100');
+                        opt.querySelector('.w-6').classList.remove('border-primary-container');
+                    });
+
+                    // Select this option
+                    this.classList.add('option-selected');
+                    this.querySelector('.w-3').classList.add('opacity-100');
+                    this.querySelector('.w-6').classList.add('border-primary-container');
+                    
+                    isSelected = true;
+                    
+                    // Enable next button
+                    nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    nextBtn.classList.add('hover:opacity-90', 'hover:-translate-y-0.5', 'shadow-md');
+                    nextBtn.disabled = false;
+                });
+            });
+
+            // Simulate flow to results
+            nextBtn.addEventListener('click', () => {
+                if(isSelected) {
+                    const qView = document.getElementById('question-view');
+                    const rView = document.getElementById('results-view');
+                    const pHeader = document.getElementById('progress-header');
+                    const pBar = document.getElementById('progress-bar');
+                    
+                    // Simulate fast forward to end
+                    pBar.style.width = '100%';
+                    
+                    qView.style.opacity = '0';
+                    setTimeout(() => {
+                        qView.classList.add('hidden');
+                        pHeader.classList.add('hidden');
+                        
+                        rView.classList.remove('hidden');
+                        // Small delay for display block to apply before opacity transition
+                        setTimeout(() => {
+                            rView.style.opacity = '1';
+                        }, 50);
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body></html>

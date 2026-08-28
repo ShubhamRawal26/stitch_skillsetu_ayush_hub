@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>SkillSetu - Academia-Industry Skill Bridge | Ministry of Ayush</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Configuration matching Stitch DESIGN.md -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface": "#161d19",
+            "background": "#f4fbf4",
+            "tertiary-fixed-dim": "#ffb3af",
+            "primary": "#006c49",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#00422b",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#005048",
+            "surface": "#f4fbf4",
+            "primary-fixed-dim": "#4edea3",
+            "on-background": "#161d19",
+            "surface-dim": "#d4dcd5",
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#3c4a42",
+            "on-tertiary-fixed-variant": "#842225",
+            "on-primary-fixed": "#002113",
+            "secondary-container": "#6df5e1",
+            "surface-container-highest": "#dde4dd",
+            "secondary": "#006b5f",
+            "on-secondary-container": "#006f64",
+            "on-primary": "#ffffff",
+            "on-error": "#ffffff",
+            "inverse-surface": "#2b322d",
+            "secondary-fixed": "#71f8e4",
+            "error": "#ba1a1a",
+            "tertiary": "#a43a3a",
+            "on-tertiary-container": "#711419",
+            "on-tertiary-fixed": "#410005",
+            "tertiary-container": "#fc7c78",
+            "on-secondary-fixed": "#00201c",
+            "primary-fixed": "#6ffbbe",
+            "on-primary-fixed-variant": "#005236",
+            "surface-bright": "#f4fbf4",
+            "primary-container": "#10b981",
+            "outline-variant": "#bbcabf",
+            "outline": "#6c7a71",
+            "secondary-fixed-dim": "#4fdbc8",
+            "surface-tint": "#006c49",
+            "surface-variant": "#dde4dd",
+            "surface-container": "#e8f0e9",
+            "surface-container-low": "#eef6ee",
+            "tertiary-fixed": "#ffdad7",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#4edea3",
+            "error-container": "#ffdad6",
+            "inverse-on-surface": "#ebf3eb",
+            "surface-container-high": "#e3eae3"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "md": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "2xl": "1.5rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter": "24px",
+            "container-max": "1280px",
+            "margin-mobile": "16px",
+            "unit": "4px",
+            "margin-desktop": "40px"
+          },
+          fontFamily: {
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg-mobile": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/app.css" />
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container flex flex-col justify-between">
+
+  <!-- Atmospheric Background Gradients & Ambient Glows -->
+  <div class="fixed top-0 left-0 w-full h-[700px] bg-gradient-radial from-secondary-container/15 via-background to-background -z-10 pointer-events-none"></div>
+  <div class="fixed top-[-15%] right-[-10%] w-[550px] h-[550px] rounded-full bg-primary-container/10 blur-[120px] -z-10 pointer-events-none"></div>
+  <div class="fixed bottom-[-15%] left-[-10%] w-[650px] h-[650px] rounded-full bg-secondary-fixed/15 blur-[140px] -z-10 pointer-events-none"></div>
+
+  <!-- Global Top Navigation Bar -->
+  <header id="global-header" class="fixed top-0 left-0 w-full z-50 bg-surface/75 dark:bg-surface-dim/75 backdrop-blur-xl border-b border-primary/15 shadow-[0px_10px_30px_rgba(16,185,129,0.06)]"></header>
+
+  <!-- Dynamic Application Root Content View -->
+  <div id="app-root" class="flex-grow"></div>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Global Footer -->
+  <footer class="w-full py-10 px-4 md:px-margin-desktop bg-surface-container-highest border-t border-outline-variant/40 mt-auto z-10">
+    <div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+        <div>
+          <div class="font-headline-sm text-base font-bold text-on-surface">SkillSetu • Ayush Innovation Portal</div>
+          <p class="font-label-sm text-xs text-on-surface-variant">SIH 2026 Final Round Prototype • Ministry of Ayush, Government of India</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 font-label-sm text-xs text-on-surface-variant font-medium">
+        <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="hover:text-primary transition-colors">Home</a>
+        <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="hover:text-primary transition-colors">Student</a>
+        <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="hover:text-primary transition-colors">Industry</a>
+        <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="hover:text-primary transition-colors">College</a>
+        <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="hover:text-primary transition-colors">Ministry Analytics</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/app-data.js"></script>
+  <script src="./js/app-state.js"></script>
+  <script src="./js/app-ui.js"></script>
+</body>
+</html>
