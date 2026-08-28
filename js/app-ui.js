@@ -677,9 +677,7 @@ window.AppUI = {
   },
 
   applyFromFeed(oppId, companyName) {
-    window.appState.applyToOpportunity(oppId);
-    this.showToast(`Application successfully submitted to ${companyName} via 1-Click SkillSetu Bridge!`, 'success');
-    this.renderCurrentView();
+    this.openInternshipDetailModal(oppId);
   },
 
   // 0. LinkedIn Main Home Feed HTML
@@ -1182,7 +1180,7 @@ window.AppUI = {
                   </div>
                   <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-200/60">
                     <span class="font-bold text-emerald-700">₹28k/mo • 95% Match</span>
-                    <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold">Apply</button>
+                    <button onclick="AppUI.openInternshipDetailModal('OPP-DABUR-01')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold hover:bg-emerald-800 transition-colors">Apply</button>
                   </div>
                 </div>
 
@@ -1197,7 +1195,7 @@ window.AppUI = {
                   </div>
                   <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-200/60">
                     <span class="font-bold text-blue-700">₹35k/mo • 90% Match</span>
-                    <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold">Apply</button>
+                    <button onclick="AppUI.openInternshipDetailModal('OPP-PATANJALI-02')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold hover:bg-emerald-800 transition-colors">Apply</button>
                   </div>
                 </div>
               </div>
@@ -2972,7 +2970,210 @@ window.AppUI = {
     }, 900);
   },
 
-  // 7. Industry Dashboard HTML
+  // 6.5 Interactive Internship Details & Match Score Modal
+  openInternshipDetailModal(oppId = 'OPP-DABUR-01') {
+    const opp = (window.appState.state.opportunities || []).find(o => o.id === oppId) || window.appState.state.opportunities[0];
+    const student = window.appState.state.student;
+    const gmpSkill = student.skills?.["GMP"] || { current: 42, expected: 78 };
+    const isGmpDeficit = gmpSkill.current < 78;
+    const currentMatch = gmpSkill.current >= 78 ? opp.boostedMatch : opp.initialMatch;
+    const appInfo = window.appState.state.applications[opp.id] || { applied: false, status: "Not Applied" };
+
+    const modalHTML = `
+      <div id="internship-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
+        <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-emerald-200 flex flex-col max-h-[92vh]">
+          <!-- Modal Header -->
+          <div class="px-5 sm:px-6 py-4 border-b border-slate-200 flex justify-between items-start bg-slate-50">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-2 shadow-xs shrink-0">
+                ${opp.logo ? `<img src="${opp.logo}" alt="${opp.company}" class="w-full h-full object-contain" />` : `<span class="font-extrabold text-primary text-base">${opp.company.slice(0, 2).toUpperCase()}</span>`}
+              </div>
+              <div>
+                <div class="inline-flex items-center gap-1 text-[10px] font-bold text-primary bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full mb-0.5">
+                  <span class="material-symbols-outlined text-[12px]">verified</span> Verified Ayush Enterprise
+                </div>
+                <h2 class="font-headline-sm text-base sm:text-lg font-bold text-slate-900">${opp.role || opp.title}</h2>
+                <p class="text-xs text-slate-600">${opp.company} • ${opp.location}</p>
+              </div>
+            </div>
+            <button onclick="document.getElementById('internship-modal').remove()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition-colors">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <!-- Modal Scrollable Content -->
+          <div class="p-5 sm:p-6 overflow-y-auto space-y-5 text-xs text-slate-700">
+            
+            <!-- AI Skill Match Score Banner -->
+            <div class="p-4 rounded-xl ${currentMatch >= 90 ? 'bg-emerald-50/80 border border-emerald-200' : 'bg-amber-50/80 border border-amber-200'} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5">
+                <div class="w-14 h-14 rounded-xl ${currentMatch >= 90 ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'} flex flex-col items-center justify-center font-extrabold shadow-sm shrink-0">
+                  <span class="text-base leading-none">${currentMatch}%</span>
+                  <span class="text-[9px] uppercase tracking-tighter opacity-90 mt-0.5">Match</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">
+                    ${currentMatch >= 90 ? 'High Compatibility Score (Top 5% Fit)' : 'Good Potential • 1 Competency Bridge Recommended'}
+                  </h4>
+                  <p class="text-[11px] text-slate-600 mt-0.5">
+                    ${currentMatch >= 90 
+                      ? 'You meet or exceed all clinical & manufacturing prerequisites for this verified position.' 
+                      : 'Bridge your Schedule T GMP score from 42% to 85% to reach a 95% match and qualify for immediate interview priority.'}
+                  </p>
+                </div>
+              </div>
+
+              ${isGmpDeficit ? `
+                <button onclick="document.getElementById('internship-modal').remove(); AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-3 py-1.5 bg-primary text-white rounded-lg font-bold text-xs hover:bg-emerald-800 transition-all shadow-xs shrink-0 flex items-center gap-1">
+                  <span>Fix GMP Score</span>
+                  <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </button>
+              ` : ''}
+            </div>
+
+            <!-- Key Parameters Strip -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Stipend</span>
+                <span class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5 block">${opp.stipend || '₹28,000 / mo'}</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Duration</span>
+                <span class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5 block">${opp.duration || '6 Months'}</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Target Pool</span>
+                <span class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5 block">BAMS / MD</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Certification</span>
+                <span class="text-xs sm:text-sm font-extrabold text-emerald-700 mt-0.5 block">Pre-Placement</span>
+              </div>
+            </div>
+
+            <!-- Detailed Skill Breakdown vs Requirements -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs sm:text-sm mb-2.5 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary text-base">checklist</span>
+                Verified Competency Breakdown
+              </h4>
+              <div class="space-y-2">
+                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-600 text-base">spa</span>
+                    <div>
+                      <span class="font-bold text-slate-900 text-xs">Panchakarma & Clinical Protocols</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: 85% • Required: 75%</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[11px]">check</span> Passed
+                  </span>
+                </div>
+
+                <div class="p-2.5 ${isGmpDeficit ? 'bg-red-50/70 border border-red-200' : 'bg-slate-50 border border-slate-200/80'} rounded-xl flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined ${isGmpDeficit ? 'text-red-600' : 'text-emerald-600'} text-base">science</span>
+                    <div>
+                      <span class="font-bold text-slate-900 text-xs">Schedule T GMP Compliance</span>
+                      <span class="text-[10px] ${isGmpDeficit ? 'text-red-600 font-semibold' : 'text-slate-400'} block">
+                        Your Score: ${gmpSkill.current}% • Required: 78% ${isGmpDeficit ? '(Deficit - Bridge Available)' : '(Passed)'}
+                      </span>
+                    </div>
+                  </div>
+                  ${isGmpDeficit ? `
+                    <button onclick="document.getElementById('internship-modal').remove(); AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-[10px] font-bold shadow-xs">
+                      Take Bridge Course
+                    </button>
+                  ` : `
+                    <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
+                      <span class="material-symbols-outlined text-[11px]">check</span> Passed
+                    </span>
+                  `}
+                </div>
+
+                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-600 text-base">eco</span>
+                    <div>
+                      <span class="font-bold text-slate-900 text-xs">Herbology & Phytochemistry</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: 80% • Required: 70%</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[11px]">check</span> Passed
+                  </span>
+                </div>
+
+                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-600 text-base">vital_signs</span>
+                    <div>
+                      <span class="font-bold text-slate-900 text-xs">Pulse & Clinical Diagnostics</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: 75% • Required: 70%</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[11px]">check</span> Passed
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role Description & Scope -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs sm:text-sm mb-1.5">Role Overview & Responsibilities</h4>
+              <p class="leading-relaxed text-slate-600">
+                ${opp.description || 'Candidates will undergo hands-on industrial immersion at modern Ayush manufacturing facilities. Responsibilities include Schedule T batch record auditing, raw herbal extract testing, clinical quality assurance, and pharmacovigilance documentation.'}
+              </p>
+            </div>
+          </div>
+
+          <!-- Modal Action Footer -->
+          <div class="px-5 sm:px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-50">
+            <div class="text-xs text-slate-500">
+              <span class="material-symbols-outlined text-sm align-middle text-primary mr-1">security</span>
+              Verified SkillSetu 1-Click Application Pipeline
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button onclick="document.getElementById('internship-modal').remove()" class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-xs text-slate-600 hover:bg-slate-100 transition-colors w-full sm:w-auto">
+                Close
+              </button>
+
+              ${appInfo.applied ? `
+                <button class="px-5 py-2 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 w-full sm:w-auto shadow-xs" disabled>
+                  <span class="material-symbols-outlined text-sm">check_circle</span>
+                  <span>Applied • Under Review</span>
+                </button>
+              ` : `
+                <button onclick="AppUI.submitInternshipApplication('${opp.id}')" class="px-5 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 w-full sm:w-auto shadow-md transition-all">
+                  <span class="material-symbols-outlined text-sm">send</span>
+                  <span>1-Click Submit Application</span>
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const existing = document.getElementById('internship-modal');
+    if (existing) existing.remove();
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  },
+
+  submitInternshipApplication(oppId) {
+    window.appState.applyOpportunity(oppId);
+    this.showToast('Application successfully submitted via SkillSetu Verified Pipeline!', 'success');
+    
+    // Rerender active modal with applied status
+    this.openInternshipDetailModal(oppId);
+    
+    // Also re-render background view
+    this.renderCurrentView();
+  },
   getIndustryDashboardHTML(state) {
     const profile = window.appState.getProfileForRole('industry');
     const candidates = state.candidates.filter(c => {
@@ -3661,8 +3862,7 @@ window.AppUI = {
   },
 
   handleApplyOpportunity(oppId) {
-    window.appState.applyOpportunity(oppId);
-    this.showToast("Application submitted successfully! Reflected in Industry portal.", "success");
+    this.openInternshipDetailModal(oppId);
   },
 
   attachEventListeners() {

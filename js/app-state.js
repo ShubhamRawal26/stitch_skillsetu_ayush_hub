@@ -264,6 +264,10 @@ class AppStateManager {
     this.saveState();
   }
 
+  applyToOpportunity(oppId) {
+    return this.applyOpportunity(oppId);
+  }
+
   // Candidate Shortlisting (Industry portal)
   toggleShortlistCandidate(candId) {
     const cand = this.state.candidates.find(c => c.id === candId);

@@ -3,16 +3,19 @@
  */
 
 // Setup simulated DOM
+let lastInsertedHTML = '';
 global.window = global;
 global.document = {
   getElementById: (id) => ({
-    innerHTML: '',
+    innerHTML: lastInsertedHTML,
     appendChild: () => {},
     remove: () => {}
   }),
   body: {
     appendChild: () => {},
-    insertAdjacentHTML: () => {}
+    insertAdjacentHTML: (pos, html) => {
+      lastInsertedHTML = html;
+    }
   },
   addEventListener: () => {},
   scrollTo: () => {}
@@ -95,6 +98,10 @@ assert(insightsHTML.includes('National Ayush Mission') && insightsHTML.includes(
 const notifsHTML = ui.getNotificationsHTML(state);
 assert(notifsHTML.includes('Notifications & System Alerts') && notifsHTML.includes('Dabur India Ltd viewed your verified skill profile') && notifsHTML.includes('Filter Notifications'), 'Notifications screen rendered with real-time alert streams & filtering');
 
-console.log('--- All 13 UI Views Rendered Successfully without Errors! ---');
+// 14. Test Internship Detail & Match Score Modal
+ui.openInternshipDetailModal('OPP-DABUR-01');
+assert(lastInsertedHTML.includes('Dabur India Ltd') && lastInsertedHTML.includes('Verified Competency Breakdown') && lastInsertedHTML.includes('1-Click Submit Application'), 'Internship modal renders match score and skill breakdown');
+
+console.log('--- All 14 UI Views & Interactive Modals Rendered Successfully without Errors! ---');
 
 
