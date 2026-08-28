@@ -465,9 +465,9 @@ window.AppUI = {
                 <span class="material-symbols-outlined ${state.currentView === 'student-dashboard' ? 'fill-icon' : ''}">work</span>
                 <span>Jobs</span>
               </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="linkedin-nav-item ${state.currentView === 'assessment' ? 'active' : ''}" title="Clinical Diagnostic Quiz">
+              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="linkedin-nav-item ${state.currentView === 'assessment' ? 'active' : ''}" title="Clinical Diagnostic Assignment">
                 <span class="material-symbols-outlined ${state.currentView === 'assessment' ? 'fill-icon' : ''}">assignment</span>
-                <span>Assessment</span>
+                <span>Assignment</span>
               </a>
             ` : role === 'industry' ? `
               <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="linkedin-nav-item ${state.currentView === 'industry-dashboard' ? 'active' : ''}" title="Verified Ayush Candidate Pool">
@@ -603,7 +603,7 @@ window.AppUI = {
                 <span class="material-symbols-outlined text-lg text-primary">school</span> Student Hub & Radar
               </a>
               <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">assignment</span> Skill Diagnostic
+                <span class="material-symbols-outlined text-lg text-primary">assignment</span> Skill Assignment
               </a>
             ` : role === 'industry' ? `
               <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
