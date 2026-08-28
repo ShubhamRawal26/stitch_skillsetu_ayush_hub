@@ -35,6 +35,36 @@ class AppStateManager {
       opportunities: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.opportunities)),
       bridgeCourses: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.bridgeCourses)),
       feedPosts: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.feedPosts || [])),
+      roleProfiles: {
+        student: {
+          name: "Shubham Rawal",
+          role: "BAMS Final Year (Ayurveda)",
+          institution: "National Institute of Ayurveda (NIA), Jaipur",
+          avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT",
+          bio: "Passionate BAMS scholar with Schedule T GMP certification & clinical Nadi Pariksha proficiency."
+        },
+        industry: {
+          name: "Dabur India Ltd",
+          role: "Enterprise Recruiter & Formulation R&D",
+          institution: "Sahibabad R&D Center",
+          avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+          bio: "Recruiting top Ayush clinical & formulation talent for Dabur R&D centers across India."
+        },
+        college: {
+          name: "Prof. Meenakshi Sundaram",
+          role: "Dean & Head of Faculty",
+          institution: "National Institute of Ayurveda (NIA Jaipur)",
+          avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80",
+          bio: "Curriculum lead for BAMS & MD training in Ayurveda and Schedule T GMP compliance."
+        },
+        ministry: {
+          name: "Ayush Governance Admin",
+          role: "Ministry of Ayush Secretariat",
+          institution: "Ministry of Ayush, Govt. of India",
+          avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80",
+          bio: "Managing national skill impact analytics and modernization grants under National Ayush Mission."
+        }
+      },
       notifications: [
         { id: 1, title: "Assessment Ready", msg: "National Skill Benchmark Assessment is live.", time: "10m ago", read: false }
       ]
@@ -366,6 +396,52 @@ class AppStateManager {
       currentPolygon: currentPoints.join(" "),
       expectedPolygon: expectedPoints.join(" ")
     };
+  }
+
+  // Profile Management for all Stakeholder Roles
+  getProfileForRole(role = this.state.currentRole) {
+    if (!this.state.roleProfiles) this.state.roleProfiles = {};
+    if (role === 'student') {
+      return {
+        name: this.state.student.name,
+        role: this.state.student.program || "BAMS Final Year (Ayurveda)",
+        institution: this.state.student.institution,
+        avatar: this.state.student.avatar,
+        bio: this.state.student.bio || "Passionate BAMS scholar with Schedule T GMP certification & clinical Nadi Pariksha proficiency."
+      };
+    }
+    return this.state.roleProfiles[role] || {
+      name: role === 'industry' ? 'Dabur India Ltd' : role === 'college' ? 'Prof. Meenakshi Sundaram' : 'Ayush Governance Admin',
+      role: role === 'industry' ? 'Enterprise Recruiter' : role === 'college' ? 'Dean of Faculty' : 'Ministry Secretariat',
+      institution: role === 'industry' ? 'Sahibabad R&D Center' : role === 'college' ? 'NIA Jaipur' : 'Ministry of Ayush',
+      avatar: role === 'industry' ? 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80' : role === 'college' ? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80' : 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80',
+      bio: "Ayush verified stakeholder profile on SkillSetu National Network."
+    };
+  }
+
+  updateProfile(profileData) {
+    const role = this.state.currentRole || 'student';
+    if (!this.state.roleProfiles) this.state.roleProfiles = {};
+    
+    if (role === 'student') {
+      if (profileData.name) this.state.student.name = profileData.name;
+      if (profileData.avatar) this.state.student.avatar = profileData.avatar;
+      if (profileData.role || profileData.program) this.state.student.program = profileData.role || profileData.program;
+      if (profileData.institution) this.state.student.institution = profileData.institution;
+      if (profileData.bio) this.state.student.bio = profileData.bio;
+
+      // Synchronize student candidate pool entry
+      const cand = (this.state.candidates || []).find(c => c.id === 'CAND-SHUBHAM');
+      if (cand) {
+        if (profileData.name) cand.name = profileData.name;
+        if (profileData.avatar) cand.avatar = profileData.avatar;
+        if (profileData.institution) cand.institution = profileData.institution;
+      }
+    } else {
+      this.state.roleProfiles[role] = Object.assign(this.getProfileForRole(role), profileData);
+    }
+
+    this.saveState();
   }
 }
 

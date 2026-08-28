@@ -96,15 +96,26 @@ const newCourse = stateMgr.addBridgeCourse({
 });
 assert(stateMgr.state.bridgeCourses.some(c => c.id === newCourse.id), 'New bridge course added to repository');
 
-// 10. LocalStorage Persistence & Reload
+// 10. Profile Update & Multi-Stakeholder Profile Management
+stateMgr.updateProfile({
+  name: 'Dr. Shubham Rawal, BAMS',
+  avatar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+  bio: 'Gold Medalist Scholar & Panchakarma Specialist'
+});
+assert(stateMgr.state.student.name === 'Dr. Shubham Rawal, BAMS', 'Student name updated');
+assert(stateMgr.state.student.avatar.startsWith('data:image'), 'Student avatar uploaded and persisted');
+assert(stateMgr.state.candidates.find(c => c.id === 'CAND-SHUBHAM').name === 'Dr. Shubham Rawal, BAMS', 'Candidate directory synchronized with updated profile');
+
+// 11. LocalStorage Persistence & Reload
 const reloadedState = stateMgr.loadState();
 assert(reloadedState.student.skills.GMP.current === 85, 'State successfully reloaded from localStorage');
 assert(reloadedState.applications['OPP-DABUR-01'].applied === true, 'Application state preserved across sessions');
 
-// 11. Demo Reset
+// 12. Demo Reset
 stateMgr.resetDemo();
 assert(stateMgr.state.student.skills.GMP.current === 42, 'Demo reset restored GMP skill to baseline 42%');
 assert(stateMgr.state.assessment.completed === false, 'Demo reset restored assessment state');
 assert(stateMgr.state.applications['OPP-DABUR-01'].applied === false, 'Demo reset restored applications');
 
-console.log('--- All 11 Core Verification Tests Passed Successfully! ---');
+console.log('--- All 12 Core Verification Tests Passed Successfully! ---');
+

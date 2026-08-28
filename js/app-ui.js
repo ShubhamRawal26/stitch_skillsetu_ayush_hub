@@ -110,6 +110,186 @@ window.AppUI = {
     }, 4000);
   },
 
+  profileDropdownOpen: false,
+  tempUploadedAvatar: null,
+
+  toggleProfileDropdown() {
+    this.profileDropdownOpen = !this.profileDropdownOpen;
+    const menuEl = document.getElementById('profile-dropdown-menu');
+    if (menuEl) {
+      if (this.profileDropdownOpen) {
+        menuEl.classList.remove('hidden');
+      } else {
+        menuEl.classList.add('hidden');
+      }
+    }
+  },
+
+  closeProfileDropdown() {
+    this.profileDropdownOpen = false;
+    const menuEl = document.getElementById('profile-dropdown-menu');
+    if (menuEl) menuEl.classList.add('hidden');
+  },
+
+  openEditProfileModal() {
+    this.closeProfileDropdown();
+    this.tempUploadedAvatar = null;
+    let modalContainer = document.getElementById('profile-modal-container');
+    if (!modalContainer) {
+      modalContainer = document.createElement('div');
+      modalContainer.id = 'profile-modal-container';
+      document.body.appendChild(modalContainer);
+    }
+    const role = window.appState.state.currentRole || 'student';
+    const profile = window.appState.getProfileForRole(role);
+
+    modalContainer.innerHTML = `
+      <div class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in" onclick="if(event.target===this)AppUI.closeEditProfileModal();">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+          <!-- Modal Header -->
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-lg">edit</span>
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-900 text-base sm:text-lg">Edit Profile & Photo</h2>
+                <p class="text-[11px] text-slate-500">${role === 'student' ? 'Student & Clinical Scholar' : role === 'industry' ? 'Corporate Recruiter' : role === 'college' ? 'Academic Faculty' : 'Ministry Administrator'}</p>
+              </div>
+            </div>
+            <button onclick="AppUI.closeEditProfileModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
+              <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+          </div>
+
+          <!-- Modal Body Form -->
+          <div class="p-6 space-y-5 overflow-y-auto flex-1">
+            <!-- Avatar Upload from Gallery / Disk -->
+            <div class="flex flex-col sm:flex-row items-center gap-5 p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
+              <div class="relative group cursor-pointer" onclick="document.getElementById('avatar-gallery-input').click()" title="Click to upload new photo from gallery">
+                <img id="edit-profile-avatar-preview" src="${profile.avatar}" alt="${profile.name}" class="w-20 h-20 rounded-full object-cover border-3 border-white shadow-md group-hover:opacity-85 transition-opacity" />
+                <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                  <span class="material-symbols-outlined text-xl">photo_camera</span>
+                </div>
+                <div class="absolute -bottom-1 -right-1 bg-primary text-white p-1 rounded-full border border-white shadow-sm flex items-center justify-center">
+                  <span class="material-symbols-outlined text-xs">add_a_photo</span>
+                </div>
+              </div>
+
+              <div class="space-y-1.5 text-center sm:text-left flex-1">
+                <div class="text-xs font-bold text-slate-900">Profile Photo</div>
+                <p class="text-[11px] text-slate-500">Upload your picture directly from your device gallery (JPG, PNG, WebP supported)</p>
+                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
+                  <button type="button" onclick="document.getElementById('avatar-gallery-input').click()" class="px-3 py-1.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">upload_file</span> Upload from Gallery
+                  </button>
+                  <input type="file" id="avatar-gallery-input" accept="image/*" class="hidden" onchange="AppUI.handleAvatarFileUpload(event)" />
+                  <button type="button" onclick="AppUI.resetToDefaultAvatar()" class="px-2.5 py-1.5 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-[11px] font-semibold">
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Inputs -->
+            <div class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Full Name / Organization Name</label>
+                <input type="text" id="edit-profile-name" value="${profile.name}" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Enter full name..." />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Headline / Academic Degree / Title</label>
+                <input type="text" id="edit-profile-role" value="${profile.role}" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. BAMS Final Year (Ayurveda) or Lead QC Recruiter" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">College / Enterprise / Affiliation</label>
+                <input type="text" id="edit-profile-institution" value="${profile.institution}" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. National Institute of Ayurveda (NIA Jaipur)" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">About / Bio / Summary</label>
+                <textarea id="edit-profile-bio" rows="3" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary leading-relaxed" placeholder="Write a short summary about your clinical interests, research, or career focus...">${profile.bio || ''}</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-end gap-2.5">
+            <button type="button" onclick="AppUI.closeEditProfileModal()" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-semibold transition-colors">
+              Cancel
+            </button>
+            <button type="button" onclick="AppUI.saveProfileModalChanges()" class="px-5 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px]">save</span> Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  closeEditProfileModal() {
+    const container = document.getElementById('profile-modal-container');
+    if (container) container.innerHTML = '';
+  },
+
+  handleAvatarFileUpload(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.showToast('Image size exceeds 5MB limit. Please choose a smaller image.', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      this.tempUploadedAvatar = dataUrl;
+      const preview = document.getElementById('edit-profile-avatar-preview');
+      if (preview) preview.src = dataUrl;
+      this.showToast('Photo selected from gallery! Click "Save Changes" to apply.', 'info');
+    };
+    reader.readAsDataURL(file);
+  },
+
+  resetToDefaultAvatar() {
+    const defaultAvatar = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT';
+    this.tempUploadedAvatar = defaultAvatar;
+    const preview = document.getElementById('edit-profile-avatar-preview');
+    if (preview) preview.src = defaultAvatar;
+  },
+
+  saveProfileModalChanges() {
+    const nameInput = document.getElementById('edit-profile-name');
+    const roleInput = document.getElementById('edit-profile-role');
+    const instInput = document.getElementById('edit-profile-institution');
+    const bioInput = document.getElementById('edit-profile-bio');
+
+    const updatedData = {
+      name: nameInput ? nameInput.value.trim() : '',
+      role: roleInput ? roleInput.value.trim() : '',
+      program: roleInput ? roleInput.value.trim() : '',
+      institution: instInput ? instInput.value.trim() : '',
+      bio: bioInput ? bioInput.value.trim() : ''
+    };
+
+    if (this.tempUploadedAvatar) {
+      updatedData.avatar = this.tempUploadedAvatar;
+    }
+
+    if (!updatedData.name) {
+      this.showToast('Please enter a valid name', 'error');
+      return;
+    }
+
+    window.appState.updateProfile(updatedData);
+    this.closeEditProfileModal();
+    this.showToast('Profile and photo successfully updated across SkillSetu!', 'success');
+    this.renderCurrentView();
+  },
+
   renderCurrentView() {
     const state = window.appState.state;
     const appEl = document.getElementById('app-root');
@@ -236,32 +416,16 @@ window.AppUI = {
 
     // 3. AUTHENTICATED IN-APP LINKEDIN HEADER (Role-Aware for Student, Industry, College, Ministry)
     const role = state.currentRole || 'student';
+    const profile = window.appState.getProfileForRole(role);
     
     // User profile metadata according to role
-    let profileAvatar = state.student?.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT';
-    let profileName = state.student?.name || 'Shubham Rawal';
-    let profileRoleLabel = 'Student (BAMS)';
-    let meDashboardView = 'student-dashboard';
-
-    if (role === 'industry') {
-      profileAvatar = 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=80&auto=format&fit=crop&q=80';
-      profileName = 'Dabur India Ltd';
-      profileRoleLabel = 'Enterprise Recruiter';
-      meDashboardView = 'industry-dashboard';
-    } else if (role === 'college') {
-      profileAvatar = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80';
-      profileName = 'Prof. Meenakshi Sundaram';
-      profileRoleLabel = 'Faculty • NIA Jaipur';
-      meDashboardView = 'college-dashboard';
-    } else if (role === 'ministry') {
-      profileAvatar = 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80';
-      profileName = 'Ayush Governance Admin';
-      profileRoleLabel = 'Ministry of Ayush';
-      meDashboardView = 'ministry-dashboard';
-    }
+    const profileAvatar = profile.avatar;
+    const profileName = profile.name;
+    const profileRoleLabel = profile.role || (role === 'student' ? 'Student (BAMS)' : role === 'industry' ? 'Enterprise Recruiter' : role === 'college' ? 'Faculty • NIA Jaipur' : 'Ministry of Ayush');
+    const meDashboardView = role === 'student' ? 'student-dashboard' : role === 'industry' ? 'industry-dashboard' : role === 'college' ? 'college-dashboard' : 'ministry-dashboard';
 
     return `
-      <div class="px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+      <div class="px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full relative">
         <div class="flex justify-between items-center h-14 md:h-16">
           <!-- Left Logo & Search Bar -->
           <div class="flex items-center gap-2.5">
@@ -284,7 +448,7 @@ window.AppUI = {
           </div>
 
           <!-- Right Navigation Tabs (LinkedIn Style Role-Aware) -->
-          <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1.5 h-full">
+          <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1.5 h-full relative">
             <!-- 1. Home / Feed -->
             <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="linkedin-nav-item ${state.currentView === 'feed' ? 'active' : ''}" title="Home Feed">
               <span class="material-symbols-outlined ${state.currentView === 'feed' ? 'fill-icon' : ''}">home</span>
@@ -339,11 +503,43 @@ window.AppUI = {
             </a>
 
             <!-- 6. Me (Role-Aware Profile Dropdown) -->
-            <div class="linkedin-nav-item cursor-pointer" onclick="AppUI.navigate('${meDashboardView}')" title="Logged in as ${profileName} (${profileRoleLabel})">
-              <img src="${profileAvatar}" alt="${profileName}" class="w-5 h-5 rounded-full object-cover border border-slate-300" />
-              <span class="flex items-center gap-0.5 mt-0.5">
-                Me <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
-              </span>
+            <div class="relative">
+              <div class="linkedin-nav-item cursor-pointer" onclick="AppUI.toggleProfileDropdown()" title="Click to view profile & edit settings">
+                <img src="${profileAvatar}" alt="${profileName}" class="w-5 h-5 rounded-full object-cover border border-slate-300" />
+                <span class="flex items-center gap-0.5 mt-0.5">
+                  Me <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
+                </span>
+              </div>
+
+              <!-- Profile Dropdown Menu Card -->
+              <div id="profile-dropdown-menu" class="hidden absolute top-14 right-0 z-50 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 w-72 space-y-3 animate-fade-in text-left">
+                <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+                  <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Upload new photo">
+                    <img src="${profileAvatar}" alt="${profileName}" class="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm" />
+                    <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                      <span class="material-symbols-outlined text-sm">photo_camera</span>
+                    </div>
+                  </div>
+                  <div class="overflow-hidden flex-1">
+                    <h4 class="font-bold text-slate-900 text-sm truncate">${profileName}</h4>
+                    <p class="text-[11px] text-slate-500 truncate">${profileRoleLabel}</p>
+                    <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">Verified Stakeholder</span>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5 text-xs">
+                  <button onclick="AppUI.openEditProfileModal()" class="w-full text-left px-3 py-2 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/70 text-emerald-900 font-bold flex items-center justify-between transition-colors">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">edit</span> Edit Profile & Photo</span>
+                    <span class="material-symbols-outlined text-xs">chevron_right</span>
+                  </button>
+                  <button onclick="AppUI.navigate('${meDashboardView}'); AppUI.closeProfileDropdown();" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold flex items-center gap-2 transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-slate-500">dashboard</span> View Role Dashboard
+                  </button>
+                  <button onclick="AppUI.navigate('roles'); AppUI.closeProfileDropdown();" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold flex items-center gap-2 transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-slate-500">swap_horiz</span> Switch Portals
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- Divider Line -->
@@ -360,9 +556,8 @@ window.AppUI = {
 
           <!-- Mobile Hamburger & Actions -->
           <div class="flex lg:hidden items-center gap-2">
-            <button onclick="AppUI.showToast('Notifications checked', 'info')" class="p-1.5 text-slate-600 hover:text-primary transition-colors rounded-full relative">
-              <span class="material-symbols-outlined text-2xl">notifications</span>
-              <span class="badge-count">2</span>
+            <button onclick="AppUI.openEditProfileModal()" class="p-1 text-slate-600 hover:text-primary transition-colors" title="Edit Profile">
+              <img src="${profileAvatar}" alt="${profileName}" class="w-7 h-7 rounded-full object-cover border border-primary/40 shadow-sm" />
             </button>
             <button onclick="AppUI.toggleMobileMenu()" class="p-2 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-200 flex items-center justify-center transition-colors">
               <span class="material-symbols-outlined text-2xl">${this.mobileMenuOpen ? 'close' : 'menu'}</span>
@@ -372,6 +567,20 @@ window.AppUI = {
 
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-nav-drawer" class="mobile-nav-enter ${this.mobileMenuOpen ? 'active' : ''} lg:hidden border-t border-outline-variant/30 py-4 px-2">
+          <!-- Mobile Profile Banner -->
+          <div class="p-3 mb-3 bg-emerald-50/60 rounded-xl border border-emerald-100 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <img src="${profileAvatar}" alt="${profileName}" class="w-10 h-10 rounded-full object-cover border border-emerald-300" />
+              <div>
+                <div class="font-bold text-xs text-slate-900">${profileName}</div>
+                <div class="text-[10px] text-slate-500">${profileRoleLabel}</div>
+              </div>
+            </div>
+            <button onclick="AppUI.openEditProfileModal(); AppUI.closeMobileMenu();" class="px-2.5 py-1 bg-primary text-white rounded-lg text-[10px] font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">edit</span> Edit
+            </button>
+          </div>
+
           <div class="flex flex-col gap-1 mb-4">
             <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'feed' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
               <span class="material-symbols-outlined text-lg text-primary">feed</span> Home Feed
@@ -471,10 +680,11 @@ window.AppUI = {
     const isDaburApplied = state.applications[daburOpp.id]?.applied;
 
     // Role-Aware Left Profile Summary Card
-    let profileAvatar = student.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT';
-    let profileName = student.name || 'Shubham Rawal';
-    let profileProgram = student.program || 'BAMS Final Year (Ayurveda)';
-    let profileInstitution = student.institution || 'National Institute of Ayurveda (NIA), Jaipur';
+    const currentProfile = window.appState.getProfileForRole(role);
+    let profileAvatar = currentProfile.avatar;
+    let profileName = currentProfile.name;
+    let profileProgram = currentProfile.role || (role === 'student' ? 'BAMS Final Year (Ayurveda)' : 'Verified Stakeholder');
+    let profileInstitution = currentProfile.institution || (role === 'student' ? 'National Institute of Ayurveda (NIA), Jaipur' : 'SkillSetu Network');
     let profileTargetView = 'student-dashboard';
     let statLabel1 = 'Profile viewers', statVal1 = '142';
     let statLabel2 = 'Post impressions', statVal2 = '1,820';
@@ -483,10 +693,6 @@ window.AppUI = {
     let badgeDesc = (student.skills?.["GMP"]?.current >= 75) ? 'Ready for manufacturing placement' : 'Bridge module available to reach 85%';
 
     if (role === 'industry') {
-      profileAvatar = 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80';
-      profileName = 'Dabur India Ltd';
-      profileProgram = 'Formulation R&D & Talent Acquisition';
-      profileInstitution = 'Verified Corporate Enterprise Partner';
       profileTargetView = 'industry-dashboard';
       statLabel1 = 'Candidate views'; statVal1 = '84';
       statLabel2 = 'Talent shortlisted'; statVal2 = '12';
@@ -494,10 +700,6 @@ window.AppUI = {
       badgeTitle = 'Schedule T Verified Recruiter';
       badgeDesc = 'Direct campus recruitment enabled';
     } else if (role === 'college') {
-      profileAvatar = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80';
-      profileName = 'Prof. Meenakshi Sundaram';
-      profileProgram = 'Dean & Head of Faculty';
-      profileInstitution = 'National Institute of Ayurveda (NIA Jaipur)';
       profileTargetView = 'college-dashboard';
       statLabel1 = 'Batch cohort size'; statVal1 = '120';
       statLabel2 = 'Placements this Q'; statVal2 = '48';
@@ -505,10 +707,6 @@ window.AppUI = {
       badgeTitle = 'Accredited Faculty Reviewer';
       badgeDesc = 'Curriculum bridge module author';
     } else if (role === 'ministry') {
-      profileAvatar = 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80';
-      profileName = 'Ayush Governance Secretariat';
-      profileProgram = 'National Skill Impact Division';
-      profileInstitution = 'Ministry of Ayush, Govt. of India';
       profileTargetView = 'ministry-dashboard';
       statLabel1 = 'Affiliated colleges'; statVal1 = '352';
       statLabel2 = 'Active students'; statVal2 = '42,850+';
@@ -526,16 +724,32 @@ window.AppUI = {
             <!-- Profile Card -->
             <div class="linkedin-card overflow-hidden text-center">
               <!-- Banner -->
-              <div class="h-16 bg-gradient-to-r from-emerald-800 to-teal-700 w-full relative"></div>
+              <div class="h-16 bg-gradient-to-r from-emerald-800 to-teal-700 w-full relative">
+                <button onclick="AppUI.openEditProfileModal()" class="absolute top-2 right-2 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-[11px] backdrop-blur-xs transition-colors" title="Edit Profile & Photo">
+                  <span class="material-symbols-outlined text-[14px]">edit</span>
+                </button>
+              </div>
               <!-- Avatar -->
               <div class="px-4 pb-4 -mt-8 relative">
-                <img src="${profileAvatar}" alt="${profileName}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md cursor-pointer" onclick="AppUI.navigate('${profileTargetView}')" />
+                <div class="relative inline-block group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to upload/change photo">
+                  <img src="${profileAvatar}" alt="${profileName}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md group-hover:opacity-85 transition-opacity" />
+                  <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                    <span class="material-symbols-outlined text-sm">photo_camera</span>
+                  </div>
+                </div>
                 <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:underline" onclick="AppUI.navigate('${profileTargetView}')">${profileName}</h2>
                 <p class="text-[11px] text-slate-500 leading-tight mt-0.5">${profileProgram}</p>
                 <p class="text-[10px] text-slate-400 mt-0.5">${profileInstitution}</p>
 
+                <!-- Edit Profile Button -->
+                <div class="mt-2.5">
+                  <button onclick="AppUI.openEditProfileModal()" class="w-full py-1.5 px-3 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold transition-all border border-emerald-200/80 flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-primary">edit</span> Edit Profile
+                  </button>
+                </div>
+
                 <!-- Profile Analytics Quick Stats -->
-                <div class="border-t border-slate-100 mt-4 pt-3 space-y-2 text-left">
+                <div class="border-t border-slate-100 mt-3 pt-3 space-y-2 text-left">
                   <div class="flex justify-between items-center text-xs">
                     <span class="text-slate-500 font-medium">${statLabel1}</span>
                     <span class="font-bold text-primary">${statVal1}</span>
@@ -1790,13 +2004,23 @@ window.AppUI = {
         <!-- Welcome Header -->
         <section class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 glass-panel p-6 rounded-2xl">
           <div class="flex items-center gap-4">
-            <img src="${student.avatar}" alt="${student.name}" class="w-16 h-16 rounded-full object-cover border-2 border-primary/30 shadow-md" />
+            <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to change photo / upload from gallery">
+              <img src="${student.avatar}" alt="${student.name}" class="w-16 h-16 rounded-full object-cover border-2 border-primary/30 shadow-md group-hover:opacity-85 transition-opacity" />
+              <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                <span class="material-symbols-outlined text-base">photo_camera</span>
+              </div>
+            </div>
             <div>
-              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary-container/10 text-primary text-[11px] font-bold border border-primary/20 mb-1">
-                Verified Ayush Student
+              <div class="flex items-center gap-2 mb-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-container/10 text-primary text-[11px] font-bold border border-primary/20">
+                  <span class="material-symbols-outlined text-[13px]">verified</span> Verified Ayush Student
+                </div>
+                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-primary">edit</span> Edit Profile
+                </button>
               </div>
               <h1 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface">Welcome back, ${student.name}</h1>
-              <p class="font-body-md text-sm text-on-surface-variant">${student.program} • ${student.institution}</p>
+              <p class="font-body-md text-xs sm:text-sm text-on-surface-variant">${student.program} • ${student.institution}</p>
             </div>
           </div>
           <div class="flex gap-3 self-stretch md:self-auto">
@@ -2248,6 +2472,7 @@ window.AppUI = {
 
   // 7. Industry Dashboard HTML
   getIndustryDashboardHTML(state) {
+    const profile = window.appState.getProfileForRole('industry');
     const candidates = state.candidates.filter(c => {
       const matchesDiscipline = !this.activeFilterDiscipline || c.discipline === this.activeFilterDiscipline;
       const matchesDegree = !this.activeFilterDegree || c.degree === this.activeFilterDegree;
@@ -2257,18 +2482,43 @@ window.AppUI = {
 
     return `
       <main class="pt-28 pb-20 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container/20 text-on-secondary-container rounded-md font-label-sm text-xs border border-secondary-container/30 mb-2">
-              <span class="material-symbols-outlined text-sm text-primary">domain</span> Industry Talent Discovery
+        <!-- Recruiter Profile & Actions Header -->
+        <div class="glass-panel p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div class="flex items-center gap-4">
+            <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to change logo / photo">
+              <img src="${profile.avatar}" alt="${profile.name}" class="w-16 h-16 rounded-2xl object-cover border-2 border-primary/30 shadow-md group-hover:opacity-85 transition-opacity" />
+              <div class="absolute inset-0 rounded-2xl bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                <span class="material-symbols-outlined text-base">photo_camera</span>
+              </div>
             </div>
-            <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">Find Skill-Ready Ayush Talent</h1>
-            <p class="font-body-lg text-xs md:text-sm text-on-surface-variant">Direct pipeline to certified practitioners, clinical trial investigators, and quality controllers.</p>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-secondary-container/20 text-on-secondary-container rounded-md font-label-sm text-xs border border-secondary-container/30">
+                  <span class="material-symbols-outlined text-sm text-primary">domain</span> Verified Enterprise Recruiter
+                </div>
+                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-primary">edit</span> Edit Profile
+                </button>
+              </div>
+              <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">${profile.name}</h1>
+              <p class="font-body-lg text-xs md:text-sm text-on-surface-variant">${profile.role} • ${profile.institution}</p>
+            </div>
           </div>
-          <button onclick="AppUI.openPostOpportunityModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-md flex items-center gap-1.5 shrink-0">
-            <span class="material-symbols-outlined text-sm">add_circle</span> Post New Opportunity
-          </button>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">edit</span> Edit Recruiter Info
+            </button>
+            <button onclick="AppUI.openPostOpportunityModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 shrink-0">
+              <span class="material-symbols-outlined text-sm">add_circle</span> Post New Opportunity
+            </button>
+          </div>
+        </div>
+
+        <!-- Talent Discovery Header -->
+        <div class="mb-5">
+          <h2 class="font-display-lg text-xl md:text-2xl font-bold text-on-surface">Find Skill-Ready Ayush Talent</h2>
+          <p class="font-body-lg text-xs md:text-sm text-on-surface-variant">Direct pipeline to certified practitioners, clinical trial investigators, and quality controllers.</p>
         </div>
 
         <!-- Search & Filters -->
@@ -2483,19 +2733,40 @@ window.AppUI = {
   // 8. College & Faculty Portal HTML
   getCollegeDashboardHTML(state) {
     const col = window.SKILLSETU_DATA.collegeMetrics;
+    const profile = window.appState.getProfileForRole('college');
     return `
       <main class="pt-28 pb-20 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full">
-        <header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-container/10 text-primary rounded-md font-label-sm text-xs border border-primary/20 mb-2">
-              <span class="material-symbols-outlined text-sm">account_balance</span> Institutional Intelligence
+        <!-- Faculty Profile & Actions Header -->
+        <header class="glass-panel p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div class="flex items-center gap-4">
+            <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to change photo">
+              <img src="${profile.avatar}" alt="${profile.name}" class="w-16 h-16 rounded-full object-cover border-2 border-primary/30 shadow-md group-hover:opacity-85 transition-opacity" />
+              <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                <span class="material-symbols-outlined text-base">photo_camera</span>
+              </div>
             </div>
-            <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">College & Faculty Portal</h1>
-            <p class="font-body-lg text-xs md:text-sm text-on-surface-variant">${col.institutionName} • ${col.location}</p>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-primary-container/10 text-primary rounded-md font-label-sm text-xs border border-primary/20">
+                  <span class="material-symbols-outlined text-sm">account_balance</span> College & Faculty Portal • Academic Intelligence
+                </div>
+                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-primary">edit</span> Edit Profile
+                </button>
+              </div>
+              <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">${profile.name}</h1>
+              <p class="font-body-lg text-xs md:text-sm text-on-surface-variant">${profile.role} • ${profile.institution}</p>
+            </div>
           </div>
-          <button onclick="AppUI.openCreateBridgeCourseModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-md flex items-center gap-1.5 shrink-0">
-            <span class="material-symbols-outlined text-sm">add</span> Create Bridge Course
-          </button>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">edit</span> Edit Faculty Info
+            </button>
+            <button onclick="AppUI.openCreateBridgeCourseModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 shrink-0">
+              <span class="material-symbols-outlined text-sm">add</span> Create Bridge Course
+            </button>
+          </div>
         </header>
 
         <!-- Metric Cards -->
@@ -2661,21 +2932,41 @@ window.AppUI = {
     const min = window.SKILLSETU_DATA.ministryAnalytics;
     const stats = window.SKILLSETU_DATA.stats;
     const activeState = this.selectedStateDetail || min.states[0];
+    const profile = window.appState.getProfileForRole('ministry');
 
     return `
       <main class="pt-28 pb-20 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div>
-            <div class="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
-              <span class="material-symbols-outlined text-sm">public</span> Ministry of Ayush • National Intelligence
+        <!-- Governance Admin Profile & Actions Header -->
+        <div class="glass-panel p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div class="flex items-center gap-4">
+            <div class="relative group cursor-pointer" onclick="AppUI.openEditProfileModal()" title="Click to change photo">
+              <img src="${profile.avatar}" alt="${profile.name}" class="w-16 h-16 rounded-full object-cover border-2 border-primary/30 shadow-md group-hover:opacity-85 transition-opacity" />
+              <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                <span class="material-symbols-outlined text-base">photo_camera</span>
+              </div>
             </div>
-            <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">National Skill Impact Analytics</h1>
-            <p class="font-body-md text-xs md:text-sm text-on-surface-variant">Real-time overview of workforce readiness, state-level deficits, and industry alignment.</p>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-primary-container/10 text-primary rounded-md font-label-sm text-xs border border-primary/20">
+                  <span class="material-symbols-outlined text-sm">policy</span> Ministry of Ayush • National Skill Impact Analytics
+                </div>
+                <button onclick="AppUI.openEditProfileModal()" class="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-bold border border-emerald-200 inline-flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[12px] text-primary">edit</span> Edit Profile
+                </button>
+              </div>
+              <h1 class="font-display-lg text-2xl md:text-3xl font-bold text-on-surface">${profile.name}</h1>
+              <p class="font-body-md text-xs sm:text-sm text-on-surface-variant">${profile.role} • ${profile.institution}</p>
+            </div>
           </div>
-          <button onclick="AppUI.exportNationalReport()" class="px-4 py-2 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-primary/90 transition-all flex items-center gap-1.5 shadow-sm">
-            <span class="material-symbols-outlined text-sm">download</span> Export National Summary
-          </button>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">edit</span> Edit Admin Info
+            </button>
+            <button onclick="AppUI.exportNationalReport()" class="px-4 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm">
+              <span class="material-symbols-outlined text-sm">download</span> Export National Summary
+            </button>
+          </div>
         </div>
 
         <!-- Metrics Row -->
