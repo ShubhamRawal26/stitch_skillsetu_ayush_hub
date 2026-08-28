@@ -349,5 +349,104 @@ window.SKILLSETU_DATA = {
       { quarter: "Q3 '23", value: "9.5k", height: 65, highlight: false },
       { quarter: "Q4 '23", value: "12.8k", height: 85, highlight: true }
     ]
-  }
+  },
+
+  feedPosts: [
+    {
+      id: "post-1",
+      authorType: "company",
+      authorName: "Dabur India Ltd",
+      authorRole: "Ayush Healthcare & Pharma Enterprise • 240k followers",
+      authorAvatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+      authorBadge: "Verified Recruiter",
+      timeAgo: "2h • 🌐",
+      content: "🚀 <strong>We are hiring 15 Ayurvedic Formulation & Quality Control Interns</strong> for our flagship Sahibabad GMP Manufacturing Facility!\n\nCandidates will gain hands-on training in <strong>Schedule T GMP batch processing, HPTLC standardization, and API extract validation</strong>. Eligible: Final Year BAMS / MD Scholars with SkillSetu verified benchmarks.",
+      hasOpportunity: true,
+      opportunityData: {
+        id: "OPP-DABUR-01",
+        title: "Ayurvedic Formulation & QC Intern",
+        company: "Dabur India Ltd",
+        location: "Sahibabad / NCR (Hybrid)",
+        stipend: "₹28,000 / month",
+        duration: "6 Months",
+        matchRequired: "Schedule T GMP (75%+)"
+      },
+      likes: 142,
+      comments: 38,
+      reposts: 19,
+      liked: false
+    },
+    {
+      id: "post-2",
+      authorType: "student",
+      authorName: "Dr. Priya Sharma",
+      authorRole: "BAMS Resident @ All India Institute of Ayurveda (AIIA), New Delhi",
+      authorAvatar: "https://images.unsplash.com/photo-1594824813501-4890d23b3780?w=120&auto=format&fit=crop&q=80",
+      authorBadge: "Verified Student Scholar",
+      timeAgo: "4h • 🌐",
+      content: "Thrilled to share that I just completed the <strong>National Ayush Diagnostic Assessment</strong> on SkillSetu and scored <strong>88% in Clinical Logic & Herbology</strong>! 🌿🎓\n\nAlso wrapped up the 2-week <em>Schedule T GMP Compliance Bridge Module</em>. Huge thank you to the Ministry of Ayush and our NIA mentors for creating this direct bridge to industry.",
+      hasBadge: true,
+      badgeData: {
+        title: "Schedule T GMP & Clinical Diagnostics Certified",
+        score: "88% Verified Score",
+        issuer: "Ministry of Ayush • SkillSetu Credential #AYU-8921"
+      },
+      likes: 218,
+      comments: 42,
+      reposts: 14,
+      liked: false
+    },
+    {
+      id: "post-3",
+      authorType: "company",
+      authorName: "Patanjali Research Foundation",
+      authorRole: "Herbal Drug Discovery & Phytochemistry • 180k followers",
+      authorAvatar: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=120&auto=format&fit=crop&q=80",
+      authorBadge: "Verified Research Partner",
+      timeAgo: "1d • 🌐",
+      content: "🔬 <strong>Applications Open: Clinical Herbology & Metabolomics Research Fellowships</strong>\n\nJoin our Haridwar R&D team working on clinical validation of Rasayana formulations. High-stipend fellowship with direct pre-placement offers (PPO) for top performers on SkillSetu.",
+      hasOpportunity: true,
+      opportunityData: {
+        id: "OPP-PATANJALI-02",
+        title: "Clinical Herbology Research Fellow",
+        company: "Patanjali Research Foundation",
+        location: "Haridwar, Uttarakhand",
+        stipend: "₹35,000 / month",
+        duration: "1 Year Fellowship",
+        matchRequired: "Dravyaguna & Research (80%+)"
+      },
+      likes: 310,
+      comments: 64,
+      reposts: 45,
+      liked: false
+    },
+    {
+      id: "post-4",
+      authorType: "college",
+      authorName: "National Institute of Ayurveda (NIA)",
+      authorRole: "Deemed to be University • Ministry of Ayush • Jaipur",
+      authorAvatar: "https://images.unsplash.com/photo-1562774053-701939374585?w=120&auto=format&fit=crop&q=80",
+      authorBadge: "Accredited National Institute",
+      timeAgo: "2d • 🌐",
+      content: "🎉 <strong>Proud Institutional Milestone:</strong> 48 BAMS final-year scholars from NIA Jaipur have cleared verified industry interviews at Dabur, Himalaya, and Kottakkal Arya Vaidya Sala this quarter!\n\nBy integrating SkillSetu's bridge modules into semester training, cohort industry-readiness increased from 52% to 84%.",
+      hasMetrics: true,
+      metricsData: {
+        placed: "48 Students Placed",
+        avgPackage: "₹6.4 LPA Average Stipend / CTC",
+        topRecruiters: "Dabur, Himalaya, Kottakkal"
+      },
+      likes: 495,
+      comments: 73,
+      reposts: 58,
+      liked: false
+    }
+  ],
+
+  trendingNews: [
+    { title: "Ministry of Ayush allocates ₹450 Cr for Industry Bridge Internships", readers: "6,240 readers • 2h ago" },
+    { title: "Schedule T GMP compliance skills see 42% hiring surge across pharma", readers: "4,120 readers • 5h ago" },
+    { title: "Kottakkal opens 25 Kerala Panchakarma Clinical Fellowships", readers: "3,890 readers • 1d ago" },
+    { title: "WHO Global Centre for Traditional Medicine expands India research intake", readers: "2,940 readers • 2d ago" }
+  ]
 };
+

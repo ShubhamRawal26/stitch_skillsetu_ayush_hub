@@ -34,6 +34,7 @@ class AppStateManager {
       candidates: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.candidates)),
       opportunities: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.opportunities)),
       bridgeCourses: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.bridgeCourses)),
+      feedPosts: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.feedPosts || [])),
       notifications: [
         { id: 1, title: "Assessment Ready", msg: "National Skill Benchmark Assessment is live.", time: "10m ago", read: false }
       ]
@@ -261,6 +262,44 @@ class AppStateManager {
     this.state.opportunities.unshift(opp);
     this.saveState();
     return opp;
+  }
+
+  // Social Feed Actions (LinkedIn style)
+  togglePostLike(postId) {
+    const post = (this.state.feedPosts || []).find(p => p.id === postId);
+    if (post) {
+      post.liked = !post.liked;
+      post.likes = post.liked ? post.likes + 1 : Math.max(0, post.likes - 1);
+      this.saveState();
+    }
+  }
+
+  createPost(content, tag = "Skill Milestone") {
+    if (!content || !content.trim()) return null;
+    const newPost = {
+      id: `post-${Date.now()}`,
+      authorType: "student",
+      authorName: this.state.student.name,
+      authorRole: `${this.state.student.program} @ ${this.state.student.institution}`,
+      authorAvatar: this.state.student.avatar,
+      authorBadge: "Verified Student Scholar",
+      timeAgo: "Just now • 🌐",
+      content: content.trim(),
+      hasBadge: true,
+      badgeData: {
+        title: tag,
+        score: `${this.state.student.skills["GMP"]?.current || 85}% GMP Verified Benchmark`,
+        issuer: "Ministry of Ayush • SkillSetu Community"
+      },
+      likes: 1,
+      comments: 0,
+      reposts: 0,
+      liked: true
+    };
+    if (!this.state.feedPosts) this.state.feedPosts = [];
+    this.state.feedPosts.unshift(newPost);
+    this.saveState();
+    return newPost;
   }
 
   // Create Bridge Course (College portal)

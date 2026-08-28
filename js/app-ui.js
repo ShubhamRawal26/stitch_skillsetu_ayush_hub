@@ -73,7 +73,7 @@ window.AppUI = {
   handleLoginSubmit() {
     this.closeMobileMenu();
     const role = window.appState.state.currentRole || 'student';
-    window.appState.setRole(role);
+    window.appState.setRole(role, false);
     const roleNames = {
       student: 'Student Portal',
       industry: 'Industry Portal',
@@ -81,6 +81,7 @@ window.AppUI = {
       ministry: 'Ministry Admin Portal'
     };
     this.showToast(`Authenticated successfully! Welcome to the ${roleNames[role]}.`, 'success');
+    window.appState.setView('feed');
   },
 
   showToast(message, type = 'success') {
@@ -132,6 +133,9 @@ window.AppUI = {
       case 'login':
         contentHTML = this.getLoginHTML(state);
         break;
+      case 'feed':
+        contentHTML = this.getFeedHTML(state);
+        break;
       case 'student-dashboard':
         contentHTML = this.getStudentDashboardHTML(state);
         break;
@@ -162,129 +166,214 @@ window.AppUI = {
   },
 
   getNavbarHTML(state) {
-    const isFocused = state.currentView === 'assessment';
-    return `
-      <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
-        <div class="flex justify-between items-center h-16 md:h-20">
-          <!-- Logo & Title -->
-          <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="AppUI.navigate('home')">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
-              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
-            </div>
-            <div>
-              <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight">SkillSetu</span>
-              <span class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-[10px]">Ministry of Ayush</span>
-            </div>
-          </div>
+    const isPublic = state.currentView === 'home' || state.currentView === 'roles' || state.currentView === 'login';
+    const isAssessment = state.currentView === 'assessment';
 
-          ${!isFocused ? `
-            <!-- Center Nav Links (Desktop) -->
-            <nav class="hidden lg:flex items-center gap-6 font-label-md text-label-md">
-              <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="${state.currentView === 'home' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Home</a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="${state.currentView === 'roles' || state.currentView === 'login' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Portals & Login</a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="${state.currentView === 'student-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Student</a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="${state.currentView === 'industry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Industry</a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="${state.currentView === 'college-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">College</a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="${state.currentView === 'ministry-dashboard' ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-primary transition-colors'}">Ministry Admin</a>
+    // 1. PUBLIC INSTITUTIONAL LANDING HEADER
+    if (isPublic) {
+      return `
+        <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+          <div class="flex justify-between items-center h-16 md:h-20">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="AppUI.navigate('home')">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
+                <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+              </div>
+              <div>
+                <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight">SkillSetu</span>
+                <span class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-[10px]">Ministry of Ayush</span>
+              </div>
+            </div>
+
+            <!-- Public Center Links -->
+            <nav class="hidden md:flex items-center gap-6 font-label-md text-sm text-slate-600 font-semibold">
+              <a href="#problem-solution" class="hover:text-primary transition-colors">Ecosystem</a>
+              <a href="#capabilities" class="hover:text-primary transition-colors">Platform Capabilities</a>
+              <a href="#disciplines" class="hover:text-primary transition-colors">Disciplines</a>
+              <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
             </nav>
 
-            <!-- Right Action Controls (Desktop) -->
-            <div class="hidden lg:flex items-center gap-3">
-              <!-- Portal Quick Switcher Dropdown -->
-              <div class="relative">
-                <select id="role-quick-select" onchange="AppUI.handleRoleSwitch(this.value)" class="bg-surface-container-lowest border border-outline-variant/60 text-on-surface rounded-xl px-3 py-1.5 font-label-sm text-[13px] font-semibold text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm">
-                  <option value="student" ${state.currentRole === 'student' && state.currentView === 'student-dashboard' ? 'selected' : ''}>Student Portal</option>
-                  <option value="industry" ${state.currentRole === 'industry' && state.currentView === 'industry-dashboard' ? 'selected' : ''}>Industry Portal</option>
-                  <option value="college" ${state.currentRole === 'college' && state.currentView === 'college-dashboard' ? 'selected' : ''}>College & Faculty</option>
-                  <option value="ministry" ${state.currentRole === 'ministry' && state.currentView === 'ministry-dashboard' ? 'selected' : ''}>Ministry Admin</option>
-                </select>
-              </div>
-
-              <!-- Notifications -->
-              <button onclick="AppUI.showToast('You have 2 new opportunity matches based on your latest GMP benchmark!', 'info')" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50 relative">
-                <span class="material-symbols-outlined text-[22px]">notifications</span>
-                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full animate-ping"></span>
-                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
-              </button>
-
-              <!-- User Avatar & Mini Profile -->
-              <div class="flex items-center gap-2 pl-2 border-l border-outline-variant/40 cursor-pointer" onclick="AppUI.navigate('roles')">
-                <img src="${state.student.avatar}" alt="${state.student.name}" class="w-9 h-9 rounded-full object-cover border border-primary/30 shadow-sm" />
-                <div class="hidden sm:block text-left">
-                  <div class="font-label-sm text-[13px] font-bold text-on-surface leading-tight">${state.student.name.split(' ')[0]}</div>
-                  <div class="text-[11px] text-on-surface-variant leading-none">${state.currentRole.toUpperCase()}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Mobile Hamburger & Actions -->
-            <div class="flex lg:hidden items-center gap-2">
-              <button onclick="AppUI.showToast('2 new opportunity matches ready!', 'info')" class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded-full relative">
-                <span class="material-symbols-outlined text-2xl">notifications</span>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
-              </button>
-              <button onclick="AppUI.toggleMobileMenu()" class="p-2 rounded-xl text-on-surface hover:bg-surface-container-high border border-outline-variant/40 flex items-center justify-center transition-colors">
-                <span class="material-symbols-outlined text-2xl">${this.mobileMenuOpen ? 'close' : 'menu'}</span>
+            <!-- Public Right Action: Sign In Button -->
+            <div class="flex items-center gap-3">
+              <button onclick="AppUI.navigate('roles')" class="px-5 py-2.5 bg-primary text-white rounded-xl font-label-md text-xs sm:text-sm font-bold hover:bg-primary/90 transition-all shadow-md flex items-center gap-2 transform hover:-translate-y-0.5">
+                <span class="material-symbols-outlined text-base">login</span>
+                <span>Sign In / Login</span>
               </button>
             </div>
-          ` : `
-            <!-- Assessment focused header -->
+          </div>
+        </div>
+      `;
+    }
+
+    // 2. ASSESSMENT FOCUSED HEADER
+    if (isAssessment) {
+      return `
+        <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+          <div class="flex justify-between items-center h-14 md:h-16">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-extrabold shadow-sm">
+                <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">spa</span>
+              </div>
+              <span class="text-sm font-bold text-slate-900">National Ayush Skill Diagnostic</span>
+            </div>
             <div class="flex items-center gap-4">
-              <span class="text-on-surface-variant font-label-md text-xs sm:text-sm font-medium">Ayush Skill Benchmark Assessment</span>
-              <button onclick="AppUI.navigate('student-dashboard')" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+              <span class="text-slate-600 font-label-md text-xs sm:text-sm font-semibold">Ayush Skill Benchmark Assessment</span>
+              <button onclick="AppUI.navigate('feed')" class="p-2 text-slate-500 hover:text-primary transition-colors" title="Exit to Feed">
                 <span class="material-symbols-outlined">close</span>
               </button>
             </div>
-          `}
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. AUTHENTICATED IN-APP LINKEDIN HEADER (Feed, Student Dashboard, Industry, College, Ministry)
+    return `
+      <div class="px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <div class="flex justify-between items-center h-14 md:h-16">
+          <!-- Left Logo & Search Bar -->
+          <div class="flex items-center gap-2.5">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2 cursor-pointer" onclick="AppUI.navigate('feed')">
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-primary flex items-center justify-center text-white font-extrabold shadow-sm shrink-0">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+              </div>
+              <div class="hidden sm:block text-left">
+                <span class="text-base font-extrabold text-slate-900 tracking-tight block leading-tight">SkillSetu</span>
+                <span class="text-[9px] text-primary font-bold uppercase tracking-wider block leading-none">Ministry of Ayush</span>
+              </div>
+            </div>
+
+            <!-- LinkedIn Pill Search Input -->
+            <div class="relative hidden md:flex items-center ml-1 lg:ml-2">
+              <span class="material-symbols-outlined absolute left-2.5 text-slate-500 text-[18px]">search</span>
+              <input type="text" placeholder="Search skills, jobs, colleges..." onkeydown="if(event.key==='Enter'){AppUI.showToast('Searching for: ' + this.value, 'info');}" class="pl-8 pr-3 py-1.5 bg-[#edf3f8] hover:bg-[#e4ecf3] focus:bg-white text-slate-800 text-xs rounded-md border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary w-44 lg:w-56 xl:w-64 transition-all" />
+            </div>
+          </div>
+
+          <!-- Right Navigation Tabs (LinkedIn Style Matching Screenshot) -->
+          <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1.5 h-full">
+            <!-- 1. Home / Feed -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="linkedin-nav-item ${state.currentView === 'feed' ? 'active' : ''}" title="Home Feed">
+              <span class="material-symbols-outlined ${state.currentView === 'feed' ? 'fill-icon' : ''}">home</span>
+              <span class="badge-dot"></span>
+              <span>Home</span>
+            </a>
+
+            <!-- 2. My Network / Portals -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="linkedin-nav-item ${state.currentView === 'roles' ? 'active' : ''}" title="Portals & Role Selection">
+              <span class="material-symbols-outlined ${state.currentView === 'roles' ? 'fill-icon' : ''}">groups</span>
+              <span>My Network</span>
+            </a>
+
+            <!-- 3. Jobs / Industry -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="linkedin-nav-item ${state.currentView === 'industry-dashboard' ? 'active' : ''}" title="Verified Industry Opportunities">
+              <span class="material-symbols-outlined ${state.currentView === 'industry-dashboard' ? 'fill-icon' : ''}">work</span>
+              <span>Jobs</span>
+            </a>
+
+            <!-- 4. Assessment -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="linkedin-nav-item ${state.currentView === 'assessment' ? 'active' : ''}" title="Clinical Benchmark Assessment">
+              <span class="material-symbols-outlined ${state.currentView === 'assessment' ? 'fill-icon' : ''}">assignment</span>
+              <span>Assessment</span>
+            </a>
+
+            <!-- 5. Colleges / Messaging -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="linkedin-nav-item ${state.currentView === 'college-dashboard' ? 'active' : ''}" title="Academic Colleges & Faculty">
+              <span class="material-symbols-outlined ${state.currentView === 'college-dashboard' ? 'fill-icon' : ''}">account_balance</span>
+              <span>Colleges</span>
+            </a>
+
+            <!-- 6. Ministry / Insights -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="linkedin-nav-item ${state.currentView === 'ministry-dashboard' ? 'active' : ''}" title="Ministry Intelligence & Heatmaps">
+              <span class="material-symbols-outlined ${state.currentView === 'ministry-dashboard' ? 'fill-icon' : ''}">analytics</span>
+              <span>Ministry</span>
+            </a>
+
+            <!-- 7. Notifications -->
+            <a href="javascript:void(0)" onclick="AppUI.showToast('You have 2 new opportunity matches based on your latest GMP benchmark!', 'info')" class="linkedin-nav-item" title="Notifications">
+              <span class="material-symbols-outlined">notifications</span>
+              <span class="badge-count">2</span>
+              <span>Notifications</span>
+            </a>
+
+            <!-- 8. Me (Profile & Role Switcher Dropdown) -->
+            <div class="linkedin-nav-item cursor-pointer" onclick="AppUI.navigate('student-dashboard')" title="View Profile (${state.student.name})">
+              <img src="${state.student.avatar}" alt="${state.student.name}" class="w-5 h-5 rounded-full object-cover border border-slate-300" />
+              <span class="flex items-center gap-0.5 mt-0.5">
+                Me <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
+              </span>
+            </div>
+
+            <!-- Divider Line -->
+            <div class="h-7 w-[1px] bg-slate-200 mx-1 hidden xl:block"></div>
+
+            <!-- 9. For Portals / For Business -->
+            <div class="linkedin-nav-item cursor-pointer hidden xl:flex" onclick="AppUI.navigate('roles')" title="Explore Stakeholder Portals">
+              <span class="material-symbols-outlined text-slate-600">apps</span>
+              <span class="flex items-center gap-0.5">
+                For Portals <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
+              </span>
+            </div>
+          </nav>
+
+          <!-- Mobile Hamburger & Actions -->
+          <div class="flex lg:hidden items-center gap-2">
+            <button onclick="AppUI.showToast('2 new opportunity matches ready!', 'info')" class="p-1.5 text-slate-600 hover:text-primary transition-colors rounded-full relative">
+              <span class="material-symbols-outlined text-2xl">notifications</span>
+              <span class="badge-count">2</span>
+            </button>
+            <button onclick="AppUI.toggleMobileMenu()" class="p-2 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-200 flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-2xl">${this.mobileMenuOpen ? 'close' : 'menu'}</span>
+            </button>
+          </div>
         </div>
 
         <!-- Mobile Navigation Drawer -->
-        ${!isFocused ? `
-          <div id="mobile-nav-drawer" class="mobile-nav-enter ${this.mobileMenuOpen ? 'active' : ''} lg:hidden border-t border-outline-variant/30 py-4 px-2">
-            <div class="flex flex-col gap-1 mb-4">
-              <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'home' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">home</span> Home
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'roles' || state.currentView === 'login' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">how_to_reg</span> Portals & Login
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">school</span> Student Portal
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">assignment</span> Take Skill Assessment
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">domain</span> Industry Portal
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'college-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">account_balance</span> College & Faculty
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-                <span class="material-symbols-outlined text-lg text-primary">admin_panel_settings</span> Ministry Admin
-              </a>
-            </div>
+        <div id="mobile-nav-drawer" class="mobile-nav-enter ${this.mobileMenuOpen ? 'active' : ''} lg:hidden border-t border-outline-variant/30 py-4 px-2">
+          <div class="flex flex-col gap-1 mb-4">
+            <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'feed' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">feed</span> Home Feed
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">school</span> Student Hub & Radar
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">assignment</span> Skill Diagnostic
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">business_center</span> Industry Jobs
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'college-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">account_balance</span> Colleges
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">query_stats</span> Ministry Insights
+            </a>
+            <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm text-error hover:bg-error/10 transition-colors">
+              <span class="material-symbols-outlined text-lg">logout</span> Exit / Landing
+            </a>
+          </div>
 
-            <!-- Mobile Quick Role Switcher -->
-            <div class="pt-3 border-t border-outline-variant/30">
-              <div class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Switch Active Role</div>
-              <div class="grid grid-cols-2 gap-2">
-                <button onclick="AppUI.handleRoleSwitch('student'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'student' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
-                  <span class="material-symbols-outlined text-sm">school</span> Student
-                </button>
-                <button onclick="AppUI.handleRoleSwitch('industry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'industry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
-                  <span class="material-symbols-outlined text-sm">domain</span> Industry
-                </button>
-                <button onclick="AppUI.handleRoleSwitch('college'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'college' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
-                  <span class="material-symbols-outlined text-sm">account_balance</span> College
-                </button>
-                <button onclick="AppUI.handleRoleSwitch('ministry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'ministry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
-                  <span class="material-symbols-outlined text-sm">admin_panel_settings</span> Ministry
-                </button>
-              </div>
+          <!-- Mobile Quick Role Switcher -->
+          <div class="pt-3 border-t border-outline-variant/30">
+            <div class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Switch Active Role</div>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="AppUI.handleRoleSwitch('student'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'student' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                <span class="material-symbols-outlined text-sm">school</span> Student
+              </button>
+              <button onclick="AppUI.handleRoleSwitch('industry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'industry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                <span class="material-symbols-outlined text-sm">domain</span> Industry
+              </button>
+              <button onclick="AppUI.handleRoleSwitch('college'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'college' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                <span class="material-symbols-outlined text-sm">account_balance</span> College
+              </button>
+              <button onclick="AppUI.handleRoleSwitch('ministry'); AppUI.closeMobileMenu();" class="p-2 rounded-lg bg-surface-container-low text-xs font-semibold text-left flex items-center gap-1.5 hover:bg-primary/10 ${state.currentRole === 'ministry' ? 'border border-primary text-primary bg-primary/10' : 'text-on-surface'}">
+                <span class="material-symbols-outlined text-sm">admin_panel_settings</span> Ministry
+              </button>
             </div>
           </div>
-        ` : ''}
+        </div>
       </div>
     `;
   },
@@ -293,6 +382,354 @@ window.AppUI = {
     this.closeMobileMenu();
     window.appState.setRole(role);
     this.showToast(`Switched to ${role.toUpperCase()} portal`, 'info');
+  },
+
+  // Social Feed Actions (LinkedIn style)
+  togglePostLike(postId) {
+    window.appState.togglePostLike(postId);
+    this.renderCurrentView();
+  },
+
+  publishPost() {
+    const input = document.getElementById('feed-post-input');
+    if (!input || !input.value.trim()) {
+      this.showToast('Please type a skill update or milestone first!', 'error');
+      return;
+    }
+    window.appState.createPost(input.value.trim());
+    input.value = '';
+    this.showToast('Your skill update was posted to the Ayush Network feed!', 'success');
+    this.renderCurrentView();
+  },
+
+  applyFromFeed(oppId, companyName) {
+    window.appState.applyToOpportunity(oppId);
+    this.showToast(`Application successfully submitted to ${companyName} via 1-Click SkillSetu Bridge!`, 'success');
+    this.renderCurrentView();
+  },
+
+  // 0. LinkedIn Main Home Feed HTML
+  getFeedHTML(state) {
+    const student = state.student;
+    const posts = state.feedPosts || [];
+    const trending = window.SKILLSETU_DATA.trendingNews || [];
+    const opps = state.opportunities || [];
+    const daburOpp = opps.find(o => o.id === 'OPP-DABUR-01') || opps[0];
+    const isDaburApplied = state.applications[daburOpp.id]?.applied;
+
+    return `
+      <main class="pt-20 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          
+          <!-- LEFT COLUMN: Profile Summary & Shortcuts (3 cols) -->
+          <div class="lg:col-span-3 space-y-4">
+            <!-- Profile Card -->
+            <div class="linkedin-card overflow-hidden text-center">
+              <!-- Banner -->
+              <div class="h-16 bg-gradient-to-r from-emerald-800 to-teal-700 w-full relative"></div>
+              <!-- Avatar -->
+              <div class="px-4 pb-4 -mt-8 relative">
+                <img src="${student.avatar}" alt="${student.name}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md cursor-pointer" onclick="AppUI.navigate('student-dashboard')" />
+                <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:underline" onclick="AppUI.navigate('student-dashboard')">${student.name}</h2>
+                <p class="text-[11px] text-slate-500 leading-tight mt-0.5">${student.program}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">${student.institution}</p>
+
+                <!-- Profile Analytics Quick Stats -->
+                <div class="border-t border-slate-100 mt-4 pt-3 space-y-2 text-left">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500 font-medium">Profile viewers</span>
+                    <span class="font-bold text-primary">142</span>
+                  </div>
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500 font-medium">Post impressions</span>
+                    <span class="font-bold text-primary">1,820</span>
+                  </div>
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500 font-medium">Verified Match</span>
+                    <span class="font-bold text-emerald-600">${student.overallMatch}%</span>
+                  </div>
+                </div>
+
+                <!-- Verified GMP Badge Chip -->
+                <div class="mt-3.5 pt-3 border-t border-slate-100 bg-emerald-50/60 rounded-lg p-2 text-left cursor-pointer" onclick="AppUI.navigate('student-dashboard')">
+                  <div class="flex items-center gap-1.5 text-emerald-800 text-[11px] font-bold">
+                    <span class="material-symbols-outlined text-[14px]">verified</span>
+                    <span>Schedule T GMP: ${student.skills["GMP"]?.current || 42}%</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500 mt-0.5">${student.skills["GMP"]?.current >= 75 ? 'Ready for manufacturing placement' : 'Bridge module available to reach 85%'}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Navigation Shortcuts -->
+            <div class="linkedin-card p-3 space-y-1 text-xs">
+              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                <span class="material-symbols-outlined text-primary text-[18px]">radar</span>
+                <span>Interactive Skill Radar</span>
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                <span class="material-symbols-outlined text-emerald-600 text-[18px]">assignment</span>
+                <span>Take Skill Diagnostic</span>
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                <span class="material-symbols-outlined text-blue-600 text-[18px]">work</span>
+                <span>Industry Jobs & Internships</span>
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                <span class="material-symbols-outlined text-purple-600 text-[18px]">account_balance</span>
+                <span>Colleges & Cohorts</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- MIDDLE COLUMN: Main LinkedIn Feed (6 cols) -->
+          <div class="lg:col-span-6 space-y-4">
+            
+            <!-- "Start a Post" Card -->
+            <div class="linkedin-card p-4 space-y-3">
+              <div class="flex items-center gap-3">
+                <img src="${student.avatar}" alt="${student.name}" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
+                <input id="feed-post-input" type="text" placeholder="Share an Ayush skill milestone, case study, or internship..." class="w-full bg-slate-100 hover:bg-slate-200/70 focus:bg-white text-slate-800 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary transition-all outline-none" onkeydown="if(event.key==='Enter'){AppUI.publishPost();}" />
+                <button onclick="AppUI.publishPost()" class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-full hover:bg-primary/90 transition-all shrink-0">Post</button>
+              </div>
+
+              <!-- Quick Attachment Action Buttons -->
+              <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs text-slate-500 font-semibold">
+                <button onclick="AppUI.showToast('Upload feature ready for clinical case photos and charts!', 'info')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-blue-600 transition-colors">
+                  <span class="material-symbols-outlined text-[18px]">photo_camera</span> Photo
+                </button>
+                <button onclick="AppUI.navigate('assessment')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-emerald-600 transition-colors">
+                  <span class="material-symbols-outlined text-[18px]">verified</span> Skill Badge
+                </button>
+                <button onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-purple-600 transition-colors">
+                  <span class="material-symbols-outlined text-[18px]">work</span> Internship
+                </button>
+                <button onclick="AppUI.showToast('Article draft opened for Ayush research review.', 'info')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-amber-600 transition-colors">
+                  <span class="material-symbols-outlined text-[18px]">article</span> Article
+                </button>
+              </div>
+            </div>
+
+            <!-- Feed Sort / Filter Bar -->
+            <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+              <div class="h-[1px] bg-slate-200 flex-1 mr-3"></div>
+              <span class="font-medium">Sort by: <strong class="text-slate-800 cursor-pointer">Top Ayush Opportunities ▾</strong></span>
+            </div>
+
+            <!-- Posts List -->
+            <div class="space-y-4">
+              ${posts.map(post => `
+                <div class="linkedin-card p-4 sm:p-5 space-y-3.5" id="${post.id}">
+                  <!-- Author Header -->
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-3">
+                      <img src="${post.authorAvatar}" alt="${post.authorName}" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
+                      <div>
+                        <div class="flex items-center gap-1.5">
+                          <h3 class="font-bold text-slate-900 text-sm">${post.authorName}</h3>
+                          <span class="material-symbols-outlined text-primary text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-tight">${post.authorRole}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">${post.timeAgo}</p>
+                      </div>
+                    </div>
+
+                    <button class="p-1 text-slate-400 hover:text-slate-600 rounded-full">
+                      <span class="material-symbols-outlined text-lg">more_horiz</span>
+                    </button>
+                  </div>
+
+                  <!-- Post Text Content -->
+                  <div class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-2">
+                    ${post.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+                  </div>
+
+                  <!-- Opportunity Card Preview (if Company Job Post) -->
+                  ${post.hasOpportunity ? `
+                    <div class="rounded-xl border border-emerald-200 bg-emerald-50/40 p-4 space-y-3">
+                      <div class="flex justify-between items-start">
+                        <div>
+                          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">Official Internship Opening</span>
+                          <h4 class="font-bold text-slate-900 text-sm sm:text-base mt-1">${post.opportunityData.title}</h4>
+                          <p class="text-xs text-slate-600">${post.opportunityData.company} • ${post.opportunityData.location}</p>
+                        </div>
+                        <span class="px-2.5 py-1 bg-white border border-emerald-200 rounded-lg text-xs font-bold text-emerald-700 shadow-sm">${post.opportunityData.stipend}</span>
+                      </div>
+
+                      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-emerald-100 text-xs">
+                        <div class="flex items-center gap-1.5 text-slate-600">
+                          <span class="material-symbols-outlined text-primary text-sm">schedule</span>
+                          <span>${post.opportunityData.duration}</span>
+                          <span class="mx-1">•</span>
+                          <span class="font-semibold text-emerald-800">${post.opportunityData.matchRequired}</span>
+                        </div>
+
+                        ${isDaburApplied && post.opportunityData.id === 'OPP-DABUR-01' ? `
+                          <button class="px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-lg font-bold text-xs flex items-center gap-1" disabled>
+                            <span class="material-symbols-outlined text-sm">check_circle</span> Applied
+                          </button>
+                        ` : `
+                          <button onclick="AppUI.applyFromFeed('${post.opportunityData.id}', '${post.opportunityData.company}')" class="px-4 py-1.5 bg-primary text-white rounded-lg font-bold text-xs hover:bg-primary/90 transition-all shadow flex items-center gap-1">
+                            <span>1-Click Apply</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                          </button>
+                        `}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <!-- Credential Badge Card Preview (if Student Milestone Post) -->
+                  ${post.hasBadge ? `
+                    <div class="rounded-xl border border-blue-200 bg-blue-50/40 p-4 flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                          <span class="material-symbols-outlined text-2xl">workspace_premium</span>
+                        </div>
+                        <div>
+                          <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${post.badgeData.title}</h4>
+                          <p class="text-[11px] text-blue-800 font-semibold">${post.badgeData.score}</p>
+                          <p class="text-[10px] text-slate-500">${post.badgeData.issuer}</p>
+                        </div>
+                      </div>
+                      <button onclick="AppUI.navigate('assessment')" class="px-3 py-1 bg-white border border-blue-200 text-blue-700 rounded-lg font-bold text-xs hover:bg-blue-50">
+                        View Test
+                      </button>
+                    </div>
+                  ` : ''}
+
+                  <!-- Institutional Metrics Preview (if College Post) -->
+                  ${post.hasMetrics ? `
+                    <div class="rounded-xl border border-purple-200 bg-purple-50/40 p-3.5 grid grid-cols-3 gap-2 text-center text-xs">
+                      <div class="p-2 bg-white rounded-lg border border-purple-100">
+                        <div class="font-bold text-purple-800">${post.metricsData.placed}</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">Cohort Placed</div>
+                      </div>
+                      <div class="p-2 bg-white rounded-lg border border-purple-100">
+                        <div class="font-bold text-slate-900">${post.metricsData.avgPackage}</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">Avg Package</div>
+                      </div>
+                      <div class="p-2 bg-white rounded-lg border border-purple-100">
+                        <div class="font-bold text-emerald-700">${post.metricsData.topRecruiters}</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">Recruiters</div>
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <!-- Reaction Counts -->
+                  <div class="flex justify-between items-center pt-2 text-[11px] text-slate-500 border-b border-slate-100 pb-2">
+                    <div class="flex items-center gap-1">
+                      <span class="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">👍</span>
+                      <span class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[9px] font-bold">🌿</span>
+                      <span class="ml-1">${post.likes} reactions</span>
+                    </div>
+                    <div>
+                      <span>${post.comments} comments</span> • <span>${post.reposts} reposts</span>
+                    </div>
+                  </div>
+
+                  <!-- Post Action Buttons (Like, Comment, Repost, Send) -->
+                  <div class="flex justify-between items-center pt-1">
+                    <button onclick="AppUI.togglePostLike('${post.id}')" class="post-action-btn ${post.liked ? 'liked' : ''}">
+                      <span class="material-symbols-outlined text-[18px]">thumb_up</span>
+                      <span>${post.liked ? 'Liked' : 'Like'}</span>
+                    </button>
+                    <button onclick="AppUI.showToast('Comments thread loaded.', 'info')" class="post-action-btn">
+                      <span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+                      <span>Comment</span>
+                    </button>
+                    <button onclick="AppUI.showToast('Post shared with your Ayush network.', 'success')" class="post-action-btn">
+                      <span class="material-symbols-outlined text-[18px]">repeat</span>
+                      <span>Repost</span>
+                    </button>
+                    <button onclick="AppUI.showToast('Post link copied to clipboard.', 'info')" class="post-action-btn">
+                      <span class="material-symbols-outlined text-[18px]">send</span>
+                      <span>Send</span>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Trending Ayush News & Recommended Jobs (3 cols) -->
+          <div class="lg:col-span-3 space-y-4">
+            
+            <!-- Trending Ayush News Widget -->
+            <div class="linkedin-card p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-sm">SkillSetu News</h3>
+                <span class="material-symbols-outlined text-slate-400 text-sm">info</span>
+              </div>
+              <p class="text-[11px] text-slate-500 font-medium">Top Ayush & Healthcare Stories</p>
+
+              <div class="space-y-3 pt-1">
+                ${trending.map(news => `
+                  <div class="space-y-0.5 cursor-pointer group" onclick="AppUI.showToast('${news.title}', 'info')">
+                    <h4 class="text-xs font-bold text-slate-800 group-hover:text-primary group-hover:underline leading-snug">
+                      • ${news.title}
+                    </h4>
+                    <p class="text-[10px] text-slate-400 pl-2">${news.readers}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Recommended Job Matches Widget -->
+            <div class="linkedin-card p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-sm">Recommended Jobs</h3>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="text-xs text-primary font-bold hover:underline">View all</a>
+              </div>
+
+              <div class="space-y-3 pt-1">
+                <!-- Job 1 -->
+                <div class="p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=60&auto=format&fit=crop&q=80" alt="Dabur" class="w-7 h-7 rounded-lg object-cover" />
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs">Ayurvedic Formulation QC</h4>
+                      <p class="text-[10px] text-slate-500">Dabur India Ltd • Sahibabad</p>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-200/60">
+                    <span class="font-bold text-emerald-700">₹28k/mo • 95% Match</span>
+                    <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold">Apply</button>
+                  </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=60&auto=format&fit=crop&q=80" alt="Patanjali" class="w-7 h-7 rounded-lg object-cover" />
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-xs">Clinical Herbology Fellow</h4>
+                      <p class="text-[10px] text-slate-500">Patanjali Research • Haridwar</p>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-200/60">
+                    <span class="font-bold text-blue-700">₹35k/mo • 90% Match</span>
+                    <button onclick="AppUI.navigate('industry-dashboard')" class="px-2.5 py-1 bg-primary text-white rounded-md text-[10px] font-bold">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="text-center text-[10px] text-slate-400 space-y-1 pt-2">
+              <div class="flex flex-wrap justify-center gap-x-2 gap-y-1">
+                <a href="#faq" class="hover:underline">About</a>
+                <a href="#faq" class="hover:underline">Accessibility</a>
+                <a href="#faq" class="hover:underline">Help Center</a>
+                <a href="#faq" class="hover:underline">Privacy & Terms</a>
+              </div>
+              <p>SkillSetu Corporation © 2026 • Ministry of Ayush</p>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    `;
   },
 
   // FAQ Interactive Accordion Toggle

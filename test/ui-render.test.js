@@ -79,4 +79,9 @@ assert(colHTML.includes('College & Faculty Portal') && colHTML.includes('GMP Com
 const minHTML = ui.getMinistryDashboardHTML(state);
 assert(minHTML.includes('National Skill Impact Analytics') && minHTML.includes('Rajasthan') && minHTML.includes('Panchakarma Therapy'), 'Ministry dashboard rendered with regional state heatmap & demand list');
 
-console.log('--- All 9 UI Views Rendered Successfully without Errors! ---');
+// 10. Test LinkedIn Home Feed HTML
+const feedHTML = ui.getFeedHTML(state);
+assert(feedHTML.includes('Dabur India Ltd') && feedHTML.includes('Dr. Priya Sharma') && feedHTML.includes('SkillSetu News'), 'LinkedIn Home Feed rendered with student and company internship posts');
+
+console.log('--- All 10 UI Views Rendered Successfully without Errors! ---');
+
