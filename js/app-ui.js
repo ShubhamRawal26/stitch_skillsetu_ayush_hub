@@ -295,143 +295,373 @@ window.AppUI = {
     this.showToast(`Switched to ${role.toUpperCase()} portal`, 'info');
   },
 
-  // 1. Landing Page HTML
+  // FAQ Interactive Accordion Toggle
+  toggleFAQ(faqId) {
+    const targetEl = document.getElementById(faqId);
+    if (!targetEl) return;
+    const isCurrentlyOpen = targetEl.classList.contains('open');
+    
+    // Close all other FAQ cards for smooth accordion behavior
+    document.querySelectorAll('.faq-card').forEach(card => {
+      card.classList.remove('open');
+    });
+    
+    if (!isCurrentlyOpen) {
+      targetEl.classList.add('open');
+    }
+  },
+
+  // 1. Landing Page HTML (LinkedIn-Inspired Professional Design)
   getLandingHTML(state) {
     const stats = window.SKILLSETU_DATA.stats;
     return `
-      <main class="pt-28 pb-20 px-4 md:px-margin-desktop max-w-container-max mx-auto">
-        <!-- Hero Section -->
-        <section class="flex flex-col items-center text-center mt-6 md:mt-16 mb-20 fade-in-up">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-sm text-label-sm mb-6 shadow-sm">
-            <span class="material-symbols-outlined text-[16px]">verified</span>
-            Ministry of Ayush Initiative • Smart India Hackathon 2026 (SIH26044)
-          </div>
-          <h1 class="font-display-lg text-3xl md:text-5xl lg:text-6xl text-on-surface max-w-4xl mb-6 tracking-tight font-extrabold leading-tight">
-            Bridging Ayush Education with <span class="text-primary underline decoration-primary-container/40">Industry-Ready Skills</span>
-          </h1>
-          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
-            Empowering the next generation of Ayurveda, Yoga, Unani, Siddha, and Homeopathy professionals through AI-guided skill mapping, diagnostic assessments, bridge learning, and verified placements.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
-              Select Your Portal
-            </button>
-            <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 glass-panel text-primary rounded-xl font-label-md text-label-md hover:bg-surface-variant/50 transition-all flex items-center justify-center gap-2 border border-primary/20">
-              <span class="material-symbols-outlined text-[18px]">login</span>
-              Sign In to SkillSetu
-            </button>
-          </div>
-        </section>
+      <main class="pt-24 sm:pt-28 pb-20 px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto">
+        <!-- Hero Section with Professional Photograph -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-2 sm:mt-6 mb-16">
+          <!-- Left Content Column -->
+          <div class="lg:col-span-7 flex flex-col items-start text-left">
+            <div class="stagger-item delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold mb-4 shadow-sm">
+              <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+              Ministry of Ayush • Smart India Hackathon 2026 (SIH26044)
+            </div>
+            
+            <h1 class="stagger-item delay-2 font-display-lg text-3xl sm:text-4xl lg:text-5xl text-slate-900 font-extrabold tracking-tight leading-tight mb-4">
+              The National Career & Skill Platform for <span class="text-primary underline decoration-primary/30">Ayush Professionals</span>
+            </h1>
+            
+            <p class="stagger-item delay-3 font-body-lg text-sm sm:text-base text-slate-600 leading-relaxed mb-6">
+              SkillSetu connects 42,850+ Ayush scholars and doctors with 1,240+ verified pharmaceutical enterprises, hospitals, and clinical research centers. Take a 10-minute competency diagnostic, bridge curriculum deficits, and get hired directly.
+            </p>
 
-        <!-- Stats Section -->
-        <section class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20 fade-in-up">
-          <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center ambient-glow">
-            <span class="font-headline-md text-3xl lg:text-4xl text-primary font-bold mb-1">${stats.registeredStudents}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Registered Students</span>
-          </div>
-          <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center ambient-glow">
-            <span class="font-headline-md text-3xl lg:text-4xl text-primary font-bold mb-1">${stats.industryPartners}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Industry Partners</span>
-          </div>
-          <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center ambient-glow">
-            <span class="font-headline-md text-3xl lg:text-4xl text-primary font-bold mb-1">${stats.avgSkillMatch}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Average Skill Match</span>
-          </div>
-          <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center ambient-glow">
-            <span class="font-headline-md text-3xl lg:text-4xl text-primary font-bold mb-1">${stats.skillGapsResolved}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Skill Gaps Resolved</span>
-          </div>
-        </section>
+            <!-- Single Prominent Login / Sign In Button (LinkedIn Primary Style) -->
+            <div class="stagger-item delay-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-6">
+              <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+                <span class="material-symbols-outlined text-xl">login</span>
+                <span>Sign In / Login to SkillSetu</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+            </div>
 
-        <!-- Ecosystem Flow Infographic -->
-        <section class="glass-panel-heavy rounded-2xl p-8 mb-20">
-          <div class="text-center mb-8">
-            <h2 class="font-headline-sm text-2xl font-bold text-on-surface mb-2">The SkillSetu Collaborative Engine</h2>
-            <p class="font-body-md text-on-surface-variant text-sm">How Academia, Industry, and Governance unite to bridge competencies.</p>
+            <!-- Social Proof & Institution Trust Strip -->
+            <div class="stagger-item delay-5 flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium pt-4 border-t border-slate-200 w-full">
+              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                <span>100% Free for Students</span>
+              </div>
+              <span class="text-slate-300">•</span>
+              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                <span>Industry Verified Credentials</span>
+              </div>
+              <span class="text-slate-300">•</span>
+              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
+                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                <span>350+ Accredited Colleges</span>
+              </div>
+            </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-primary/15 text-center flex flex-col items-center">
-              <div class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3 font-bold">1</div>
-              <h4 class="font-label-md font-bold text-on-surface mb-1">Academic Intake</h4>
-              <p class="text-[12px] text-on-surface-variant">BAMS, MD, BUMS & BHMS student profiling</p>
-            </div>
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-primary/15 text-center flex flex-col items-center">
-              <div class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3 font-bold">2</div>
-              <h4 class="font-label-md font-bold text-on-surface mb-1">Skill Assessment</h4>
-              <p class="text-[12px] text-on-surface-variant">5-domain clinical & diagnostic evaluation</p>
-            </div>
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-primary/15 text-center flex flex-col items-center">
-              <div class="w-12 h-12 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center mb-3 font-bold">3</div>
-              <h4 class="font-label-md font-bold text-on-surface mb-1">Skill-Gap Engine</h4>
-              <p class="text-[12px] text-on-surface-variant">Automated gap detection against industry standards</p>
-            </div>
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-primary/15 text-center flex flex-col items-center">
-              <div class="w-12 h-12 rounded-full bg-secondary/10 text-secondary flex items-center justify-center mb-3 font-bold">4</div>
-              <h4 class="font-label-md font-bold text-on-surface mb-1">Bridge Learning</h4>
-              <p class="text-[12px] text-on-surface-variant">Targeted modular courses (e.g. GMP Schedule T)</p>
-            </div>
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-primary/15 text-center flex flex-col items-center">
-              <div class="w-12 h-12 rounded-full bg-primary-container/20 text-primary-container flex items-center justify-center mb-3 font-bold">5</div>
-              <h4 class="font-label-md font-bold text-on-surface mb-1">Industry Matching</h4>
-              <p class="text-[12px] text-on-surface-variant">95%+ matched internship & placement pipelines</p>
+
+          <!-- Right Hero Image Column (Authentic Professional Medical Photo) -->
+          <div class="stagger-item delay-3 lg:col-span-5 relative">
+            <div class="linkedin-card overflow-hidden p-2 group">
+              <div class="relative rounded-xl overflow-hidden">
+                <img src="./assets/hero_ayush_bridge.jpg" alt="Ayush Doctors and Medical Students collaborating on Career Diagnostics" class="w-full h-[320px] sm:h-[390px] object-cover group-hover:scale-102 transition-transform duration-500" />
+                
+                <!-- Floating LinkedIn Style Credential Badge -->
+                <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-200/80 flex items-center justify-between shadow-lg">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-primary flex items-center justify-center border border-emerald-200">
+                      <span class="material-symbols-outlined text-xl">school</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold text-slate-900">National Competency Index</div>
+                      <div class="text-[11px] text-slate-500">Real-time clinical skill verification</div>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-300">
+                    98% Match Rate
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Portals Bento Grid -->
-        <section id="portals-section" class="mb-12">
-          <div class="text-center mb-12">
-            <h2 class="font-headline-md text-3xl font-bold text-on-surface mb-3">Choose Your Portal</h2>
-            <p class="font-body-md text-on-surface-variant">Access specialized dashboards and tools designed for your Ayush stakeholder role.</p>
+        <!-- Hiring Network Banner (LinkedIn Style Partner Showcase) -->
+        <section class="stagger-item delay-4 mb-16 linkedin-card p-6">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Top Healthcare & Pharmaceutical Employers Hiring via SkillSetu</span>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Student Card -->
-            <div onclick="AppUI.selectRoleAndLogin('student')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
-              <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-3xl">school</span>
+          <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 opacity-85">
+            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-base">domain</span> Dabur India Ltd
+            </div>
+            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-base">domain</span> Patanjali Research
+            </div>
+            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-base">domain</span> Kottakkal Arya Vaidya
+            </div>
+            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-base">domain</span> Himalaya Wellness
+            </div>
+            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-base">domain</span> Charak Pharma
+            </div>
+          </div>
+        </section>
+
+        <!-- National Impact Numbers -->
+        <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+          <div class="stagger-item delay-4 linkedin-card p-6 flex flex-col items-center justify-center text-center">
+            <span class="font-headline-md text-2xl sm:text-3xl lg:text-4xl text-primary font-extrabold mb-1">${stats.registeredStudents}</span>
+            <span class="font-label-sm text-[11px] sm:text-xs text-slate-600 uppercase tracking-wider font-semibold">Registered Doctors & Students</span>
+          </div>
+          <div class="stagger-item delay-5 linkedin-card p-6 flex flex-col items-center justify-center text-center">
+            <span class="font-headline-md text-2xl sm:text-3xl lg:text-4xl text-primary font-extrabold mb-1">${stats.industryPartners}</span>
+            <span class="font-label-sm text-[11px] sm:text-xs text-slate-600 uppercase tracking-wider font-semibold">Verified Enterprise Partners</span>
+          </div>
+          <div class="stagger-item delay-6 linkedin-card p-6 flex flex-col items-center justify-center text-center">
+            <span class="font-headline-md text-2xl sm:text-3xl lg:text-4xl text-primary font-extrabold mb-1">${stats.avgSkillMatch}</span>
+            <span class="font-label-sm text-[11px] sm:text-xs text-slate-600 uppercase tracking-wider font-semibold">Post-Bridge Match Rate</span>
+          </div>
+          <div class="stagger-item delay-7 linkedin-card p-6 flex flex-col items-center justify-center text-center">
+            <span class="font-headline-md text-2xl sm:text-3xl lg:text-4xl text-primary font-extrabold mb-1">${stats.skillGapsResolved}</span>
+            <span class="font-label-sm text-[11px] sm:text-xs text-slate-600 uppercase tracking-wider font-semibold">Curriculum Gaps Resolved</span>
+          </div>
+        </section>
+
+        <!-- Problem vs Solution (LinkedIn Talent Insight Style) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div class="stagger-item delay-5 linkedin-card p-6 sm:p-8 border-l-4 border-l-rose-500">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-md text-xs font-bold mb-4">
+              <span class="material-symbols-outlined text-sm">warning</span> The Academic-Industry Challenge
+            </div>
+            <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-3">Why 45% of Ayush Graduates Face Placement Hurdles</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              While clinical theories in Ayurveda, Unani, and Siddha are thoroughly taught, recruiters at pharmaceutical manufacturers demand practical mastery in <strong>Schedule T GMP standards, HPTLC standardization, formulation stability testing, and GCP clinical documentation</strong>.
+            </p>
+            <div class="text-xs text-rose-700 font-semibold flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">close</span> Without verified practical benchmarks, hiring cycles take 6+ months.
+            </div>
+          </div>
+
+          <div class="stagger-item delay-6 linkedin-card p-6 sm:p-8 border-l-4 border-l-primary">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 rounded-md text-xs font-bold mb-4">
+              <span class="material-symbols-outlined text-sm">verified</span> The SkillSetu Solution
+            </div>
+            <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-3">Instant AI Competency Radar & Free Bridge Upskilling</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              SkillSetu maps each candidate's exact competency score across 6 dimensions. When an industry gap is identified (e.g. GMP score at 42%), the student completes a concise 2-week bridge module — boosting their skill rating to 85% and qualifying them for direct 1-click applications.
+            </p>
+            <div class="text-xs text-primary font-semibold flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">check_circle</span> Direct merit-based matching to top recruiters with 95%+ precision.
+            </div>
+          </div>
+        </section>
+
+        <!-- How It Works in 4 Steps (LinkedIn Learning Pathway Style) -->
+        <section class="stagger-item delay-6 mb-16">
+          <div class="text-center mb-10 max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Simple Career Pathway</span>
+            <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">How SkillSetu Accelerates Your Career</h2>
+            <p class="font-body-md text-slate-600 text-xs sm:text-sm">Four seamless steps from self-assessment to verified industrial placement.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Step 1 -->
+            <div class="linkedin-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+                1
               </div>
-              <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Student Portal</h3>
-              <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Assess your skills, resolve GMP gaps with bridge courses, and apply to top industry roles.</p>
-              <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Login as Student <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">10-Min Diagnostic</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Take a quick 5-question scenario quiz covering clinical diagnosis, herbology, and manufacturing standards.
+              </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="linkedin-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+                2
+              </div>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">View Skill Radar</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Your interactive 6-axis polygon highlights specific strengths and pinpoints exact industry deficits.
+              </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="linkedin-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+                3
+              </div>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Bridge the Gap</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Complete free, industry-certified micro-courses (e.g. Schedule T GMP) co-authored with Dabur & Patanjali.
+              </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="linkedin-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+                4
+              </div>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Get Placed Directly</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Unlock 95%+ match ratings and apply directly to verified internships and full-time clinical roles.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Supported Ayush Branches -->
+        <section class="stagger-item delay-7 mb-16">
+          <div class="text-center mb-10 max-w-2xl mx-auto">
+            <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Ayush Disciplines Supported</h2>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600">Standardized competency frameworks tailored for all traditional healthcare branches.</p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="linkedin-card p-5 text-center">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <span class="material-symbols-outlined text-xl">spa</span>
+              </div>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Ayurveda</h3>
+              <p class="text-[11px] text-slate-500">BAMS & MD (Panchakarma, Dravyaguna, Rasa Shastra, GMP)</p>
+            </div>
+
+            <div class="linkedin-card p-5 text-center">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <span class="material-symbols-outlined text-xl">self_improvement</span>
+              </div>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Yoga & Naturopathy</h3>
+              <p class="text-[11px] text-slate-500">BNYS & M.Sc (Therapeutic Yoga, Rehabilitation Protocols)</p>
+            </div>
+
+            <div class="linkedin-card p-5 text-center">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <span class="material-symbols-outlined text-xl">science</span>
+              </div>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Unani Medicine</h3>
+              <p class="text-[11px] text-slate-500">BUMS & MD (Ilaj-bit-Tadbeer, Moalajat, Pharmacognosy)</p>
+            </div>
+
+            <div class="linkedin-card p-5 text-center">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <span class="material-symbols-outlined text-xl">medication</span>
+              </div>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Siddha & Homeopathy</h3>
+              <p class="text-[11px] text-slate-500">BSMS & BHMS (Varmam Therapy, Repertory, Formulations)</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive FAQ Section with Type-Opening Animations -->
+        <section class="stagger-item delay-8 mb-16 max-w-4xl mx-auto">
+          <div class="text-center mb-10">
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Got Questions?</span>
+            <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">Frequently Asked Questions</h2>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600">Everything you need to know about testing, bridge courses, and hiring on SkillSetu.</p>
+          </div>
+
+          <div class="space-y-3.5">
+            <!-- FAQ 1 (Open by default) -->
+            <div id="faq-card-1" class="faq-card open linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-1')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">General</span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    Is SkillSetu free for Ayush students and colleges?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Yes, SkillSetu is a 100% free digital governance initiative under the Ministry of Ayush, Government of India. All competency assessments, Skill Radar visualizations, bridge micro-learning modules, and internship applications are completely free for students and recognized colleges.
               </div>
             </div>
 
-            <!-- Industry Card -->
-            <div onclick="AppUI.selectRoleAndLogin('industry')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
-              <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-3xl">domain</span>
+            <!-- FAQ 2 -->
+            <div id="faq-card-2" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-2')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">Curriculum</span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    What is Schedule T GMP and why is it essential for placements?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
-              <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Industry Portal</h3>
-              <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Discover skill-verified Ayush candidates, shortlist talent, and publish internship openings.</p>
-              <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Login as Industry <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </div>
-            </div>
-
-            <!-- College Card -->
-            <div onclick="AppUI.selectRoleAndLogin('college')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
-              <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-3xl">account_balance</span>
-              </div>
-              <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">College & Faculty</h3>
-              <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Analyze student cohort readiness, identify curriculum deficits, and publish bridge courses.</p>
-              <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Login as Faculty <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Schedule T of the Drugs & Cosmetics Act specifies the Good Manufacturing Practices (GMP) for Ayurvedic, Siddha, and Unani drugs — including sterile handling, standard operating procedures (SOPs), batch documentation, and heavy metal testing. SkillSetu's bridge course provides practical industry-grade simulation of these standards.
               </div>
             </div>
 
-            <!-- Ministry Card -->
-            <div onclick="AppUI.selectRoleAndLogin('ministry')" class="glass-panel p-8 rounded-2xl ambient-glow group hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer border border-primary/15 hover:border-primary/40">
-              <div class="w-14 h-14 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
+            <!-- FAQ 3 -->
+            <div id="faq-card-3" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-3')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[11px] font-bold">AI Diagnostics</span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How does the 6-Axis Clinical Skill Radar calculate my scores?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
-              <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Ministry Admin</h3>
-              <p class="font-body-md text-sm text-on-surface-variant mb-6 flex-grow">Monitor nationwide skill heatmaps, track YoY placement rates, and shape national policy.</p>
-              <div class="inline-flex items-center gap-2 text-primary font-label-md font-semibold group-hover:gap-3 transition-all">
-                Login as Ministry <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                The Skill Radar maps your answers against verified Indian Pharmacopoeia and clinical benchmarks across 6 core domains: Panchakarma, Dravyaguna Herbology, Diagnostic Logic, Patient Case Protocol, Clinical Research, and GMP Compliance. Scores are dynamically recalculated as you complete bridge modules.
               </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div id="faq-card-4" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-4')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">Industry</span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How do recruiters like Dabur and Patanjali evaluate candidates?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Recruiters log into the Industry Portal and filter talent by verified benchmark scores, specific bridge course certifications (e.g. Schedule T GMP), and match percentages. They can shortlist pre-screened candidates and extend interview offers with zero agency overhead.
+              </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div id="faq-card-5" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-5')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-[11px] font-bold">Eligibility</span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    Which academic degrees and year batches can participate?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                All undergraduate and postgraduate students enrolled in BAMS, MD/MS (Ayurveda), BNYS, BUMS, BSMS, and BHMS programs across recognized universities in India are eligible to register, assess competencies, and access placement pipelines.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final LinkedIn Style Call to Action Banner -->
+        <section class="stagger-item delay-9 linkedin-card p-8 sm:p-12 text-center bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white relative overflow-hidden shadow-xl">
+          <div class="max-w-2xl mx-auto space-y-4 relative z-10">
+            <span class="inline-block px-3 py-1 bg-emerald-700/50 rounded-full text-xs font-bold text-emerald-200 border border-emerald-500/30">Official Ayush Skill Network</span>
+            <h2 class="font-display-lg text-2xl sm:text-4xl font-extrabold text-white">Join 42,850+ Ayush Scholars & Recruiters</h2>
+            <p class="font-body-lg text-xs sm:text-sm text-emerald-100/90 leading-relaxed">
+              Sign in to assess your skills, upgrade your diagnostic competencies, and access verified nationwide opportunities.
+            </p>
+            <div class="pt-2">
+              <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-white text-emerald-900 rounded-xl font-label-md text-sm font-bold hover:bg-emerald-50 transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-2 transform hover:-translate-y-0.5">
+                <span class="material-symbols-outlined text-lg">login</span>
+                <span>Sign In / Login to SkillSetu</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
             </div>
           </div>
         </section>

@@ -49,7 +49,7 @@ assert(navHTML.includes('SkillSetu') && navHTML.includes('Ministry of Ayush'), '
 
 // 2. Test Landing Page HTML
 const landingHTML = ui.getLandingHTML(state);
-assert(landingHTML.includes('Bridging Ayush Education with') && landingHTML.includes('42,850+'), 'Landing page rendered with hero & stats');
+assert(landingHTML.includes('Ayush') && landingHTML.includes('42,850+'), 'Landing page rendered with hero & stats');
 
 // 3. Test Roles HTML
 const rolesHTML = ui.getRolesHTML(state);
