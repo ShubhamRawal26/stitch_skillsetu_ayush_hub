@@ -447,6 +447,152 @@ window.SKILLSETU_DATA = {
     { title: "Schedule T GMP compliance skills see 42% hiring surge across pharma", readers: "4,120 readers • 5h ago" },
     { title: "Kottakkal opens 25 Kerala Panchakarma Clinical Fellowships", readers: "3,890 readers • 1d ago" },
     { title: "WHO Global Centre for Traditional Medicine expands India research intake", readers: "2,940 readers • 2d ago" }
-  ]
+  ],
+
+  collegesDirectory: [
+    {
+      id: "COL-NIA-01",
+      name: "National Institute of Ayurveda (NIA)",
+      location: "Jaipur, Rajasthan",
+      state: "Rajasthan",
+      type: "Deemed University (Institute of National Importance)",
+      accreditation: "NAAC A++ • Apex Institute",
+      founded: "1976",
+      dean: "Prof. Sanjeev Sharma",
+      studentsCount: "1,450+ Enrolled",
+      disciplines: ["Ayurveda (BAMS, MD/MS, Ph.D)", "Panchakarma", "Dravyaguna Herbology"],
+      placementRate: "94% Campus Placed",
+      bridgeAdoption: "98% Schedule T Certified",
+      image: "https://images.unsplash.com/photo-1562774053-701939374585?w=500&auto=format&fit=crop&q=80",
+      highlights: ["300-Bed NABH Teaching Hospital", "Advanced HPTLC Phytochemistry Lab", "Dabur & Patanjali Research MoU"],
+      contact: "admission@nia.edu.in • www.nia.nic.in"
+    },
+    {
+      id: "COL-AIIA-02",
+      name: "All India Institute of Ayurveda (AIIA)",
+      location: "Sarita Vihar, New Delhi",
+      state: "Delhi",
+      type: "Autonomous Apex Institute (Ministry of Ayush)",
+      accreditation: "NABH Accredited • AICTE Recognized",
+      founded: "2015",
+      dean: "Prof. Tanuja Nesari",
+      studentsCount: "920+ Scholars",
+      disciplines: ["Ayurveda (MD/MS, Ph.D)", "Integrative Clinical Oncology", "Kaumarbhritya"],
+      placementRate: "96% Placed / Fellowships",
+      bridgeAdoption: "95% GCP & Diagnostic Ready",
+      image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=500&auto=format&fit=crop&q=80",
+      highlights: ["WHO Traditional Medicine Collaboration Center", "Bio-imaging & Clinical Genomics Hub", "Multi-specialty NABH Ayush Hospital"],
+      contact: "academic@aiia.gov.in • www.aiia.gov.in"
+    },
+    {
+      id: "COL-ITRA-03",
+      name: "Institute of Teaching & Research in Ayurveda (ITRA)",
+      location: "Jamnagar, Gujarat",
+      state: "Gujarat",
+      type: "Institute of National Importance (INI)",
+      accreditation: "Parliamentary INI Act • NAAC A Grade",
+      founded: "1952",
+      dean: "Prof. Anup Thakar",
+      studentsCount: "1,180+ Scholars",
+      disciplines: ["Ayurveda (BAMS, MD, Ph.D)", "Rasa Shastra & Bhasma Standardization"],
+      placementRate: "91% Campus Placed",
+      bridgeAdoption: "92% Formulation Quality",
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&auto=format&fit=crop&q=80",
+      highlights: ["Botanical Garden with 850+ Medicinal Species", "Pharmaceutical Standardization Unit", "Pharma Campus Recruitment Ties"],
+      contact: "director@itra.edu.in • www.itra.edu.in"
+    },
+    {
+      id: "COL-BHU-04",
+      name: "Faculty of Ayurveda, Banaras Hindu University (BHU)",
+      location: "Varanasi, Uttar Pradesh",
+      state: "Uttar Pradesh",
+      type: "Central University Faculty",
+      accreditation: "NIRF Top 5 • NAAC A++",
+      founded: "1922",
+      dean: "Prof. P. K. Goswami",
+      studentsCount: "1,350+ Students",
+      disciplines: ["BAMS, MD/MS (15 Specialities), Ph.D", "Shalya Tantra", "Kayachikitsa"],
+      placementRate: "93% Placed / Hospital Practice",
+      bridgeAdoption: "89% SkillSetu Integrated",
+      image: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=500&auto=format&fit=crop&q=80",
+      highlights: ["Sir Sunderlal Hospital (1,200 Beds)", "Center for Nadi Vigyan AI diagnostics", "Herbal Extraction Pilot Plant"],
+      contact: "ayurveda@bhu.ac.in • www.bhu.ac.in"
+    },
+    {
+      id: "COL-GAVC-05",
+      name: "Government Ayurveda College & Hospital",
+      location: "Thiruvananthapuram, Kerala",
+      state: "Kerala",
+      type: "State Premier Government College",
+      accreditation: "KUHS Affiliated • Kerala Ayush Dept",
+      founded: "1889",
+      dean: "Dr. P. R. Saraswathy",
+      studentsCount: "850+ Students",
+      disciplines: ["BAMS, MD (Panchakarma Speciality)", "Keraleeya Chikitsa & Marma"],
+      placementRate: "97% Placed / Global Wellness",
+      bridgeAdoption: "94% Marma & Wellness Certified",
+      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&auto=format&fit=crop&q=80",
+      highlights: ["Global Medical Tourism Hub", "Kottakkal & Vaidyaratnam Training MoUs", "Traditional Dhara & Pizhichil Wards"],
+      contact: "principal@gavctvm.ac.in • www.gavctvm.ac.in"
+    },
+    {
+      id: "COL-NIUM-06",
+      name: "National Institute of Unani Medicine (NIUM)",
+      location: "Bengaluru, Karnataka",
+      state: "Karnataka",
+      type: "Autonomous Apex Institute (Ministry of Ayush)",
+      accreditation: "RGUHS Affiliated • Ministry of Ayush",
+      founded: "2004",
+      dean: "Prof. Abdul Wadud",
+      studentsCount: "640+ Postgraduates",
+      disciplines: ["Unani (BUMS, MD Unani, Ph.D)", "Ilaj-bit-Tadbeer (Regimental Therapy)"],
+      placementRate: "89% Placed",
+      bridgeAdoption: "91% Standardized Formulations",
+      image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=500&auto=format&fit=crop&q=80",
+      highlights: ["Advanced Unani Pharmacopoeia Testing Lab", "180-Bed Research Hospital", "Hamdard & Rex Remedies Placement Ties"],
+      contact: "director@nium.in • www.nium.in"
+    }
+  ],
+
+  ministryInsights: {
+    nationalSummary: {
+      activeInstitutes: 352,
+      registeredStudents: "42,850+",
+      verifiedRecruiters: "1,240+",
+      averageStipend: "₹3.8 - ₹6.5 LPA",
+      nationalPlacementRate: "88.4%",
+      gmpComplianceSurge: "+42% YoY"
+    },
+    topHighGrowthSkills: [
+      { skill: "Schedule T GMP Manufacturing & SOPs", demand: "96% High Demand", avgSalary: "₹5.8 LPA", growth: "+44%" },
+      { skill: "HPTLC Phytochemical Standardization", demand: "92% High Demand", avgSalary: "₹5.2 LPA", growth: "+38%" },
+      { skill: "Clinical Trial Documentation & GCP", demand: "89% High Demand", avgSalary: "₹4.8 LPA", growth: "+31%" },
+      { skill: "Keraleeya Panchakarma Protocol & Marma", demand: "86% High Demand", avgSalary: "₹4.5 LPA", growth: "+29%" }
+    ],
+    governmentScholarships: [
+      {
+        title: "National Ayush Mission (NAM) Industrial Fellowship",
+        grantAmount: "₹25,000 / month for 6 Months",
+        eligibility: "BAMS / MD students scoring 80%+ on SkillSetu Clinical Diagnostic",
+        deadline: "30 Sept 2026",
+        sponsor: "Ministry of Ayush, Govt of India"
+      },
+      {
+        title: "Ayush Aahar & Phytochemistry Research Grant",
+        grantAmount: "₹3.5 Lakh Seed Funding",
+        eligibility: "Final-year PG Scholars with verified formulation bridge certificates",
+        deadline: "15 Oct 2026",
+        sponsor: "Pharmacopoeia Commission for Indian Medicine (PCIM&H)"
+      },
+      {
+        title: "Schedule T Modernization Apprenticeship Scheme",
+        grantAmount: "100% Industry Bridge Course Subsidy + ₹15k Stipend Support",
+        eligibility: "All undergraduate interns at recognized Ayush colleges",
+        deadline: "Open All Year",
+        sponsor: "National Skill Development Corporation (NSDC) & Ministry of Ayush"
+      }
+    ]
+  }
 };
+
 

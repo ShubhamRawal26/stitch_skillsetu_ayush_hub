@@ -151,6 +151,12 @@ window.AppUI = {
       case 'ministry-dashboard':
         contentHTML = this.getMinistryDashboardHTML(state);
         break;
+      case 'colleges':
+        contentHTML = this.getCollegesHTML(state);
+        break;
+      case 'ministry-insights':
+        contentHTML = this.getMinistryInsightsHTML(state);
+        break;
       default:
         contentHTML = this.getLandingHTML(state);
     }
@@ -228,7 +234,32 @@ window.AppUI = {
       `;
     }
 
-    // 3. AUTHENTICATED IN-APP LINKEDIN HEADER (Feed, Student Dashboard, Industry, College, Ministry)
+    // 3. AUTHENTICATED IN-APP LINKEDIN HEADER (Role-Aware for Student, Industry, College, Ministry)
+    const role = state.currentRole || 'student';
+    
+    // User profile metadata according to role
+    let profileAvatar = state.student?.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT';
+    let profileName = state.student?.name || 'Shubham Rawal';
+    let profileRoleLabel = 'Student (BAMS)';
+    let meDashboardView = 'student-dashboard';
+
+    if (role === 'industry') {
+      profileAvatar = 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=80&auto=format&fit=crop&q=80';
+      profileName = 'Dabur India Ltd';
+      profileRoleLabel = 'Enterprise Recruiter';
+      meDashboardView = 'industry-dashboard';
+    } else if (role === 'college') {
+      profileAvatar = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80';
+      profileName = 'Prof. Meenakshi Sundaram';
+      profileRoleLabel = 'Faculty • NIA Jaipur';
+      meDashboardView = 'college-dashboard';
+    } else if (role === 'ministry') {
+      profileAvatar = 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&auto=format&fit=crop&q=80';
+      profileName = 'Ayush Governance Admin';
+      profileRoleLabel = 'Ministry of Ayush';
+      meDashboardView = 'ministry-dashboard';
+    }
+
     return `
       <div class="px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
         <div class="flex justify-between items-center h-14 md:h-16">
@@ -248,11 +279,11 @@ window.AppUI = {
             <!-- LinkedIn Pill Search Input -->
             <div class="relative hidden md:flex items-center ml-1 lg:ml-2">
               <span class="material-symbols-outlined absolute left-2.5 text-slate-500 text-[18px]">search</span>
-              <input type="text" placeholder="Search skills, jobs, colleges..." onkeydown="if(event.key==='Enter'){AppUI.showToast('Searching for: ' + this.value, 'info');}" class="pl-8 pr-3 py-1.5 bg-[#edf3f8] hover:bg-[#e4ecf3] focus:bg-white text-slate-800 text-xs rounded-md border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary w-44 lg:w-56 xl:w-64 transition-all" />
+              <input type="text" placeholder="${role === 'industry' ? 'Search candidates, skills, batch...' : 'Search skills, jobs, colleges...'}" onkeydown="if(event.key==='Enter'){AppUI.showToast('Searching for: ' + this.value, 'info');}" class="pl-8 pr-3 py-1.5 bg-[#edf3f8] hover:bg-[#e4ecf3] focus:bg-white text-slate-800 text-xs rounded-md border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary w-44 lg:w-56 xl:w-64 transition-all" />
             </div>
           </div>
 
-          <!-- Right Navigation Tabs (LinkedIn Style Matching Screenshot) -->
+          <!-- Right Navigation Tabs (LinkedIn Style Role-Aware) -->
           <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1.5 h-full">
             <!-- 1. Home / Feed -->
             <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="linkedin-nav-item ${state.currentView === 'feed' ? 'active' : ''}" title="Home Feed">
@@ -261,46 +292,55 @@ window.AppUI = {
               <span>Home</span>
             </a>
 
-            <!-- 2. My Network / Portals -->
-            <a href="javascript:void(0)" onclick="AppUI.navigate('roles')" class="linkedin-nav-item ${state.currentView === 'roles' ? 'active' : ''}" title="Portals & Role Selection">
-              <span class="material-symbols-outlined ${state.currentView === 'roles' ? 'fill-icon' : ''}">groups</span>
-              <span>My Network</span>
+            <!-- 2. Primary Role Action (Jobs / Candidate Pool / Cohort Analytics / Governance Hub) -->
+            ${role === 'student' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="linkedin-nav-item ${state.currentView === 'student-dashboard' ? 'active' : ''}" title="Verified Industry Jobs & Radar">
+                <span class="material-symbols-outlined ${state.currentView === 'student-dashboard' ? 'fill-icon' : ''}">work</span>
+                <span>Jobs</span>
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="linkedin-nav-item ${state.currentView === 'assessment' ? 'active' : ''}" title="Clinical Diagnostic Quiz">
+                <span class="material-symbols-outlined ${state.currentView === 'assessment' ? 'fill-icon' : ''}">assignment</span>
+                <span>Assessment</span>
+              </a>
+            ` : role === 'industry' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="linkedin-nav-item ${state.currentView === 'industry-dashboard' ? 'active' : ''}" title="Verified Ayush Candidate Pool">
+                <span class="material-symbols-outlined ${state.currentView === 'industry-dashboard' ? 'fill-icon' : ''}">person_search</span>
+                <span>Candidates</span>
+              </a>
+            ` : role === 'college' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="linkedin-nav-item ${state.currentView === 'college-dashboard' ? 'active' : ''}" title="Faculty Cohort Readiness Dashboard">
+                <span class="material-symbols-outlined ${state.currentView === 'college-dashboard' ? 'fill-icon' : ''}">analytics</span>
+                <span>Readiness</span>
+              </a>
+            ` : `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="linkedin-nav-item ${state.currentView === 'ministry-dashboard' ? 'active' : ''}" title="National Governance Impact Dashboard">
+                <span class="material-symbols-outlined ${state.currentView === 'ministry-dashboard' ? 'fill-icon' : ''}">admin_panel_settings</span>
+                <span>Governance</span>
+              </a>
+            `}
+
+            <!-- 3. Colleges Directory (For Student = Colleges Directory, For Industry = Partner Institutions) -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="linkedin-nav-item ${state.currentView === 'colleges' ? 'active' : ''}" title="${role === 'industry' ? 'Partner Colleges & MoUs' : 'Accredited Ayush Colleges'}">
+              <span class="material-symbols-outlined ${state.currentView === 'colleges' ? 'fill-icon' : ''}">account_balance</span>
+              <span>${role === 'industry' ? 'Partner Colleges' : 'Colleges'}</span>
             </a>
 
-            <!-- 3. Jobs / Industry -->
-            <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="linkedin-nav-item ${state.currentView === 'industry-dashboard' ? 'active' : ''}" title="Verified Industry Opportunities">
-              <span class="material-symbols-outlined ${state.currentView === 'industry-dashboard' ? 'fill-icon' : ''}">work</span>
-              <span>Jobs</span>
+            <!-- 4. Ministry / National Insights -->
+            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="linkedin-nav-item ${state.currentView === 'ministry-insights' ? 'active' : ''}" title="${role === 'industry' ? 'Industry Standards & Grants' : 'National Ayush Career Intelligence'}">
+              <span class="material-symbols-outlined ${state.currentView === 'ministry-insights' ? 'fill-icon' : ''}">query_stats</span>
+              <span>${role === 'industry' ? 'Standards' : 'Insights'}</span>
             </a>
 
-            <!-- 4. Assessment -->
-            <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="linkedin-nav-item ${state.currentView === 'assessment' ? 'active' : ''}" title="Clinical Benchmark Assessment">
-              <span class="material-symbols-outlined ${state.currentView === 'assessment' ? 'fill-icon' : ''}">assignment</span>
-              <span>Assessment</span>
-            </a>
-
-            <!-- 5. Colleges / Messaging -->
-            <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="linkedin-nav-item ${state.currentView === 'college-dashboard' ? 'active' : ''}" title="Academic Colleges & Faculty">
-              <span class="material-symbols-outlined ${state.currentView === 'college-dashboard' ? 'fill-icon' : ''}">account_balance</span>
-              <span>Colleges</span>
-            </a>
-
-            <!-- 6. Ministry / Insights -->
-            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="linkedin-nav-item ${state.currentView === 'ministry-dashboard' ? 'active' : ''}" title="Ministry Intelligence & Heatmaps">
-              <span class="material-symbols-outlined ${state.currentView === 'ministry-dashboard' ? 'fill-icon' : ''}">analytics</span>
-              <span>Ministry</span>
-            </a>
-
-            <!-- 7. Notifications -->
-            <a href="javascript:void(0)" onclick="AppUI.showToast('You have 2 new opportunity matches based on your latest GMP benchmark!', 'info')" class="linkedin-nav-item" title="Notifications">
+            <!-- 5. Notifications -->
+            <a href="javascript:void(0)" onclick="AppUI.showToast('${role === 'industry' ? '2 candidates matched your Ayurvedic QC job opening!' : 'You have 2 new opportunity matches based on your latest GMP benchmark!'}', 'info')" class="linkedin-nav-item" title="Notifications">
               <span class="material-symbols-outlined">notifications</span>
               <span class="badge-count">2</span>
               <span>Notifications</span>
             </a>
 
-            <!-- 8. Me (Profile & Role Switcher Dropdown) -->
-            <div class="linkedin-nav-item cursor-pointer" onclick="AppUI.navigate('student-dashboard')" title="View Profile (${state.student.name})">
-              <img src="${state.student.avatar}" alt="${state.student.name}" class="w-5 h-5 rounded-full object-cover border border-slate-300" />
+            <!-- 6. Me (Role-Aware Profile Dropdown) -->
+            <div class="linkedin-nav-item cursor-pointer" onclick="AppUI.navigate('${meDashboardView}')" title="Logged in as ${profileName} (${profileRoleLabel})">
+              <img src="${profileAvatar}" alt="${profileName}" class="w-5 h-5 rounded-full object-cover border border-slate-300" />
               <span class="flex items-center gap-0.5 mt-0.5">
                 Me <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
               </span>
@@ -309,18 +349,18 @@ window.AppUI = {
             <!-- Divider Line -->
             <div class="h-7 w-[1px] bg-slate-200 mx-1 hidden xl:block"></div>
 
-            <!-- 9. For Portals / For Business -->
-            <div class="linkedin-nav-item cursor-pointer hidden xl:flex" onclick="AppUI.navigate('roles')" title="Explore Stakeholder Portals">
+            <!-- 7. For Portals / Switch Stakeholder -->
+            <div class="linkedin-nav-item cursor-pointer hidden xl:flex" onclick="AppUI.navigate('roles')" title="Explore Other Stakeholder Portals">
               <span class="material-symbols-outlined text-slate-600">apps</span>
               <span class="flex items-center gap-0.5">
-                For Portals <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
+                Portals <span class="material-symbols-outlined text-[12px] leading-none">arrow_drop_down</span>
               </span>
             </div>
           </nav>
 
           <!-- Mobile Hamburger & Actions -->
           <div class="flex lg:hidden items-center gap-2">
-            <button onclick="AppUI.showToast('2 new opportunity matches ready!', 'info')" class="p-1.5 text-slate-600 hover:text-primary transition-colors rounded-full relative">
+            <button onclick="AppUI.showToast('Notifications checked', 'info')" class="p-1.5 text-slate-600 hover:text-primary transition-colors rounded-full relative">
               <span class="material-symbols-outlined text-2xl">notifications</span>
               <span class="badge-count">2</span>
             </button>
@@ -336,20 +376,31 @@ window.AppUI = {
             <a href="javascript:void(0)" onclick="AppUI.navigate('feed')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'feed' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
               <span class="material-symbols-outlined text-lg text-primary">feed</span> Home Feed
             </a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-              <span class="material-symbols-outlined text-lg text-primary">school</span> Student Hub & Radar
+            ${role === 'student' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'student-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">school</span> Student Hub & Radar
+              </a>
+              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">assignment</span> Skill Diagnostic
+              </a>
+            ` : role === 'industry' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">person_search</span> Candidate Pool
+              </a>
+            ` : role === 'college' ? `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'college-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">analytics</span> Cohort Readiness
+              </a>
+            ` : `
+              <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+                <span class="material-symbols-outlined text-lg text-primary">admin_panel_settings</span> Governance Hub
+              </a>
+            `}
+            <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'colleges' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">account_balance</span> ${role === 'industry' ? 'Partner Colleges' : 'Colleges Directory'}
             </a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'assessment' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-              <span class="material-symbols-outlined text-lg text-primary">assignment</span> Skill Diagnostic
-            </a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'industry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-              <span class="material-symbols-outlined text-lg text-primary">business_center</span> Industry Jobs
-            </a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'college-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-              <span class="material-symbols-outlined text-lg text-primary">account_balance</span> Colleges
-            </a>
-            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-dashboard' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
-              <span class="material-symbols-outlined text-lg text-primary">query_stats</span> Ministry Insights
+            <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm ${state.currentView === 'ministry-insights' ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface hover:bg-surface-container-high'} transition-colors">
+              <span class="material-symbols-outlined text-lg text-primary">query_stats</span> ${role === 'industry' ? 'Industry Standards' : 'National Insights'}
             </a>
             <a href="javascript:void(0)" onclick="AppUI.navigate('home')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-label-md text-sm text-error hover:bg-error/10 transition-colors">
               <span class="material-symbols-outlined text-lg">logout</span> Exit / Landing
@@ -411,12 +462,60 @@ window.AppUI = {
 
   // 0. LinkedIn Main Home Feed HTML
   getFeedHTML(state) {
-    const student = state.student;
+    const role = state.currentRole || 'student';
+    const student = state.student || {};
     const posts = state.feedPosts || [];
     const trending = window.SKILLSETU_DATA.trendingNews || [];
     const opps = state.opportunities || [];
     const daburOpp = opps.find(o => o.id === 'OPP-DABUR-01') || opps[0];
     const isDaburApplied = state.applications[daburOpp.id]?.applied;
+
+    // Role-Aware Left Profile Summary Card
+    let profileAvatar = student.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT';
+    let profileName = student.name || 'Shubham Rawal';
+    let profileProgram = student.program || 'BAMS Final Year (Ayurveda)';
+    let profileInstitution = student.institution || 'National Institute of Ayurveda (NIA), Jaipur';
+    let profileTargetView = 'student-dashboard';
+    let statLabel1 = 'Profile viewers', statVal1 = '142';
+    let statLabel2 = 'Post impressions', statVal2 = '1,820';
+    let statLabel3 = 'Verified Match', statVal3 = `${student.overallMatch || 92}%`;
+    let badgeTitle = `Schedule T GMP: ${student.skills?.["GMP"]?.current || 42}%`;
+    let badgeDesc = (student.skills?.["GMP"]?.current >= 75) ? 'Ready for manufacturing placement' : 'Bridge module available to reach 85%';
+
+    if (role === 'industry') {
+      profileAvatar = 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80';
+      profileName = 'Dabur India Ltd';
+      profileProgram = 'Formulation R&D & Talent Acquisition';
+      profileInstitution = 'Verified Corporate Enterprise Partner';
+      profileTargetView = 'industry-dashboard';
+      statLabel1 = 'Candidate views'; statVal1 = '84';
+      statLabel2 = 'Talent shortlisted'; statVal2 = '12';
+      statLabel3 = 'Active openings'; statVal3 = '15 Roles';
+      badgeTitle = 'Schedule T Verified Recruiter';
+      badgeDesc = 'Direct campus recruitment enabled';
+    } else if (role === 'college') {
+      profileAvatar = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80';
+      profileName = 'Prof. Meenakshi Sundaram';
+      profileProgram = 'Dean & Head of Faculty';
+      profileInstitution = 'National Institute of Ayurveda (NIA Jaipur)';
+      profileTargetView = 'college-dashboard';
+      statLabel1 = 'Batch cohort size'; statVal1 = '120';
+      statLabel2 = 'Placements this Q'; statVal2 = '48';
+      statLabel3 = 'Readiness score'; statVal3 = '84%';
+      badgeTitle = 'Accredited Faculty Reviewer';
+      badgeDesc = 'Curriculum bridge module author';
+    } else if (role === 'ministry') {
+      profileAvatar = 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80';
+      profileName = 'Ayush Governance Secretariat';
+      profileProgram = 'National Skill Impact Division';
+      profileInstitution = 'Ministry of Ayush, Govt. of India';
+      profileTargetView = 'ministry-dashboard';
+      statLabel1 = 'Affiliated colleges'; statVal1 = '352';
+      statLabel2 = 'Active students'; statVal2 = '42,850+';
+      statLabel3 = 'National placement'; statVal3 = '88.4%';
+      badgeTitle = 'Official Governance Administrator';
+      badgeDesc = 'National workforce analytics active';
+    }
 
     return `
       <main class="pt-20 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
@@ -430,56 +529,97 @@ window.AppUI = {
               <div class="h-16 bg-gradient-to-r from-emerald-800 to-teal-700 w-full relative"></div>
               <!-- Avatar -->
               <div class="px-4 pb-4 -mt-8 relative">
-                <img src="${student.avatar}" alt="${student.name}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md cursor-pointer" onclick="AppUI.navigate('student-dashboard')" />
-                <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:underline" onclick="AppUI.navigate('student-dashboard')">${student.name}</h2>
-                <p class="text-[11px] text-slate-500 leading-tight mt-0.5">${student.program}</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">${student.institution}</p>
+                <img src="${profileAvatar}" alt="${profileName}" class="w-16 h-16 rounded-full mx-auto object-cover border-2 border-white shadow-md cursor-pointer" onclick="AppUI.navigate('${profileTargetView}')" />
+                <h2 class="font-bold text-slate-900 text-sm mt-2 cursor-pointer hover:underline" onclick="AppUI.navigate('${profileTargetView}')">${profileName}</h2>
+                <p class="text-[11px] text-slate-500 leading-tight mt-0.5">${profileProgram}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">${profileInstitution}</p>
 
                 <!-- Profile Analytics Quick Stats -->
                 <div class="border-t border-slate-100 mt-4 pt-3 space-y-2 text-left">
                   <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-500 font-medium">Profile viewers</span>
-                    <span class="font-bold text-primary">142</span>
+                    <span class="text-slate-500 font-medium">${statLabel1}</span>
+                    <span class="font-bold text-primary">${statVal1}</span>
                   </div>
                   <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-500 font-medium">Post impressions</span>
-                    <span class="font-bold text-primary">1,820</span>
+                    <span class="text-slate-500 font-medium">${statLabel2}</span>
+                    <span class="font-bold text-primary">${statVal2}</span>
                   </div>
                   <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-500 font-medium">Verified Match</span>
-                    <span class="font-bold text-emerald-600">${student.overallMatch}%</span>
+                    <span class="text-slate-500 font-medium">${statLabel3}</span>
+                    <span class="font-bold text-emerald-600">${statVal3}</span>
                   </div>
                 </div>
 
-                <!-- Verified GMP Badge Chip -->
-                <div class="mt-3.5 pt-3 border-t border-slate-100 bg-emerald-50/60 rounded-lg p-2 text-left cursor-pointer" onclick="AppUI.navigate('student-dashboard')">
+                <!-- Verified Badge Chip -->
+                <div class="mt-3.5 pt-3 border-t border-slate-100 bg-emerald-50/60 rounded-lg p-2 text-left cursor-pointer" onclick="AppUI.navigate('${profileTargetView}')">
                   <div class="flex items-center gap-1.5 text-emerald-800 text-[11px] font-bold">
                     <span class="material-symbols-outlined text-[14px]">verified</span>
-                    <span>Schedule T GMP: ${student.skills["GMP"]?.current || 42}%</span>
+                    <span>${badgeTitle}</span>
                   </div>
-                  <p class="text-[10px] text-slate-500 mt-0.5">${student.skills["GMP"]?.current >= 75 ? 'Ready for manufacturing placement' : 'Bridge module available to reach 85%'}</p>
+                  <p class="text-[10px] text-slate-500 mt-0.5">${badgeDesc}</p>
                 </div>
               </div>
             </div>
 
             <!-- Quick Navigation Shortcuts -->
             <div class="linkedin-card p-3 space-y-1 text-xs">
-              <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
-                <span class="material-symbols-outlined text-primary text-[18px]">radar</span>
-                <span>Interactive Skill Radar</span>
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
-                <span class="material-symbols-outlined text-emerald-600 text-[18px]">assignment</span>
-                <span>Take Skill Diagnostic</span>
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
-                <span class="material-symbols-outlined text-blue-600 text-[18px]">work</span>
-                <span>Industry Jobs & Internships</span>
-              </a>
-              <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
-                <span class="material-symbols-outlined text-purple-600 text-[18px]">account_balance</span>
-                <span>Colleges & Cohorts</span>
-              </a>
+              ${role === 'student' ? `
+                <a href="javascript:void(0)" onclick="AppUI.navigate('student-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-primary text-[18px]">radar</span>
+                  <span>Interactive Skill Radar</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('assessment')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">assignment</span>
+                  <span>Take Skill Diagnostic</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-blue-600 text-[18px]">account_balance</span>
+                  <span>Accredited Colleges Directory</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-purple-600 text-[18px]">query_stats</span>
+                  <span>National Career Insights</span>
+                </a>
+              ` : role === 'industry' ? `
+                <a href="javascript:void(0)" onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-primary text-[18px]">person_search</span>
+                  <span>Search Verified Talent Pool</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">account_balance</span>
+                  <span>Partner Colleges & MoUs</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-blue-600 text-[18px]">gavel</span>
+                  <span>Schedule T Guidelines</span>
+                </a>
+              ` : role === 'college' ? `
+                <a href="javascript:void(0)" onclick="AppUI.navigate('college-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-primary text-[18px]">analytics</span>
+                  <span>Cohort Readiness Dashboard</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">account_balance</span>
+                  <span>Peer Colleges Directory</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-blue-600 text-[18px]">query_stats</span>
+                  <span>Curriculum Policies</span>
+                </a>
+              ` : `
+                <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-dashboard')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-primary text-[18px]">admin_panel_settings</span>
+                  <span>Governance Impact Analytics</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('colleges')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">account_balance</span>
+                  <span>Accredited Institutes Directory</span>
+                </a>
+                <a href="javascript:void(0)" onclick="AppUI.navigate('ministry-insights')" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 text-slate-700 font-semibold transition-colors">
+                  <span class="material-symbols-outlined text-blue-600 text-[18px]">query_stats</span>
+                  <span>National Workforce Insights</span>
+                </a>
+              `}
             </div>
           </div>
 
@@ -728,6 +868,336 @@ window.AppUI = {
 
           </div>
 
+        </div>
+      </main>
+    `;
+  },
+
+  // Filter Colleges by keyword
+  filterColleges(keyword) {
+    const grid = document.getElementById('colleges-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.linkedin-card');
+    const term = (keyword || '').toLowerCase().trim();
+    cards.forEach(card => {
+      const name = card.getAttribute('data-name') || '';
+      const state = (card.getAttribute('data-state') || '').toLowerCase();
+      if (!term || name.includes(term) || state.includes(term)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  },
+
+  // Filter Colleges by State dropdown
+  filterCollegesByState(stateName) {
+    const grid = document.getElementById('colleges-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.linkedin-card');
+    cards.forEach(card => {
+      const cardState = card.getAttribute('data-state') || '';
+      if (stateName === 'all' || cardState === stateName) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  },
+
+  // Colleges & Institutions Directory View (Role-Differentiated)
+  getCollegesHTML(state) {
+    const role = state.currentRole || 'student';
+    const colleges = window.SKILLSETU_DATA.collegesDirectory || [];
+
+    const isStudent = role === 'student';
+    const isIndustry = role === 'industry';
+    const isCollege = role === 'college';
+
+    const pageTitle = isIndustry 
+      ? 'Partner Institutions for Campus Hiring & Research' 
+      : isCollege
+      ? 'Accredited Ayush Colleges & Peer Benchmarks'
+      : 'Accredited Ayush Colleges & Universities Directory';
+
+    const pageSubtitle = isIndustry
+      ? 'Partner with top Ayush medical colleges for on-campus talent recruitment drives, Schedule T certified batches, and joint research MoUs.'
+      : isCollege
+      ? 'Explore peer institutions, national curriculum benchmarks, and collaborative research initiatives across India.'
+      : 'Explore 350+ recognized Ayush medical colleges, clinical teaching hospitals, NAAC rankings, and verified placement records.';
+
+    return `
+      <main class="pt-24 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <!-- Breadcrumb & Role Badge Header -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-5">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold mb-2">
+              <span class="material-symbols-outlined text-[16px] text-primary">account_balance</span>
+              ${isIndustry ? 'Enterprise Academic Network' : isCollege ? 'Faculty Peer Network' : 'National Ayush Institutional Registry'}
+            </div>
+            <h1 class="font-display-lg text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">${pageTitle}</h1>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">${pageSubtitle}</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.navigate('feed')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-label-md text-xs font-bold transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base">arrow_back</span> Back to Feed
+            </button>
+            ${isIndustry ? `
+              <button onclick="AppUI.showToast('Select an accredited college below to schedule a campus drive', 'info')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">event</span> Schedule Campus Drive
+              </button>
+            ` : isStudent ? `
+              <button onclick="AppUI.navigate('assessment')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">assignment</span> Take Diagnostic Quiz
+              </button>
+            ` : ''}
+          </div>
+        </div>
+
+        <!-- Search & Filter Bar -->
+        <div class="linkedin-card p-4 mb-8 grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+          <div class="md:col-span-6 relative">
+            <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">search</span>
+            <input type="text" id="college-search-input" placeholder="Search by college name, city, state, or course..." onkeyup="AppUI.filterColleges(this.value)" class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary" />
+          </div>
+          <div class="md:col-span-3">
+            <select onchange="AppUI.filterCollegesByState(this.value)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-700 font-semibold focus:border-primary">
+              <option value="all">All States / UTs (352+ Colleges)</option>
+              <option value="Rajasthan">Rajasthan (NIA & Affiliates)</option>
+              <option value="Delhi">Delhi NCR (AIIA)</option>
+              <option value="Gujarat">Gujarat (ITRA Jamnagar)</option>
+              <option value="Uttar Pradesh">Uttar Pradesh (BHU Faculty)</option>
+              <option value="Kerala">Kerala (Govt Ayurveda)</option>
+              <option value="Karnataka">Karnataka (NIUM Bengaluru)</option>
+            </select>
+          </div>
+          <div class="md:col-span-3 text-right">
+            <span class="text-xs font-bold text-slate-500">Showing <strong>6 Apex Institutions</strong></span>
+          </div>
+        </div>
+
+        <!-- Colleges Grid -->
+        <div id="colleges-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          ${colleges.map(col => `
+            <div class="linkedin-card overflow-hidden flex flex-col h-full group hover:shadow-lg transition-all border border-slate-200" data-name="${col.name.toLowerCase()}" data-state="${col.state}">
+              <!-- Image Banner -->
+              <div class="relative h-44 overflow-hidden bg-slate-100">
+                <img src="${col.image}" alt="${col.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-emerald-900 font-extrabold text-[11px] border border-emerald-200 shadow-sm flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px] text-primary">verified</span> ${col.accreditation.split('•')[0].trim()}
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 text-white">
+                  <div class="text-[11px] text-emerald-300 font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">location_on</span> ${col.location}
+                  </div>
+                  <h3 class="font-bold text-sm leading-tight text-white drop-shadow-sm mt-0.5">${col.name}</h3>
+                </div>
+              </div>
+
+              <!-- Body Details -->
+              <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                  <div class="text-[11px] text-slate-500 font-medium">
+                    <span class="font-bold text-slate-700">Dean / Director:</span> ${col.dean} • <span class="font-bold text-slate-700">Est:</span> ${col.founded}
+                  </div>
+
+                  <!-- Metrics strip -->
+                  <div class="grid grid-cols-2 gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                    <div>
+                      <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Campus Placements</div>
+                      <div class="font-extrabold text-emerald-700 text-sm mt-0.5">${col.placementRate}</div>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Schedule T Adoption</div>
+                      <div class="font-extrabold text-blue-700 text-sm mt-0.5">${col.bridgeAdoption}</div>
+                    </div>
+                  </div>
+
+                  <!-- Disciplines -->
+                  <div class="space-y-1">
+                    <div class="text-[11px] font-bold text-slate-700">Programs Offered:</div>
+                    <div class="flex flex-wrap gap-1">
+                      ${col.disciplines.map(d => `
+                        <span class="px-2 py-0.5 bg-emerald-50 text-emerald-800 rounded-md text-[10px] font-semibold border border-emerald-200/60">${d}</span>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  <!-- Research Highlights -->
+                  <div class="space-y-1 text-xs">
+                    <div class="text-[11px] font-bold text-slate-700">Key Facilities & MoUs:</div>
+                    <ul class="text-[11px] text-slate-600 space-y-0.5 pl-1">
+                      ${col.highlights.map(h => `<li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[13px]">check</span> ${h}</li>`).join('')}
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Role Actions -->
+                <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                  ${isIndustry ? `
+                    <button onclick="AppUI.showToast('Campus recruitment request sent to ${col.name}! Placement officer will contact you.', 'success')" class="flex-1 py-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[15px]">event</span> Campus Drive
+                    </button>
+                    <button onclick="AppUI.showToast('Research MoU proposal initiated with ${col.name} under Ministry of Ayush grant scheme.', 'info')" class="px-3 py-2 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-bold transition-all flex items-center justify-center" title="Initiate Research MoU">
+                      <span class="material-symbols-outlined text-[15px]">handshake</span>
+                    </button>
+                  ` : isStudent ? `
+                    <button onclick="AppUI.showToast('Official Contact & Admissions: ${col.contact}', 'info')" class="flex-1 py-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[15px]">school</span> Admissions & Info
+                    </button>
+                    <button onclick="AppUI.showToast('Opening virtual campus tour for ${col.name}', 'info')" class="px-3 py-2 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-bold transition-all flex items-center justify-center" title="Virtual Tour">
+                      <span class="material-symbols-outlined text-[15px]">visibility</span>
+                    </button>
+                  ` : `
+                    <button onclick="AppUI.showToast('Benchmarking data for ${col.name} loaded into institutional review panel.', 'info')" class="flex-1 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[15px]">analytics</span> View Benchmarks
+                    </button>
+                  `}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </main>
+    `;
+  },
+
+  // Ministry & National Intelligence View (Role-Differentiated)
+  getMinistryInsightsHTML(state) {
+    const role = state.currentRole || 'student';
+    const insights = window.SKILLSETU_DATA.ministryInsights || {};
+    const summary = insights.nationalSummary || {};
+    const isIndustry = role === 'industry';
+    const isMinistry = role === 'ministry';
+
+    return `
+      <main class="pt-24 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <!-- Header -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-5">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold mb-2">
+              <span class="material-symbols-outlined text-[16px] text-primary">policy</span>
+              Ministry of Ayush • National Intelligence Portal
+            </div>
+            <h1 class="font-display-lg text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              ${isIndustry ? 'Ayush Regulatory Standards & Modernization Subsidies' : 'National Ayush Career Intelligence & Research Grants'}
+            </h1>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+              ${isIndustry 
+                ? 'Official compliance guidelines for Schedule T of Drugs & Cosmetics Act, Ayush Premium Mark certification, and industrial modernization grants under National Ayush Mission.' 
+                : 'Real-time industry hiring trends, highest paying clinical specializations, and Central Government scholarship grants co-funded under National Ayush Mission (NAM).'}
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="AppUI.navigate('feed')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-label-md text-xs font-bold transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base">arrow_back</span> Back to Feed
+            </button>
+            ${isMinistry ? `
+              <button onclick="AppUI.navigate('ministry-dashboard')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">admin_panel_settings</span> Open Governance Admin Hub
+              </button>
+            ` : ''}
+          </div>
+        </div>
+
+        <!-- National Stats Summary Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="linkedin-card p-5 text-center">
+            <div class="text-2xl sm:text-3xl font-extrabold text-primary">${summary.activeInstitutes || 352}</div>
+            <div class="text-xs text-slate-500 font-semibold mt-1">Affiliated Colleges & Universities</div>
+          </div>
+          <div class="linkedin-card p-5 text-center">
+            <div class="text-2xl sm:text-3xl font-extrabold text-primary">${summary.registeredStudents || '42,850+'}</div>
+            <div class="text-xs text-slate-500 font-semibold mt-1">Registered Scholars & Doctors</div>
+          </div>
+          <div class="linkedin-card p-5 text-center">
+            <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700">${summary.averageStipend || '₹3.8 - ₹6.5 LPA'}</div>
+            <div class="text-xs text-slate-500 font-semibold mt-1">Average Starting CTC / Stipend</div>
+          </div>
+          <div class="linkedin-card p-5 text-center">
+            <div class="text-2xl sm:text-3xl font-extrabold text-blue-700">${summary.gmpComplianceSurge || '+42% YoY'}</div>
+            <div class="text-xs text-slate-500 font-semibold mt-1">Surge in Schedule T GMP Hiring</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Left Column: High Growth Skills & Demand Index (6 cols) -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="linkedin-card p-6 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div>
+                  <h2 class="font-bold text-slate-900 text-base">Top High-Growth Ayush Competencies</h2>
+                  <p class="text-xs text-slate-500">Ranked by verified recruiter hiring demand across 1,240+ enterprises</p>
+                </div>
+                <span class="material-symbols-outlined text-primary text-2xl">trending_up</span>
+              </div>
+
+              <div class="space-y-3.5 pt-1">
+                ${(insights.topHighGrowthSkills || []).map(s => `
+                  <div class="p-3.5 bg-slate-50/80 rounded-xl border border-slate-200/80 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <h3 class="font-bold text-slate-900 text-xs sm:text-sm">${s.skill}</h3>
+                      <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold">${s.growth} YoY</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs text-slate-600">
+                      <span class="font-semibold text-primary flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">local_fire_department</span> ${s.demand}
+                      </span>
+                      <span class="font-bold text-slate-800">${s.avgSalary}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Regulatory Guidelines Highlight Card -->
+            <div class="linkedin-card p-6 space-y-3 border-l-4 border-l-primary">
+              <div class="flex items-center gap-2 text-primary font-bold text-sm">
+                <span class="material-symbols-outlined">gavel</span>
+                <span>Schedule T Compliance Mandate (Drugs & Cosmetics Act)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                By official notification, all Ayush manufacturing units must maintain sterile processing zones, standard batch records, and certified quality managers. Ayush students completing the <strong>Schedule T GMP Bridge Course</strong> receive certified preference in all pharma recruitment pipelines.
+              </p>
+              <button onclick="AppUI.navigate('assessment')" class="text-xs text-primary font-bold hover:underline inline-flex items-center gap-1">
+                Take Diagnostic to test your Schedule T readiness <span class="material-symbols-outlined text-xs">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Government Scholarships & Research Grants (6 cols) -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="linkedin-card p-6 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div>
+                  <h2 class="font-bold text-slate-900 text-base">Ministry Scholarships & Research Grants</h2>
+                  <p class="text-xs text-slate-500">Government schemes funded under National Ayush Mission (NAM)</p>
+                </div>
+                <span class="material-symbols-outlined text-emerald-600 text-2xl">card_membership</span>
+              </div>
+
+              <div class="space-y-4 pt-1">
+                ${(insights.governmentScholarships || []).map(g => `
+                  <div class="p-4 bg-emerald-50/40 rounded-xl border border-emerald-200/80 space-y-2.5">
+                    <div class="flex justify-between items-start gap-2">
+                      <h3 class="font-bold text-slate-900 text-sm leading-snug">${g.title}</h3>
+                      <span class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold whitespace-nowrap">${g.grantAmount}</span>
+                    </div>
+                    <p class="text-xs text-slate-600"><span class="font-bold text-slate-700">Eligibility:</span> ${g.eligibility}</p>
+                    <div class="flex justify-between items-center text-[11px] text-slate-500 pt-2 border-t border-emerald-200/40">
+                      <span><strong>Deadline:</strong> ${g.deadline}</span>
+                      <button onclick="AppUI.showToast('Eligibility verified! Application for ${g.title} has been registered with Ministry of Ayush.', 'success')" class="px-3 py-1 bg-primary text-white rounded-md font-bold text-[11px] hover:bg-emerald-800 transition-colors">
+                        Check & Apply
+                      </button>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     `;

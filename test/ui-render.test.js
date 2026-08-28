@@ -83,5 +83,13 @@ assert(minHTML.includes('National Skill Impact Analytics') && minHTML.includes('
 const feedHTML = ui.getFeedHTML(state);
 assert(feedHTML.includes('Dabur India Ltd') && feedHTML.includes('Dr. Priya Sharma') && feedHTML.includes('SkillSetu News'), 'LinkedIn Home Feed rendered with student and company internship posts');
 
-console.log('--- All 10 UI Views Rendered Successfully without Errors! ---');
+// 11. Test Colleges Directory HTML (Student & Industry perspective)
+const collegesHTML = ui.getCollegesHTML(state);
+assert(collegesHTML.includes('National Institute of Ayurveda') && collegesHTML.includes('All India Institute of Ayurveda'), 'Colleges Directory rendered with apex institutions');
+
+// 12. Test Ministry Insights HTML
+const insightsHTML = ui.getMinistryInsightsHTML(state);
+assert(insightsHTML.includes('National Ayush Mission') && insightsHTML.includes('Schedule T GMP Manufacturing'), 'Ministry Insights rendered with high-growth competencies and scholarship grants');
+
+console.log('--- All 12 UI Views Rendered Successfully without Errors! ---');
 
