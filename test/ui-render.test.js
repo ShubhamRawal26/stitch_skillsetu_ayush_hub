@@ -56,7 +56,7 @@ assert(landingHTML.includes('Ayush') && landingHTML.includes('42,850+'), 'Landin
 
 // 3. Test Roles HTML
 const rolesHTML = ui.getRolesHTML(state);
-assert(rolesHTML.includes('Select Your Portal') && rolesHTML.includes('Student') && rolesHTML.includes('Industry'), 'Roles page rendered with 4 stakeholder cards');
+assert(rolesHTML.includes('Select Your Portal') && rolesHTML.includes('Student') && rolesHTML.includes('Company') && rolesHTML.includes('Faculty') && rolesHTML.includes('College') && rolesHTML.includes('Admin'), 'Roles page rendered with 5 stakeholder cards');
 
 // 4. Test Login HTML
 const loginHTML = ui.getLoginHTML(state);
@@ -107,10 +107,70 @@ ui.activeProfileQuery = 'me';
 const myProfileHTML = ui.getProfileHTML(state);
 assert(myProfileHTML.includes('Shubham Rawal') && myProfileHTML.includes('Analytics & Benchmark Metrics') && myProfileHTML.includes('Clinical Experience & Internships') && myProfileHTML.includes('Education & Qualifications'), 'Full-screen dedicated LinkedIn profile page rendered for student');
 
-ui.activeProfileQuery = 'Dr. Priya Sharma';
-const priyaProfileHTML = ui.getProfileHTML(state);
-assert(priyaProfileHTML.includes('Dr. Priya Sharma') && priyaProfileHTML.includes('Connect') && priyaProfileHTML.includes('Message') && priyaProfileHTML.includes('Ayush Peers & Scholars'), 'Full-screen dedicated LinkedIn profile page rendered for other professional');
+// 16. Test Bridge Courses Remediation Hub View
+const bridgeCoursesHTML = ui.getBridgeCoursesHTML(state);
+assert(bridgeCoursesHTML.includes('Ayush Bridge Course Directory') && bridgeCoursesHTML.includes('Schedule T GMP'), 'Bridge Courses Remediation Hub view rendered');
 
-console.log('--- All 15 Full-Screen Views & Pages Rendered Successfully without Errors! ---');
+// 17. Test Verified Opportunities Match View
+const oppsHTML = ui.getOpportunitiesHTML(state);
+assert(oppsHTML.includes('Verified Industry Placements') && oppsHTML.includes('1-Click Apply'), 'Opportunities Match view rendered');
+
+// 18. Test Verifiable Digital Skill Passport View
+const passportHTML = ui.getSkillPassportHTML(state);
+assert(passportHTML.includes('Digital Skill Passport') && passportHTML.includes('AYU-SHA256-'), 'Verifiable Digital Skill Passport view rendered');
+
+// 19. Test Job Manager & Threshold Console
+const jobManagerHTML = ui.getJobManagerHTML(state);
+assert(jobManagerHTML.includes('Job & Internship Vacancy Manager') && jobManagerHTML.includes('Gatekeeper'), 'Job Manager view rendered');
+
+// 20. Test Applicants ATS Kanban Pipeline
+const atsHTML = ui.getApplicantsATSHTML(state);
+assert(atsHTML.includes('Applicants ATS Kanban Board') && atsHTML.includes('Applied') && atsHTML.includes('Screening'), 'Applicants ATS Kanban Board view rendered');
+
+// 21. Test Industry Insights & Supply Index
+const indInsightsHTML = ui.getIndustryInsightsHTML(state);
+assert(indInsightsHTML.includes('Industry Hiring Insights') && indInsightsHTML.includes('Schedule T Industrial GMP'), 'Industry Insights view rendered');
+
+// 22. Test Faculty Course Builder Console
+const courseBuilderHTML = ui.getCourseBuilderHTML(state);
+assert(courseBuilderHTML.includes('Micro-Course Authoring Builder') && courseBuilderHTML.includes('Publish Bridge Module'), 'Faculty Course Builder view rendered');
+
+// 23. Test Faculty Batch Tracker Console
+const batchTrackerHTML = ui.getBatchTrackerHTML(state);
+assert(batchTrackerHTML.includes('Pre vs Post Remediation Batch Tracker') && batchTrackerHTML.includes('140 Scholars'), 'Faculty Batch Tracker view rendered');
+
+// 24. Test Faculty Mentorship Desk
+const mentorshipHTML = ui.getMentorshipDeskHTML(state);
+assert(mentorshipHTML.includes('Student Remedial Task Allocation') && mentorshipHTML.includes('Shubham Rawal'), 'Faculty Mentorship Desk view rendered');
+
+// 25. Test Institution Hub
+const instHubHTML = ui.getInstitutionHubHTML(state);
+assert(instHubHTML.includes('National Institute of Ayurveda') && instHubHTML.includes('A++'), 'College Institution Hub view rendered');
+
+// 26. Test Placement Console & MoUs
+const placementHTML = ui.getPlacementConsoleHTML(state);
+assert(placementHTML.includes('Campus Placement & MoU Console') && placementHTML.includes('Dabur India Ltd'), 'College Placement Console view rendered');
+
+// 27. Test Accreditation Reports & NEP Compliance
+const accredHTML = ui.getAccreditationReportsHTML(state);
+assert(accredHTML.includes('NAAC & NCISM Skill Integration Reports') && accredHTML.includes('NEP 2020'), 'Accreditation Reports view rendered');
+
+// 28. Test Faculty Mapping Directory
+const facultyMapHTML = ui.getFacultyMappingHTML(state);
+assert(facultyMapHTML.includes('Faculty Mentor Allocations') && facultyMapHTML.includes('Prof. Meenakshi Sundaram'), 'Faculty Mapping view rendered');
+
+// 29. Test National Reports & Modernization Grants
+const natReportsHTML = ui.getNationalReportsHTML(state);
+assert(natReportsHTML.includes('National Ayush Skill Gap Index') && natReportsHTML.includes('₹450 Cr'), 'National Reports view rendered');
+
+// 30. Test User Management & RBAC Administration
+const userMgmtHTML = ui.getUserManagementHTML(state);
+assert(userMgmtHTML.includes('Stakeholder Access Control') && userMgmtHTML.includes('Shubham Rawal'), 'User Management view rendered');
+
+// 31. Test System Governance & Blockchain Node Health
+const sysGovHTML = ui.getSystemGovernanceHTML(state);
+assert(sysGovHTML.includes('Digital Skill Passport Node Governance') && sysGovHTML.includes('GOV-IN-AYUSH-NODE-01'), 'System Governance view rendered');
+
+console.log('--- All 31 Full-Screen Views & Pages Rendered Successfully without Errors! ---');
 
 

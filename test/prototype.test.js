@@ -161,12 +161,26 @@ assert(appData.studentsMap['CAND-SHUBHAM'] !== undefined, 'studentsMap direct me
 assert(appData.opportunitiesMap['OPP-DABUR-01'] !== undefined, 'opportunitiesMap direct memory index active');
 assert(appData.coursesMap['BC-GMP-101'] !== undefined, 'coursesMap direct memory index active');
 
-// Test Role Switching
+// Test 5-Role Switching
 stateMgr.setRole('ministry');
 assert(stateMgr.state.currentRole === 'ministry', 'Role switched to ministry');
-assert(stateMgr.state.currentView === 'ministry-dashboard', 'View transitioned to ministry-dashboard');
+assert(stateMgr.state.currentView === 'state-heatmap' || stateMgr.state.currentView === 'ministry-dashboard', 'View transitioned to state-heatmap / ministry-dashboard');
+
+stateMgr.setRole('company');
+assert(stateMgr.state.currentRole === 'company', 'Role switched to company');
+assert(stateMgr.state.currentView === 'talent-explorer' || stateMgr.state.currentView === 'industry-dashboard', 'View transitioned to talent-explorer');
+
+stateMgr.setRole('faculty');
+assert(stateMgr.state.currentRole === 'faculty', 'Role switched to faculty');
+assert(stateMgr.state.currentView === 'cohort-readiness' || stateMgr.state.currentView === 'college-dashboard', 'View transitioned to cohort-readiness');
+
+stateMgr.setRole('college');
+assert(stateMgr.state.currentRole === 'college', 'Role switched to college');
+assert(stateMgr.state.currentView === 'institution-hub', 'View transitioned to institution-hub');
+
 stateMgr.setRole('student');
 assert(stateMgr.state.currentRole === 'student', 'Role restored to student');
+assert(stateMgr.state.currentView === 'student-dashboard', 'View transitioned to student-dashboard');
 
 console.log('--- All 19 Core Verification Tests Passed Successfully! ---');
 

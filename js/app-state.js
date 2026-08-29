@@ -46,6 +46,19 @@ class AppStateManager {
       opportunities: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.opportunities)),
       bridgeCourses: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.bridgeCourses)),
       feedPosts: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.feedPosts || [])),
+      applicantPipelines: {
+        "CAND-SHUBHAM": { status: "Screening", stage: 2, notes: "Schedule T GMP verified (85%)" },
+        "CAND-ADITI": { status: "Interview Scheduled", stage: 3, notes: "Top score in Herbology (94%)" },
+        "CAND-ROHAN": { status: "Applied", stage: 1, notes: "Applied for Clinical QC" },
+        "CAND-SNEHA": { status: "Offered", stage: 4, notes: "Formulation research stipend offered" },
+        "CAND-KAVYA": { status: "Applied", stage: 1, notes: "Nadi diagnostics certification" },
+        "CAND-VIKRAM": { status: "Hired", stage: 5, notes: "Joined Dabur Sahibabad QC batch" }
+      },
+      mentorshipTasks: [
+        { id: "TASK-01", studentId: "CAND-SHUBHAM", studentName: "Shubham Rawal", task: "Complete HPTLC Phytochemical Protocol", deadline: "5 Sept 2026", status: "In Progress" },
+        { id: "TASK-02", studentId: "CAND-ROHAN", studentName: "Rohan Mehta", task: "Remedial Module: Schedule T Cleanroom GMP", deadline: "2 Sept 2026", status: "Pending" },
+        { id: "TASK-03", studentId: "CAND-ANANYA", studentName: "Ananya Iyer", task: "Review Clinical GCP Documentation", deadline: "10 Sept 2026", status: "Completed" }
+      ],
       roleProfiles: {
         student: {
           name: "Shubham Rawal",
@@ -54,23 +67,44 @@ class AppStateManager {
           avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT",
           bio: "Passionate BAMS scholar with Schedule T GMP certification & clinical Nadi Pariksha proficiency."
         },
-        industry: {
+        company: {
           name: "Dabur India Ltd",
-          role: "Enterprise Recruiter & Formulation R&D",
+          role: "Enterprise Talent & Formulation R&D Lead",
           institution: "Sahibabad R&D Center",
           avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
           bio: "Recruiting top Ayush clinical & formulation talent for Dabur R&D centers across India."
         },
-        college: {
+        industry: {
+          name: "Dabur India Ltd",
+          role: "Enterprise Talent & Formulation R&D Lead",
+          institution: "Sahibabad R&D Center",
+          avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+          bio: "Recruiting top Ayush clinical & formulation talent for Dabur R&D centers across India."
+        },
+        faculty: {
           name: "Prof. Meenakshi Sundaram",
-          role: "Dean & Head of Faculty",
+          role: "Faculty Lead & Professor of Dravyaguna",
           institution: "National Institute of Ayurveda (NIA Jaipur)",
           avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80",
-          bio: "Curriculum lead for BAMS & MD training in Ayurveda and Schedule T GMP compliance."
+          bio: "Curriculum lead for BAMS & MD training in Ayurveda, botanical standardization and Schedule T GMP compliance."
+        },
+        college: {
+          name: "Dr. Sanjeev Sharma",
+          role: "Director & Dean of Academic Affairs",
+          institution: "National Institute of Ayurveda (NIA), Jaipur",
+          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+          bio: "Managing institutional benchmarking, NAAC A++ accreditation, and enterprise industry MoUs."
+        },
+        admin: {
+          name: "Ayush Governance Admin",
+          role: "Ministry of Ayush Secretariat / State Nodal Officer",
+          institution: "Ministry of Ayush, Govt. of India",
+          avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80",
+          bio: "Managing national skill impact analytics and modernization grants under National Ayush Mission."
         },
         ministry: {
           name: "Ayush Governance Admin",
-          role: "Ministry of Ayush Secretariat",
+          role: "Ministry of Ayush Secretariat / State Nodal Officer",
           institution: "Ministry of Ayush, Govt. of India",
           avatar: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80",
           bio: "Managing national skill impact analytics and modernization grants under National Ayush Mission."
@@ -78,8 +112,11 @@ class AppStateManager {
       },
       notifications: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.notificationsByRole || {
         student: [],
+        company: [],
         industry: [],
+        faculty: [],
         college: [],
+        admin: [],
         ministry: []
       }))
     };
@@ -261,21 +298,52 @@ class AppStateManager {
     this.state.currentRole = role;
     if (redirect) {
       if (role === 'student') this.state.currentView = 'student-dashboard';
-      else if (role === 'industry') this.state.currentView = 'industry-dashboard';
-      else if (role === 'college') this.state.currentView = 'college-dashboard';
-      else if (role === 'ministry') this.state.currentView = 'ministry-dashboard';
+      else if (role === 'company' || role === 'industry') this.state.currentView = 'talent-explorer';
+      else if (role === 'faculty') this.state.currentView = 'cohort-readiness';
+      else if (role === 'college') this.state.currentView = 'institution-hub';
+      else if (role === 'admin' || role === 'ministry') this.state.currentView = 'state-heatmap';
     }
     this.saveState();
 
     if (typeof window !== 'undefined' && window.AppUI && typeof window.AppUI.showRoleBanner === 'function') {
       const roleLabels = {
         student: 'Student Scholar Portal',
-        industry: 'Industry Recruiter Portal',
-        college: 'College & Faculty Portal',
-        ministry: 'Ministry Admin Portal'
+        company: 'Company / Enterprise Portal',
+        industry: 'Company / Enterprise Portal',
+        faculty: 'Faculty & Mentor Portal',
+        college: 'College Institutional Portal',
+        admin: 'Ministry & State Nodal Admin Portal',
+        ministry: 'Ministry & State Nodal Admin Portal'
       };
       window.AppUI.showRoleBanner(`Switched to ${roleLabels[role] || role.toUpperCase()}`);
     }
+  }
+
+  updateApplicantStatus(candId, newStatus) {
+    if (!this.state.applicantPipelines) this.state.applicantPipelines = {};
+    if (!this.state.applicantPipelines[candId]) {
+      this.state.applicantPipelines[candId] = { status: newStatus, stage: 1, notes: 'Updated in ATS' };
+    } else {
+      this.state.applicantPipelines[candId].status = newStatus;
+    }
+    this.saveState();
+    return this.state.applicantPipelines[candId];
+  }
+
+  assignMentorshipTask(candId, taskTitle) {
+    if (!this.state.mentorshipTasks) this.state.mentorshipTasks = [];
+    const cand = (this.state.candidates || []).find(c => c.id === candId) || { name: 'Ayush Scholar' };
+    const newTask = {
+      id: `TASK-${Date.now()}`,
+      studentId: candId,
+      studentName: cand.name,
+      task: taskTitle || 'Mandatory Schedule T GMP Remedial Review',
+      deadline: '7 Days',
+      status: 'Assigned'
+    };
+    this.state.mentorshipTasks.unshift(newTask);
+    this.saveState();
+    return newTask;
   }
 
   selectRoleForAuth(role) {
@@ -611,11 +679,12 @@ class AppStateManager {
         bio: this.state.student.bio || "Passionate BAMS scholar with Schedule T GMP certification & clinical Nadi Pariksha proficiency."
       };
     }
-    return this.state.roleProfiles[role] || {
-      name: role === 'industry' ? 'Dabur India Ltd' : role === 'college' ? 'Prof. Meenakshi Sundaram' : 'Ayush Governance Admin',
-      role: role === 'industry' ? 'Enterprise Recruiter' : role === 'college' ? 'Dean of Faculty' : 'Ministry Secretariat',
-      institution: role === 'industry' ? 'Sahibabad R&D Center' : role === 'college' ? 'NIA Jaipur' : 'Ministry of Ayush',
-      avatar: role === 'industry' ? 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80' : role === 'college' ? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80' : 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80',
+    const normRole = role === 'industry' ? 'company' : (role === 'ministry' ? 'admin' : role);
+    return this.state.roleProfiles[role] || this.state.roleProfiles[normRole] || {
+      name: normRole === 'company' ? 'Dabur India Ltd' : (normRole === 'faculty' ? 'Prof. Meenakshi Sundaram' : (normRole === 'college' ? 'Dr. Sanjeev Sharma' : 'Ayush Governance Admin')),
+      role: normRole === 'company' ? 'Enterprise Recruiter' : (normRole === 'faculty' ? 'Faculty Lead & Professor' : (normRole === 'college' ? 'Director & Dean' : 'Ministry Secretariat / Nodal Officer')),
+      institution: normRole === 'company' ? 'Sahibabad R&D Center' : (normRole === 'faculty' || normRole === 'college' ? 'NIA Jaipur' : 'Ministry of Ayush, Govt. of India'),
+      avatar: normRole === 'company' ? 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80' : (normRole === 'faculty' ? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80' : (normRole === 'college' ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80' : 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=120&auto=format&fit=crop&q=80')),
       bio: "Ayush verified stakeholder profile on SkillSetu National Network."
     };
   }
