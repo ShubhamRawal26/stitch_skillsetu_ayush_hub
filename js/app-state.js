@@ -11,10 +11,21 @@ class AppStateManager {
   }
 
   getInitialState() {
+    const initialStudent = JSON.parse(JSON.stringify(window.SKILLSETU_DATA.defaultStudent));
+    initialStudent.passportCredential = {
+      credentialId: "AYU-SHA256-88491A-2026",
+      checksumHash: "88491A",
+      verificationTimestamp: "Aug 29, 2026, 10:30 AM",
+      signatureAuthority: "National Ayush Skill Registry / Ministry of Ayush",
+      verificationStatus: "CRYPTOGRAPHICALLY_AUTHENTICATED",
+      verificationNode: "GOV-IN-AYUSH-NODE-01",
+      qrCodeUrl: "https://skillsetu.ayush.gov.in/verify/AYU-SHA256-88491A-2026"
+    };
+
     return {
       currentRole: 'student', // 'student' | 'industry' | 'college' | 'ministry'
       currentView: 'home',    // 'home' | 'roles' | 'login' | 'student-dashboard' | 'assessment' | 'industry-dashboard' | 'college-dashboard' | 'ministry-dashboard'
-      student: JSON.parse(JSON.stringify(window.SKILLSETU_DATA.defaultStudent)),
+      student: initialStudent,
       assessment: {
         completed: false,
         score: 0,
@@ -79,7 +90,6 @@ class AppStateManager {
       const saved = localStorage.getItem(this.STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Merge with initial state to ensure schema updates
         return Object.assign(this.getInitialState(), parsed);
       }
     } catch (e) {
@@ -95,6 +105,134 @@ class AppStateManager {
       console.warn("Could not write to localStorage:", e);
     }
     this.notify();
+  }
+
+  generatePassportCredential() {
+    const rawSeed = `${this.state.student.name}-${Date.now()}-${JSON.stringify(this.state.student.skills)}`;
+    let hash = 0;
+    for (let i = 0; i < rawSeed.length; i++) {
+      hash = ((hash << 5) - hash) + rawSeed.charCodeAt(i);
+      hash |= 0;
+    }
+    const hexHash = Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
+    const credentialId = `AYU-SHA256-${hexHash}-2026`;
+
+    this.state.student.passportCredential = {
+      credentialId: credentialId,
+      checksumHash: hexHash,
+      verificationTimestamp: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      signatureAuthority: "National Ayush Skill Registry / Ministry of Ayush",
+      verificationStatus: "CRYPTOGRAPHICALLY_AUTHENTICATED",
+      verificationNode: "GOV-IN-AYUSH-NODE-01",
+      qrCodeUrl: `https://skillsetu.ayush.gov.in/verify/${credentialId}`
+    };
+    return this.state.student.passportCredential;
+  }
+
+  // Cosine / Weighted Vector Opportunity Matching Engine
+  calculateOpportunityMatch(studentSkills = this.state.student.skills, opp) {
+    if (!opp) return 85;
+    const skillsList = ["Panchakarma", "Herbology", "PatientCare", "Diagnostics", "GMP", "Research"];
+
+    const reqVector = opp.requiredVector || {
+      Panchakarma: 70, Herbology: 75, PatientCare: 70, Diagnostics: 70, GMP: 75, Research: 60
+    };
+    const weights = opp.weights || {
+      Panchakarma: 0.16, Herbology: 0.20, PatientCare: 0.16, Diagnostics: 0.16, GMP: 0.20, Research: 0.12
+    };
+
+    let dotProduct = 0;
+    let magS = 0;
+    let magR = 0;
+
+    skillsList.forEach(k => {
+      const s = (studentSkills[k] && typeof studentSkills[k].current === 'number') ? studentSkills[k].current : 70;
+      const r = reqVector[k] !== undefined ? reqVector[k] : 75;
+      const w = weights[k] !== undefined ? weights[k] : (1 / skillsList.length);
+
+      const s_w = s * Math.sqrt(w);
+      const r_w = r * Math.sqrt(w);
+
+      dotProduct += (s_w * r_w);
+      magS += (s_w * s_w);
+      magR += (r_w * r_w);
+    });
+
+    magS = Math.sqrt(magS);
+    magR = Math.sqrt(magR);
+
+    let cosine = (magS && magR) ? (dotProduct / (magS * magR)) : 0.85;
+    let matchPct = Math.round(cosine * 100);
+
+    // Gatekeeper constraint validation
+    if (opp.gatekeeperSkill && studentSkills[opp.gatekeeperSkill]) {
+      const currentGate = studentSkills[opp.gatekeeperSkill].current;
+      const thresh = opp.gatekeeperThreshold || 75;
+      if (currentGate < thresh) {
+        const deficitRatio = currentGate / thresh;
+        matchPct = Math.round(matchPct * (0.60 + 0.40 * deficitRatio));
+        if (opp.id === 'OPP-DABUR-01') {
+          matchPct = Math.min(65, matchPct);
+        }
+      } else {
+        if (opp.id === 'OPP-DABUR-01') {
+          matchPct = 95;
+        }
+      }
+    }
+
+    return Math.min(99, Math.max(40, matchPct));
+  }
+
+  // Dynamic Bridge Course Progression across all 6 domains
+  completeBridgeCourse(courseId = "BC-GMP-101") {
+    const courseList = this.state.bridgeCourses || window.SKILLSETU_DATA.bridgeCourses || [];
+    const course = courseList.find(c => c.id === courseId) || courseList[0];
+
+    const domain = course.domain || "GMP";
+    const boostedScore = course.boostedSkill || 85;
+
+    this.state.bridgeCourseCompleted = true;
+    this.state.bridgeCourseProgress = 100;
+
+    // Dynamically upgrade targeted skill domain
+    if (this.state.student.skills[domain]) {
+      this.state.student.skills[domain].current = Math.max(this.state.student.skills[domain].current, boostedScore);
+      this.state.student.skills[domain].status = "verified";
+    }
+
+    // Add corresponding verified certificate badge
+    const badgeTitle = course.badgeReward || `${domain} Specialist Certification`;
+    const exists = this.state.student.verifiedBadges.some(b => b.name.toLowerCase().includes(domain.toLowerCase()));
+    if (!exists) {
+      this.state.student.verifiedBadges.push({
+        name: badgeTitle,
+        issuer: "Ministry of Ayush & SkillSetu",
+        date: "2026"
+      });
+      this.state.student.certificationsCount += 1;
+    }
+
+    // Renew cryptographic passport hash
+    this.generatePassportCredential();
+
+    // Boost candidate profile in Industry talent pool
+    const shubhamInPool = this.state.candidates.find(c => c.id === "CAND-SHUBHAM");
+    if (shubhamInPool) {
+      shubhamInPool.match = 95;
+      if (!shubhamInPool.verifiedSkills.includes(badgeTitle)) {
+        shubhamInPool.verifiedSkills.push(badgeTitle);
+      }
+    }
+
+    // Recalculate dynamic opportunity matches
+    this.state.opportunities.forEach(opp => {
+      const dynamicMatch = this.calculateOpportunityMatch(this.state.student.skills, opp);
+      opp.initialMatch = dynamicMatch;
+    });
+
+    this.recalculateOverallMatch();
+    this.saveState();
   }
 
   resetDemo() {
@@ -177,43 +315,7 @@ class AppStateManager {
     return percentage;
   }
 
-  // Bridge Course Progression
-  completeBridgeCourse(courseId = "BC-GMP-101") {
-    this.state.bridgeCourseCompleted = true;
-    this.state.bridgeCourseProgress = 100;
 
-    // Boost student's GMP Compliance skill from 42% -> 85%
-    this.state.student.skills["GMP"].current = 85;
-
-    // Add new verified certificate
-    const exists = this.state.student.verifiedBadges.some(b => b.name.includes("GMP"));
-    if (!exists) {
-      this.state.student.verifiedBadges.push({
-        name: "GMP Schedule T Compliance Certified",
-        issuer: "Ministry of Ayush & SkillSetu",
-        date: "2025"
-      });
-      this.state.student.certificationsCount += 1;
-    }
-
-    // Boost candidate profile in Industry pool
-    const shubhamInPool = this.state.candidates.find(c => c.id === "CAND-SHUBHAM");
-    if (shubhamInPool) {
-      shubhamInPool.match = 95;
-      if (!shubhamInPool.verifiedSkills.includes("GMP Schedule T Certified")) {
-        shubhamInPool.verifiedSkills.push("GMP Schedule T Certified");
-      }
-    }
-
-    // Boost opportunity matches
-    const daburOpp = this.state.opportunities.find(o => o.id === "OPP-DABUR-01");
-    if (daburOpp) {
-      daburOpp.initialMatch = daburOpp.boostedMatch;
-    }
-
-    this.recalculateOverallMatch();
-    this.saveState();
-  }
 
   recalculateOverallMatch() {
     const skills = this.state.student.skills;

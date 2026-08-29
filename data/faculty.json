@@ -1,0 +1,134 @@
+[
+  {
+    "id": "FAC-001",
+    "name": "Prof. Meenakshi Sundaram",
+    "designation": "Dean & Head of Faculty",
+    "department": "Rasashastra & Bhasma QC",
+    "collegeId": "COL-NIA-01",
+    "college": "National Institute of Ayurveda (NIA), Jaipur",
+    "publishedCourses": 4,
+    "researchAreas": "Heavy Metal Safety, Schedule T Protocols, Apunarbhava Testing",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-002",
+    "name": "Prof. Tanuja Nesari",
+    "designation": "Director & Senior Clinical Professor",
+    "department": "Dravyaguna & Clinical Pharmacology",
+    "collegeId": "COL-AIIA-02",
+    "college": "All India Institute of Ayurveda (AIIA), New Delhi",
+    "publishedCourses": 6,
+    "researchAreas": "Integrative Oncology, Pharmacovigilance, Botanical Standardization",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-003",
+    "name": "Prof. Sanjeev Sharma",
+    "designation": "Vice Chancellor",
+    "department": "Panchakarma & Clinical Therapeutics",
+    "collegeId": "COL-NIA-01",
+    "college": "National Institute of Ayurveda (NIA), Jaipur",
+    "publishedCourses": 5,
+    "researchAreas": "Vamana-Virechana Staging, CCRAS Clinical Protocols, Snehana Kinetics",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-004",
+    "name": "Prof. Anup Thakar",
+    "designation": "Director",
+    "department": "Panchakarma Clinical Research",
+    "collegeId": "COL-ITRA-03",
+    "college": "Institute of Teaching & Research in Ayurveda (ITRA), Jamnagar",
+    "publishedCourses": 3,
+    "researchAreas": "Clinical Trial Design, Metabolic Disorders, Basti Formulations",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-005",
+    "name": "Prof. K. N. Dwivedi",
+    "designation": "Head of Department",
+    "department": "Dravyaguna & Botanical Taxonomy",
+    "collegeId": "COL-BHU-04",
+    "college": "Faculty of Ayurveda, IMS BHU, Varanasi",
+    "publishedCourses": 5,
+    "researchAreas": "HPTLC Fingerprinting, Endangered Flora Taxonomy, Phytochemical Assays",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-006",
+    "name": "Dr. P. R. Saraswathy",
+    "designation": "Principal & Chief Physician",
+    "department": "Keraleeya Panchakarma & Marma",
+    "collegeId": "COL-GAVC-05",
+    "college": "Government Ayurveda College, Thiruvananthapuram",
+    "publishedCourses": 4,
+    "researchAreas": "Marma Point Therapy, Neurological Rehabilitation, Pizhichil SOPs",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-007",
+    "name": "Dr. Arvind Shrivastava",
+    "designation": "Visiting Professor & Industry Advisor",
+    "department": "Pharmaceutical QC & Regulatory",
+    "collegeId": "COL-NIA-01",
+    "college": "Ex-Quality Head Dabur / NIA Jaipur",
+    "publishedCourses": 3,
+    "researchAreas": "Schedule T GMP Audits, Ayush Premium Mark, Cleanroom Validation",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-008",
+    "name": "Prof. Abdul Wadud",
+    "designation": "Director",
+    "department": "Unani Pharmacology & Ilaj-bit-Tadbeer",
+    "collegeId": "COL-NIUM-06",
+    "college": "National Institute of Unani Medicine (NIUM), Bengaluru",
+    "publishedCourses": 4,
+    "researchAreas": "Regimenal Therapy, Unani Pharmacopoeia, Polyherbal QC",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-009",
+    "name": "Dr. Rajesh Kotecha",
+    "designation": "Senior Clinical Investigator",
+    "department": "Clinical Trials & GCP Ethics",
+    "collegeId": "COL-AIIA-02",
+    "college": "Ministry of Ayush Advisory Cell",
+    "publishedCourses": 5,
+    "researchAreas": "CTRI Protocols, Randomized Controlled Trials, Bio-Statistics",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-010",
+    "name": "Dr. Vandana Verma",
+    "designation": "HOD Kaumarbhritya",
+    "department": "Pediatric Ayurvedic Care",
+    "collegeId": "COL-SAC-09",
+    "college": "State Ayurvedic College & Hospital, Lucknow",
+    "publishedCourses": 3,
+    "researchAreas": "Swarna Prashana Immunomodulation, Pediatric Clinical Nutrition",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-011",
+    "name": "Prof. Mahesh Vyas",
+    "designation": "Dean Academic",
+    "department": "Basic Principles & Ashtavidha Diagnostics",
+    "collegeId": "COL-AIIA-02",
+    "college": "All India Institute of Ayurveda (AIIA), New Delhi",
+    "publishedCourses": 4,
+    "researchAreas": "SNOMED-NAMASTE Terminology, Nadi Diagnostics Biometrics",
+    "availableForMentorship": true
+  },
+  {
+    "id": "FAC-012",
+    "name": "Dr. Anand Verma",
+    "designation": "Chief Clinical Consultant",
+    "department": "Nadi Pariksha & Bedside Care",
+    "collegeId": "COL-NIA-01",
+    "college": "National Institute of Ayurveda Hospital, Jaipur",
+    "publishedCourses": 3,
+    "researchAreas": "Pulse Wave Velocity, Bedside Patient Communication, Prakriti Analysis",
+    "availableForMentorship": true
+  }
+]

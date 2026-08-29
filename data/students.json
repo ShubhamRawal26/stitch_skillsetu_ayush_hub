@@ -1,0 +1,439 @@
+[
+  {
+    "id": "CAND-SHUBHAM",
+    "name": "Shubham Rawal",
+    "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuAbPrD05LHLmlcpCryv0Da3BrdItjvbOr8qBAASeP1rhz9381htAj0oR72GTCo0XdGK-qr32ZRiODbxozXMjxKAV5BcPe7beGr7CUHRJgJPfGzL2XvG1vO1Mek5Ns9IeR9Y4QVMoe1w2ZeXcxJRq03Ls9Kj5hB_RiQUP6WTQdGN46N-1xrLBKu39cfvDAnQUDtBvKYCL-B4ECgrX3wXWBJPa4sK5nzWNhXMicC0MxtbO-kXR1IHunvT",
+    "gpa": "8.6 / 10",
+    "collegeId": "COL-NIA-01",
+    "specialization": "Panchakarma & Clinical Documentation",
+    "education": "BAMS Final Year",
+    "institution": "National Institute of Ayurveda (NIA), Jaipur",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 95,
+    "availability": "Available Now",
+    "status": "Applied - Under Review",
+    "skills": {
+      "Panchakarma": { "current": 85, "expected": 90, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 80, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 88, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 75, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 42, "expected": 78, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 65, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Panchakarma Specialist", "issuer": "CCRAS Certified", "date": "2024" },
+      { "name": "Herbology & Extract Analysis", "issuer": "NIA Verified", "date": "2024" },
+      { "name": "Pulse Diagnosis (Nadi Pariksha)", "issuer": "Ayush Skill Council", "date": "2023" }
+    ],
+    "verifiedSkills": ["Herbology", "GMP Certified", "Panchakarma Therapy", "Clinical Diagnosis"],
+    "shortlisted": false,
+    "experience": "Clinical Internship at NIA Hospital (12 Mos)",
+    "email": "shubham.rawal@nia.edu.in",
+    "phone": "+91 98765 43210"
+  },
+  {
+    "id": "CAND-ADITI",
+    "name": "Dr. Aditi Sharma",
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=120&auto=format&fit=crop&q=80",
+    "gpa": "9.2 / 10",
+    "collegeId": "COL-AIIA-02",
+    "specialization": "Dravyaguna & Integrative Oncology",
+    "education": "BAMS, MD (Ay)",
+    "institution": "All India Institute of Ayurveda (AIIA), New Delhi",
+    "discipline": "ayurveda",
+    "degree": "mday",
+    "match": 94,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 82, "expected": 85, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 94, "expected": 90, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 90, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 88, "expected": 85, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 86, "expected": 80, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 92, "expected": 85, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Integrative Oncology Fellow", "issuer": "AIIA Verified", "date": "2025" },
+      { "name": "GCP Ethics Certified", "issuer": "ICMR-Ayush Registry", "date": "2024" }
+    ],
+    "verifiedSkills": ["Herbology", "GMP Certification", "Clinical Trial Mgt", "Dravyaguna"],
+    "shortlisted": true,
+    "experience": "Postgraduate Clinical Research Fellow (2 Yrs)",
+    "email": "dr.aditi@aiia.gov.in",
+    "phone": "+91 98111 22334"
+  },
+  {
+    "id": "CAND-RAJEEV",
+    "name": "Rajeev Verma",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.4 / 10",
+    "collegeId": "COL-SVYASA-00",
+    "specialization": "Yoga Therapy & Corporate Wellness",
+    "education": "B.Sc Yoga Therapy",
+    "institution": "SVYASA Yoga University, Bengaluru",
+    "discipline": "yoga",
+    "degree": "bams",
+    "match": 88,
+    "availability": "In Discussion",
+    "status": "In Discussion",
+    "skills": {
+      "Panchakarma": { "current": 72, "expected": 75, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 68, "expected": 70, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 92, "expected": 90, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 80, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 60, "expected": 70, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 70, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Yoga Protocol Instructor", "issuer": "Yoga Certification Board", "date": "2024" }
+    ],
+    "verifiedSkills": ["Asana Instruction", "Corporate Wellness", "Pranayama Therapy"],
+    "shortlisted": false,
+    "experience": "Wellness Consultant (1 Yr)",
+    "email": "rajeev.yoga@svyasa.edu.in",
+    "phone": "+91 97222 33445"
+  },
+  {
+    "id": "CAND-SANA",
+    "name": "Dr. Sana Khan",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.1 / 10",
+    "collegeId": "COL-NIUM-06",
+    "specialization": "Unani Pharmacology & Ilaj-bit-Tadbeer",
+    "education": "BUMS",
+    "institution": "National Institute of Unani Medicine (NIUM), Bengaluru",
+    "discipline": "unani",
+    "degree": "bums",
+    "match": 82,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 65, "expected": 70, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 84, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 85, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 82, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 75, "expected": 78, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 72, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Regimenal Therapy Specialist", "issuer": "NIUM Certified", "date": "2024" }
+    ],
+    "verifiedSkills": ["Regimenal Therapy (Ilaj-bit-Tadbeer)", "Quality Control", "Unani Pharmacology"],
+    "shortlisted": false,
+    "experience": "Hospital Resident (8 Mos)",
+    "email": "sana.khan@nium.edu.in",
+    "phone": "+91 96333 44556"
+  },
+  {
+    "id": "CAND-ANANYA",
+    "name": "Ananya Nambiar",
+    "avatar": "https://images.unsplash.com/photo-1594824813501-4890d23b3780?w=120&auto=format&fit=crop&q=80",
+    "gpa": "9.1 / 10",
+    "collegeId": "COL-GAVC-05",
+    "specialization": "Keraleeya Panchakarma & Marma Chikitsa",
+    "education": "BAMS Final Year",
+    "institution": "Government Ayurveda College, Thiruvananthapuram",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 93,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 95, "expected": 90, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 82, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 92, "expected": 88, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 84, "expected": 82, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 70, "expected": 75, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 74, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Keraleeya Marma Master", "issuer": "KUHS Verified", "date": "2025" }
+    ],
+    "verifiedSkills": ["Keraleeya Panchakarma", "Marma Therapy", "Patient Counseling"],
+    "shortlisted": false,
+    "experience": "Clinical Internship at Govt Ayurveda Hospital (10 Mos)",
+    "email": "ananya.n@gavctvm.ac.in",
+    "phone": "+91 94471 12345"
+  },
+  {
+    "id": "CAND-TANMAY",
+    "name": "Tanmay Joshi",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.9 / 10",
+    "collegeId": "COL-ITRA-03",
+    "specialization": "Rasashastra & Bhasma Standardization",
+    "education": "MD (Ay) Rasashastra",
+    "institution": "Institute of Teaching & Research in Ayurveda (ITRA), Jamnagar",
+    "discipline": "ayurveda",
+    "degree": "mday",
+    "match": 91,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 75, "expected": 80, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 85, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 78, "expected": 80, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 76, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 94, "expected": 85, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 86, "expected": 80, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Bhasma Spectroscopy Specialist", "issuer": "ITRA Certified", "date": "2025" }
+    ],
+    "verifiedSkills": ["Bhasma QC", "Schedule T Audits", "Spectroscopy", "Rasa Shastra"],
+    "shortlisted": true,
+    "experience": "Rasa Shastra Standardization Lab Fellow (18 Mos)",
+    "email": "tanmay.joshi@itra.edu.in",
+    "phone": "+91 98250 56789"
+  },
+  {
+    "id": "CAND-NEHA",
+    "name": "Neha Pandey",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.7 / 10",
+    "collegeId": "COL-BHU-04",
+    "specialization": "Kayachikitsa & Pulse Diagnostics",
+    "education": "BAMS Final Year",
+    "institution": "Faculty of Ayurveda, IMS BHU, Varanasi",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 89,
+    "availability": "In Discussion",
+    "status": "Shortlisted",
+    "skills": {
+      "Panchakarma": { "current": 80, "expected": 85, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 88, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 86, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 90, "expected": 85, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 72, "expected": 75, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 76, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Ashtavidha Pariksha Expert", "issuer": "BHU Verified", "date": "2024" }
+    ],
+    "verifiedSkills": ["Kayachikitsa", "Nadi Diagnostics", "Herbology"],
+    "shortlisted": true,
+    "experience": "Sir Sunderlal Hospital Clinical Resident (11 Mos)",
+    "email": "neha.pandey@bhu.ac.in",
+    "phone": "+91 94500 87654"
+  },
+  {
+    "id": "CAND-HARSH",
+    "name": "Harshvardhan Patil",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.5 / 10",
+    "collegeId": "COL-PODAR-07",
+    "specialization": "Dravyaguna & Phytochemistry",
+    "education": "BAMS Final Year",
+    "institution": "R.A. Podar Ayurved Medical College, Mumbai",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 87,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 78, "expected": 80, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 90, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 82, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 78, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 84, "expected": 80, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 75, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Phytochemical Assay Specialist", "issuer": "MUHS Verified", "date": "2024" }
+    ],
+    "verifiedSkills": ["Dravyaguna", "Phytochemistry", "Quality Control"],
+    "shortlisted": false,
+    "experience": "Podar Hospital Clinical Rotation (9 Mos)",
+    "email": "harsh.patil@podarayurved.org",
+    "phone": "+91 98201 34567"
+  },
+  {
+    "id": "CAND-MEERA",
+    "name": "Dr. Meera Krishnan",
+    "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&auto=format&fit=crop&q=80",
+    "gpa": "9.4 / 10",
+    "collegeId": "COL-AMRITA-10",
+    "specialization": "Clinical Shodhanchikitsa & Dhara Protocols",
+    "education": "MD (Ay) Panchakarma",
+    "institution": "Amrita School of Ayurveda, Kollam",
+    "discipline": "ayurveda",
+    "degree": "mday",
+    "match": 96,
+    "availability": "Available Now",
+    "status": "Shortlisted",
+    "skills": {
+      "Panchakarma": { "current": 96, "expected": 90, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 86, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 94, "expected": 90, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 90, "expected": 85, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 80, "expected": 80, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 88, "expected": 85, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Advanced Panchakarma Fellow", "issuer": "Amrita Research Board", "date": "2025" }
+    ],
+    "verifiedSkills": ["Panchakarma Protocol Mastery", "Marma Chikitsa", "Clinical GCP"],
+    "shortlisted": true,
+    "experience": "Chief Panchakarma Resident at Amrita Hospital (2 Yrs)",
+    "email": "dr.meera@amrita.edu",
+    "phone": "+91 97455 67890"
+  },
+  {
+    "id": "CAND-VIKRAM",
+    "name": "Vikramaditya Rathore",
+    "avatar": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.3 / 10",
+    "collegeId": "COL-RISHIKUL-08",
+    "specialization": "Botanical Taxonomy & Flora Herbarium",
+    "education": "BAMS Intern",
+    "institution": "Rishikul Govt PG Ayurvedic College, Haridwar",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 85,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 76, "expected": 80, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 88, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 80, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 78, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 74, "expected": 75, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 70, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Himalayan Flora Identifier", "issuer": "UAU Herbarium", "date": "2024" }
+    ],
+    "verifiedSkills": ["Botanical Taxonomy", "HPTLC", "Pulse Examination"],
+    "shortlisted": false,
+    "experience": "Himalayan Flora Herbarium Intern (8 Mos)",
+    "email": "vikram.rathore@uau.ac.in",
+    "phone": "+91 94120 45678"
+  },
+  {
+    "id": "CAND-DIVYA",
+    "name": "Divya Chaurasia",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.8 / 10",
+    "collegeId": "COL-SAC-09",
+    "specialization": "Schedule T Batch QC & Cleanroom SOPs",
+    "education": "BAMS Final Year",
+    "institution": "State Ayurvedic College & Hospital, Lucknow",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 90,
+    "availability": "Available Now",
+    "status": "Under Review",
+    "skills": {
+      "Panchakarma": { "current": 80, "expected": 85, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 84, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 85, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 80, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 92, "expected": 85, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 78, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Schedule T Quality Auditor", "issuer": "UP Ayush Directorate", "date": "2025" }
+    ],
+    "verifiedSkills": ["Schedule T GMP", "Batch Auditing", "Clinical Diagnosis"],
+    "shortlisted": false,
+    "experience": "Ayush Dispensary Trainee (10 Mos)",
+    "email": "divya.c@saclucknow.ac.in",
+    "phone": "+91 95540 12345"
+  },
+  {
+    "id": "CAND-FARHAN",
+    "name": "Farhan Al-Hassan",
+    "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.6 / 10",
+    "collegeId": "COL-AMU-00",
+    "specialization": "Unani Regimenal Therapy & Hijama",
+    "education": "BUMS Resident",
+    "institution": "AK Tibbiya College, AMU Aligarh",
+    "discipline": "unani",
+    "degree": "bums",
+    "match": 84,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 66, "expected": 70, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 86, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 88, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 84, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 78, "expected": 75, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 74, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Hijama Cupping Specialist", "issuer": "AMU Tibbiya Hospital", "date": "2024" }
+    ],
+    "verifiedSkills": ["Ilaj-bit-Tadbeer", "Unani Pharmacology", "Hijama Specialist"],
+    "shortlisted": false,
+    "experience": "Tibbiya Hospital Clinical Postings (12 Mos)",
+    "email": "farhan.tibbiya@amu.ac.in",
+    "phone": "+91 97600 23456"
+  },
+  {
+    "id": "CAND-POOJA",
+    "name": "Dr. Pooja Deshmukh",
+    "avatar": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=120&auto=format&fit=crop&q=80",
+    "gpa": "9.0 / 10",
+    "collegeId": "COL-TILAK-11",
+    "specialization": "Kaumarbhritya & Swarna Prashana",
+    "education": "MD (Ay) Kaumarbhritya",
+    "institution": "Tilak Ayurved Mahavidyalaya, Pune",
+    "discipline": "ayurveda",
+    "degree": "mday",
+    "match": 92,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 84, "expected": 85, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 88, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 96, "expected": 90, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 86, "expected": 85, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 82, "expected": 80, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 84, "expected": 80, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Pediatric Ayush Fellow", "issuer": "MUHS Quality Cell", "date": "2025" }
+    ],
+    "verifiedSkills": ["Kaumarbhritya", "Swarna Prashana", "Pediatric Nutrition"],
+    "shortlisted": false,
+    "experience": "Pediatric Ayush Unit Registrar (2 Yrs)",
+    "email": "dr.pooja@tilakayurved.org",
+    "phone": "+91 98900 34567"
+  },
+  {
+    "id": "CAND-ROHIT",
+    "name": "Rohit Bhattacharya",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80",
+    "gpa": "8.4 / 10",
+    "collegeId": "COL-JBROY-12",
+    "specialization": "Pharmacognosy & Herbarium Taxonomy",
+    "education": "BAMS Intern",
+    "institution": "J.B. Roy State Ayurvedic Medical College, Kolkata",
+    "discipline": "ayurveda",
+    "degree": "bams",
+    "match": 86,
+    "availability": "Available Now",
+    "status": "Available",
+    "skills": {
+      "Panchakarma": { "current": 80, "expected": 80, "label": "Panchakarma Therapy" },
+      "Herbology": { "current": 90, "expected": 85, "label": "Herbology & Dravyaguna" },
+      "PatientCare": { "current": 82, "expected": 85, "label": "Patient Care & Clinical Practice" },
+      "Diagnostics": { "current": 78, "expected": 80, "label": "Pulse Diagnosis (Nadi Pariksha)" },
+      "GMP": { "current": 76, "expected": 75, "label": "GMP Compliance & Quality Control" },
+      "Research": { "current": 72, "expected": 75, "label": "Clinical Research & GCP" }
+    },
+    "verifiedBadges": [
+      { "name": "Botanical Dravyaguna Scholar", "issuer": "WBUHS Verified", "date": "2024" }
+    ],
+    "verifiedSkills": ["Dravyaguna Herbarium", "Standardization", "Patient Care"],
+    "shortlisted": false,
+    "experience": "Kolkata Ayurvedic Hospital Ward Trainee (9 Mos)",
+    "email": "rohit.b@jbroystate.ac.in",
+    "phone": "+91 98300 45678"
+  }
+]

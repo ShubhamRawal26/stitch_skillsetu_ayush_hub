@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "domain": "Ayurvedic Principles (Tridosha Siddhanta)",
+    "skillDomain": "Diagnostics",
+    "difficulty": "Intermediate",
+    "question": "Which of the following physiological functions is primarily governed by the 'Vata' dosha in classical Ayurvedic physiology?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Controls all bodily movements, neuromuscular signals, and cellular transportation.", "correct": true },
+      { "text": "Regulates enzymatic digestion, thermogenesis, and cellular metabolic conversion.", "correct": false },
+      { "text": "Provides structural cohesion, tissue lubrication, and musculoskeletal stability.", "correct": false },
+      { "text": "Exclusively manages cardiac contraction without affecting neuro-sensory perception.", "correct": false }
+    ],
+    "explanation": "Vata (comprising Vayu and Akasha) is the prime mover ('Gati') governing kinetic energy, neural transmission, respiration, and peristalsis."
+  },
+  {
+    "id": 2,
+    "domain": "Dravyaguna & Herbology",
+    "skillDomain": "Herbology",
+    "difficulty": "Advanced",
+    "question": "Which Ayurvedic drug is recognized in the Ayurvedic Pharmacopoeia of India (API) as having 'Rasayana' (rejuvenative), 'Medhya' (nootropic), and adaptogenic properties?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Withania somnifera (Ashwagandha) and Bacopa monnieri (Brahmi)", "correct": true },
+      { "text": "Commiphora mukul (Guggulu) and Ricinus communis (Eranda)", "correct": false },
+      { "text": "Cassia angustifolia (Senna) and Operculina turpethum (Trivrit)", "correct": false },
+      { "text": "Aconitum ferox (Vatsanabha) and Strychnos nux-vomica (Kupilu)", "correct": false }
+    ],
+    "explanation": "Ashwagandha and Brahmi are classical Medhya Rasayana herbs documented for cognitive enhancement, neuroprotection, and stress resilience."
+  },
+  {
+    "id": 3,
+    "domain": "Ayurvedic Pharmacology & Bhasma Science",
+    "skillDomain": "PatientCare",
+    "difficulty": "Advanced",
+    "question": "In the preparation of Herbo-mineral Bhasmas, what is the primary purpose of the 'Marana' process following 'Shodhana'?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Thermal incineration with herbal juices to render metals non-toxic, nano-sized, and bio-assimilable ('Apunarbhava').", "correct": true },
+      { "text": "Simply increasing the macroscopic weight of the mineral compound for shelf longevity.", "correct": false },
+      { "text": "Acid-base precipitation to remove purely volatile aromatic hydrocarbons.", "correct": false },
+      { "text": "Liquid extraction of water-soluble glycosides using alcohol reflux.", "correct": false }
+    ],
+    "explanation": "Marana (calcination via Puta) achieves particle size reduction to nanoscale, eliminating raw metal toxicity and ensuring biological compatibility."
+  },
+  {
+    "id": 4,
+    "domain": "GMP Compliance (Schedule T) & Quality Assurance",
+    "skillDomain": "GMP",
+    "difficulty": "Intermediate",
+    "question": "Under Schedule T of the Drugs and Cosmetics Rules for Ayurvedic formulation manufacturing, which parameter is mandatory for heavy metal limit validation in finished extracts?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Quantitative testing for Lead (Pb), Cadmium (Cd), Mercury (Hg), and Arsenic (As) within API/WHO permissible limits.", "correct": true },
+      { "text": "Visual color inspection only under natural daylight conditions.", "correct": false },
+      { "text": "Single pH measurement without atomic absorption spectroscopy verification.", "correct": false },
+      { "text": "Alcohol content testing solely without elemental screening.", "correct": false }
+    ],
+    "explanation": "Schedule T mandates strict adherence to permissible limits for Lead (10 ppm), Arsenic (3 ppm), Cadmium (0.3 ppm), and Mercury (1 ppm) via AAS/ICP-MS."
+  },
+  {
+    "id": 5,
+    "domain": "Clinical Diagnostics & Nadi Pariksha",
+    "skillDomain": "Diagnostics",
+    "difficulty": "Intermediate",
+    "question": "During classical Radial Pulse Examination (Nadi Pariksha), a pulse movement resembling a serpent (Sarpa Gati) or leech (Jalauka Gati) indicates the predominance of which entity?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Vata Dosha predominance characterized by rapid, irregular, and curved trajectory.", "correct": true },
+      { "text": "Pitta Dosha predominance exhibiting jumpy, frog-like motion (Manduka Gati).", "correct": false },
+      { "text": "Kapha Dosha predominance exhibiting slow, steady swan-like motion (Hamsa Gati).", "correct": false },
+      { "text": "Complete physiological equilibrium with zero kinetic variation.", "correct": false }
+    ],
+    "explanation": "Sarpa Gati (snake-like) reflects Vata; Manduka Gati (frog-like) reflects Pitta; Hamsa/Gaja Gati (swan/elephant-like) reflects Kapha."
+  },
+  {
+    "id": 6,
+    "domain": "Panchakarma Clinical Protocols",
+    "skillDomain": "Panchakarma",
+    "difficulty": "Intermediate",
+    "question": "In classical Panchakarma therapy, which mandatory preparatory procedure (Purvakarma) must precede Vamana (therapeutic emesis) to mobilize deep-seated toxins (Amadosha)?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Abhyanga (Snehana) with medicated oils followed by Swedana (steam sudation).", "correct": true },
+      { "text": "Direct administration of Madana Phala without oil lubrication.", "correct": false },
+      { "text": "Immediate Shirodhara with buttermilk.", "correct": false },
+      { "text": "High-intensity fasting (Upavasa) for 14 consecutive days.", "correct": false }
+    ],
+    "explanation": "Snehana (oleation) and Swedana (sudation) liquefy and mobilize Doshas from Shakha (periphery) to Kostha (alimentary tract) for evacuation."
+  },
+  {
+    "id": 7,
+    "domain": "Phytochemistry & Chromatographic Standardization",
+    "skillDomain": "Herbology",
+    "difficulty": "Advanced",
+    "question": "In High-Performance Thin-Layer Chromatography (HPTLC) fingerprinting of herbal raw materials, how is the Retention Factor (Rf value) calculated?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Distance traveled by the solute spot divided by distance traveled by the solvent front.", "correct": true },
+      { "text": "Total plate length multiplied by the density of the silica gel matrix.", "correct": false },
+      { "text": "Optical absorbance at 254 nm divided by boiling point of the mobile phase.", "correct": false },
+      { "text": "Total mass of extract divided by volume of chromatographic solvent.", "correct": false }
+    ],
+    "explanation": "Rf = (Distance solute moved) / (Distance solvent front moved), providing a unique chromatographic fingerprint for botanical marker identification."
+  },
+  {
+    "id": 8,
+    "domain": "Clinical Research & Good Clinical Practice (GCP)",
+    "skillDomain": "Research",
+    "difficulty": "Intermediate",
+    "question": "According to ICMR and Ministry of Ayush ethical guidelines, where must every prospective clinical trial evaluating an Ayurvedic formulation be registered prior to enrolling the first human participant?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Clinical Trials Registry - India (CTRI) with Institutional Ethics Committee (IEC) clearance.", "correct": true },
+      { "text": "Local district magistrate office without independent ethical review.", "correct": false },
+      { "text": "Any public social media registry.", "correct": false },
+      { "text": "Commercial patent office exclusively.", "correct": false }
+    ],
+    "explanation": "Prospective trial registration in CTRI (ctri.nic.in) with IEC approval is legally mandatory for clinical research credibility and journal publication."
+  },
+  {
+    "id": 9,
+    "domain": "Classical Ayurvedic Formulations",
+    "skillDomain": "Herbology",
+    "difficulty": "Intermediate",
+    "question": "The classical rasayana formulation 'Triphala' consists of equal proportions of dried pericarp from which three medicinal fruits?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Terminalia chebula (Haritaki), Terminalia bellirica (Bibhitaki), and Phyllanthus emblica (Amalaki).", "correct": true },
+      { "text": "Piper nigrum (Maricha), Piper longum (Pippali), and Zingiber officinale (Shunthi).", "correct": false },
+      { "text": "Embelia ribes (Vidanga), Cyperus rotundus (Musta), and Plumbago zeylanica (Chitraka).", "correct": false },
+      { "text": "Azadirachta indica (Nimba), Tinospora cordifolia (Guduchi), and Ocimum sanctum (Tulsi).", "correct": false }
+    ],
+    "explanation": "Triphala comprises Haritaki, Bibhitaki, and Amalaki, renowned for Tridosha balancing, digestive regulation, and antioxidant properties."
+  },
+  {
+    "id": 10,
+    "domain": "Pharmacovigilance in Traditional Medicine",
+    "skillDomain": "Research",
+    "difficulty": "Advanced",
+    "question": "Under the National Pharmacovigilance Programme for Ayush, within what timeframe must a Serious Adverse Event (SAE) be reported to the National Coordination Centre (NCC)?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Within 24 hours of initial occurrence or notification.", "correct": true },
+      { "text": "Within 30 calendar days at quarterly review.", "correct": false },
+      { "text": "At annual clinical audit only.", "correct": false },
+      { "text": "No timeline is mandated for traditional medicines.", "correct": false }
+    ],
+    "explanation": "Serious Adverse Events (SAEs) involving death, hospitalization, or disability require expedited reporting within 24 hours to PPvC/NCC."
+  },
+  {
+    "id": 11,
+    "domain": "Rasa Shastra & Metallurgical Processing",
+    "skillDomain": "GMP",
+    "difficulty": "Advanced",
+    "question": "Which classical testing parameter confirms the complete incineration ('Bhasma Pariksha') of a mineral compound, proving that it floats on water surface without sinking?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Varitara Pariksha (floating test on stagnant water surface).", "correct": true },
+      { "text": "Rekhapurnata Pariksha (entering epidermal ridges).", "correct": false },
+      { "text": "Niruttha Pariksha (inability to alloy with silver at high temp).", "correct": false },
+      { "text": "Apurbhava Pariksha (irreversibility to original metallic state).", "correct": false }
+    ],
+    "explanation": "Varitara (floating on water) and Rekhapurnata (entering micro-furrows of fingers) confirm particle size fineness to sub-micron dimensions."
+  },
+  {
+    "id": 12,
+    "domain": "Ashtavidha Pariksha Clinical Examination",
+    "skillDomain": "Diagnostics",
+    "difficulty": "Intermediate",
+    "question": "In classical Ashtavidha Pariksha, the examination of Jihwa (tongue) exhibiting a thick white greasy coating with sluggish movement signifies which clinical state?",
+    "correctIndex": 0,
+    "options": [
+      { "text": "Sama Jihwa (presence of undigested endotoxins / Kapha-Ama accumulation).", "correct": true },
+      { "text": "Nirama Pitta state with hyper-acidity and crimson erythema.", "correct": false },
+      { "text": "Dehydration with pure Vata dryness without metabolic endotoxins.", "correct": false },
+      { "text": "Completely healthy balanced Dhatu metabolism.", "correct": false }
+    ],
+    "explanation": "A coated tongue (Sama Jihwa) indicates impaired Agni and Ama formation in Kostha requiring Deepana-Pachana therapy."
+  }
+]

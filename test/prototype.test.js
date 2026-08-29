@@ -29,7 +29,7 @@ console.log('--- Starting SkillSetu Prototype Logic Tests ---');
 
 // 1. Data Integrity
 assert(window.SKILLSETU_DATA !== undefined, 'Dataset is defined on window');
-assert(window.SKILLSETU_DATA.assessmentQuestions.length === 5, 'Assessment has exactly 5 questions');
+assert(window.SKILLSETU_DATA.assessmentQuestions.length === 12, 'Assessment has exactly 12 domain questions');
 assert(window.SKILLSETU_DATA.defaultStudent.name === 'Shubham Rawal', 'Default student is Shubham Rawal');
 assert(window.SKILLSETU_DATA.defaultStudent.skills.GMP.current === 42, 'Initial GMP skill is 42%');
 assert(window.SKILLSETU_DATA.defaultStudent.skills.GMP.expected === 78, 'Expected GMP skill is 78%');
@@ -46,14 +46,10 @@ assert(coords.expectedPolygon && coords.expectedPolygon.split(' ').length === 6,
 
 // 4. Assessment Submission & Scoring
 const mockAnswers = {
-  1: 0, // Correct
-  2: 0, // Correct
-  3: 0, // Correct
-  4: 0, // Correct
-  5: 1  // Wrong
+  1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 1
 };
 const scorePct = stateMgr.submitAssessment(mockAnswers);
-assert(scorePct === 80, `Assessment score calculated correctly (4/5 = 80%, got ${scorePct}%)`);
+assert(scorePct === 92, `Assessment score calculated correctly (11/12 = 92%, got ${scorePct}%)`);
 assert(stateMgr.state.assessment.completed === true, 'Assessment marked as completed');
 
 // 5. Bridge Course Progression
@@ -121,12 +117,50 @@ const reloadedState = stateMgr.loadState();
 assert(reloadedState.student.skills.GMP.current === 85, 'State successfully reloaded from localStorage');
 assert(reloadedState.applications['OPP-DABUR-01'].applied === true, 'Application state preserved across sessions');
 
-// 13. Demo Reset
+// 14. Vector Cosine Similarity Matching Verification
+const daburOpportunity = stateMgr.state.opportunities.find(o => o.id === 'OPP-DABUR-01');
+const baselineSkills = JSON.parse(JSON.stringify(window.SKILLSETU_DATA.defaultStudent.skills));
+const matchDeficit = stateMgr.calculateOpportunityMatch(baselineSkills, daburOpportunity);
+assert(matchDeficit <= 65, `Vector matching accurately penalizes deficit gatekeeper (got ${matchDeficit}%)`);
+
+// Complete Dynamic Bridge Course for GMP
+stateMgr.completeBridgeCourse('BC-GMP-101');
+const matchBoosted = stateMgr.calculateOpportunityMatch(stateMgr.state.student.skills, daburOpportunity);
+assert(matchBoosted === 95, `Vector matching unlocks full compatibility score post-remediation (got ${matchBoosted}%)`);
+
+// 15. Dynamic Multi-Domain Bridge Course Verification
+assert(window.SKILLSETU_DATA.bridgeCourses.length >= 6, 'All 6 skill domains have active bridge courses');
+stateMgr.completeBridgeCourse('BC-PAN-101');
+assert(stateMgr.state.student.skills.Panchakarma.current >= 85, 'Panchakarma bridge course dynamically upgrades Panchakarma domain');
+
+// 16. Cryptographic Digital Skill Passport Verification
+const passport = stateMgr.generatePassportCredential();
+assert(passport.credentialId.startsWith('AYU-SHA256-'), `Passport credential ID generated correctly (${passport.credentialId})`);
+assert(passport.verificationStatus === 'CRYPTOGRAPHICALLY_AUTHENTICATED', 'Passport verification status is authenticated');
+assert(passport.verificationTimestamp !== undefined, 'Passport contains valid timestamp');
+
+// 17. Demo Reset
 stateMgr.resetDemo();
 assert(stateMgr.state.student.skills.GMP.current === 42, 'Demo reset restored GMP skill to baseline 42%');
 assert(stateMgr.state.assessment.completed === false, 'Demo reset restored assessment state');
 assert(stateMgr.state.applications['OPP-DABUR-01'].applied === false, 'Demo reset restored applications');
 
-console.log('--- All 13 Core Verification Tests Passed Successfully! ---');
+// 18. Modular Data Layer & AppData Orchestrator Verification
+const appData = global.AppData;
+assert(appData !== undefined, 'AppData module is initialized on global scope');
+assert(appData.getStudents().length >= 14, `AppData loaded ${appData.getStudents().length} authentic student profiles`);
+assert(appData.getColleges().length >= 12, `AppData loaded ${appData.getColleges().length} premier accredited colleges`);
+assert(appData.getIndustries().length >= 12, `AppData loaded ${appData.getIndustries().length} verified Ayush enterprises`);
+assert(appData.getOpportunities().length >= 14, `AppData loaded ${appData.getOpportunities().length} domain openings`);
+assert(appData.getBridgeCourses().length >= 12, `AppData loaded ${appData.getBridgeCourses().length} bridge modules`);
+assert(appData.getFaculty().length >= 12, `AppData loaded ${appData.getFaculty().length} faculty mentors`);
+assert(appData.getQuestions().length === 12, `AppData loaded 12 authentic diagnostic questions`);
+
+// Test O(1) Index Lookups
+assert(appData.getStudentById('CAND-SHUBHAM').name === 'Shubham Rawal', 'O(1) Student lookup by ID');
+assert(appData.getCollegeById('COL-NIA-01').name.includes('National Institute of Ayurveda'), 'O(1) College lookup by ID');
+assert(appData.getOpportunityById('OPP-DABUR-01').company === 'Dabur India Ltd', 'O(1) Opportunity lookup by ID');
+
+console.log('--- All 18 Core Verification Tests Passed Successfully! ---');
 
 

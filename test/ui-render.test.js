@@ -68,7 +68,7 @@ assert(studentHTML.includes('Welcome back, Shubham Rawal') && studentHTML.includ
 
 // 6. Test Assessment HTML
 const assessHTML = ui.getAssessmentHTML(state);
-assert(assessHTML.includes('Question 1 of 5') && assessHTML.includes('Vata'), 'Assessment rendered with questions & options');
+assert(assessHTML.includes('Question 1 of 12') && assessHTML.includes('Vata'), 'Assessment rendered with questions & options');
 
 // 7. Test Industry Dashboard HTML
 const indHTML = ui.getIndustryDashboardHTML(state);
@@ -76,7 +76,7 @@ assert(indHTML.includes('Find Skill-Ready Ayush Talent') && indHTML.includes('Sh
 
 // 8. Test College Dashboard HTML
 const colHTML = ui.getCollegeDashboardHTML(state);
-assert(colHTML.includes('College & Faculty Portal') && colHTML.includes('GMP Compliance') && colHTML.includes('45% Deficit'), 'College dashboard rendered with deficit analytics');
+assert(colHTML.includes('College & Faculty Portal') && colHTML.includes('Schedule T Industrial GMP'), 'College dashboard rendered with deficit analytics');
 
 // 9. Test Ministry Admin HTML
 const minHTML = ui.getMinistryDashboardHTML(state);

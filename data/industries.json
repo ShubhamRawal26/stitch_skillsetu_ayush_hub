@@ -1,0 +1,134 @@
+[
+  {
+    "id": "ENT-DABUR-01",
+    "name": "Dabur India Ltd",
+    "sector": "Pharma & FMCG",
+    "hqLocation": "Noida / Sahibabad, UP",
+    "openingsCount": 24,
+    "verifiedPartner": true,
+    "logo": "https://lh3.googleusercontent.com/aida-public/AB6AXuAKXf5RIs3obOb73b6c4rjLc5JFhfLLmrcyt-WQNAo3cgjtNHdOhfG56HkPADSkHDSZxZuax3ggFou44Pejirf_fDG9I_W0T6SOVJdc3Cnzv1tKJ3ZI92ZB6U1tquegfMQZ1Qwe56874XTyTQ2gj9cykWnGhrYZ6rvZq7KnH8ZL3K7Z6vuGDnyjQLE7CZ-0w0tWV_-aeHMBTZ6p4TzNHHfjotR0-KSAdnlsmMLqH5ho6yfKtLYx_cIq",
+    "description": "Global leader in Ayurvedic medicine, healthcare supplements, and classical Asava-Arishta manufacturing facilities.",
+    "activePrograms": ["Schedule T GMP Apprenticeships", "HPTLC Extraction Fellowships"]
+  },
+  {
+    "id": "ENT-PATANJALI-02",
+    "name": "Patanjali Research Foundation",
+    "sector": "Phytochemistry & Clinical Trials",
+    "hqLocation": "Haridwar, Uttarakhand",
+    "openingsCount": 42,
+    "verifiedPartner": true,
+    "logo": "https://lh3.googleusercontent.com/aida-public/AB6AXuDpSc5Dm9fAtP4WPkavAEtPdrIvqfByPEsbYk6RUSXHkZYBuparVEQLei_2VKgGWYzMQcUI97DcEksgH0BYOnVu3Hhf8zx7Lfq5Us_MsJZAhSycQgHd9-pHeyCHeGtpJa5PVMeZz_cwuxEm96mbQluhVr_2pfViXyh8FIw9FkAZG62bcdvaoBiB_6TxZ3oKS2UXxg2nrVU31p1izmViOCtu8ljXefPnuJUpjDxiAJ2ClcRfp2Nl_ASS",
+    "description": "Pioneering evidence-based traditional medicine, herbal drug discovery, and clinical metabolomics research in India.",
+    "activePrograms": ["Metabolomics Fellowships", "Clinical Herbology PPO"]
+  },
+  {
+    "id": "ENT-KOTTAKKAL-03",
+    "name": "Kottakkal Arya Vaidya Sala",
+    "sector": "Hospital Wellness & Therapeutics",
+    "hqLocation": "Kottakkal, Kerala",
+    "openingsCount": 18,
+    "verifiedPartner": true,
+    "logo": "https://lh3.googleusercontent.com/aida-public/AB6AXuBcWPXF2nyCTzSx1_FOXHikJyf0hqFaQplfsfwlzVaHEkuDjEGaMEVBZWz_QixVN6J2RjrwnBEuBjGgQ7hi_E9Xc0qF23GuKwhPzTn4xsMzpPj3DlXYWsGjiEvGFdy1px8cHlJbVPaAq81o7Qtc_aCRpMlKrzWgT5uqNkJhL3jiDHhrvqJewXrn_julX3cgtAyHnlpYASSpMICDufEghmDWCn2FtyGSzS3mYd1x8qHuqNwrgGHG6QCA",
+    "description": "Centuries of authentic Keraleeya Panchakarma clinical excellence, hospital treatments, and classical medicine production.",
+    "activePrograms": ["Kerala Panchakarma Residencies", "Marma Chikitsa Certification"]
+  },
+  {
+    "id": "ENT-HIMALAYA-04",
+    "name": "Himalaya Wellness Company",
+    "sector": "Botanical Pharma & Wellness",
+    "hqLocation": "Bengaluru, Karnataka",
+    "openingsCount": 31,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=120&auto=format&fit=crop&q=80",
+    "description": "Global head-to-heel herbal wellness brand with advanced chromatographic screening and pharmaceutical R&D labs.",
+    "activePrograms": ["Phytochemistry Fellowships", "HPLC Analytical Internships"]
+  },
+  {
+    "id": "ENT-HAMDARD-05",
+    "name": "Hamdard Laboratories India",
+    "sector": "Unani & Herbal Formulations",
+    "hqLocation": "Delhi NCR / Manesar",
+    "openingsCount": 16,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=120&auto=format&fit=crop&q=80",
+    "description": "Historic Unani and natural health brand manufacturing standardized natural medicines and wellness formulations.",
+    "activePrograms": ["Pharmacognosy Traineeships", "Ilaj-bit-Tadbeer Clinical Fellowships"]
+  },
+  {
+    "id": "ENT-CCRAS-06",
+    "name": "Central Council for Research in Ayurvedic Sciences",
+    "sector": "Govt Research & Clinical GCP",
+    "hqLocation": "New Delhi",
+    "openingsCount": 28,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=120&auto=format&fit=crop&q=80",
+    "description": "Apex autonomous body under Ministry of Ayush for formulation, coordination, and promotion of research in Ayurveda.",
+    "activePrograms": ["National GCP Research Fellowships", "Pharmacovigilance Monitoring"]
+  },
+  {
+    "id": "ENT-BAIDYANATH-07",
+    "name": "Shree Baidyanath Ayurved Bhawan",
+    "sector": "Classical Bhasma & Formulations",
+    "hqLocation": "Kolkata / Jhansi",
+    "openingsCount": 22,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+    "description": "Heritage Ayurvedic pharmaceutical house celebrated for authentic Rasa Shastra Bhasmas, Kupipakwa, and Arishta medicines.",
+    "activePrograms": ["Bhasma QC Analyst Training", "Schedule T Cleanroom Audits"]
+  },
+  {
+    "id": "ENT-CHARAK-08",
+    "name": "Charak Pharma Pvt Ltd",
+    "sector": "Standardized Polyherbal Drugs",
+    "hqLocation": "Mumbai, Maharashtra",
+    "openingsCount": 14,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+    "description": "Evidence-based polyherbal formulation pioneer with international presence across 35+ countries.",
+    "activePrograms": ["Medical Communications Fellowships", "Pharmacology R&D"]
+  },
+  {
+    "id": "ENT-ZANDU-09",
+    "name": "Zandu Care / Emami Ayush",
+    "sector": "OTC Herbal & Fermentation QC",
+    "hqLocation": "Kolkata / Vapi",
+    "openingsCount": 19,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=120&auto=format&fit=crop&q=80",
+    "description": "Household Ayurvedic healthcare name known for classical Chyawanprash, digestive formulations, and pain management solutions.",
+    "activePrograms": ["Asava-Arishta Fermentation QC", "Good Agricultural & Collection Practices (GACP)"]
+  },
+  {
+    "id": "ENT-KERALAAYU-10",
+    "name": "Kerala Ayurveda Ltd",
+    "sector": "Authentic Clinical Wellness",
+    "hqLocation": "Aluva, Kochi, Kerala",
+    "openingsCount": 15,
+    "verifiedPartner": true,
+    "logo": "https://lh3.googleusercontent.com/aida-public/AB6AXuBcWPXF2nyCTzSx1_FOXHikJyf0hqFaQplfsfwlzVaHEkuDjEGaMEVBZWz_QixVN6J2RjrwnBEuBjGgQ7hi_E9Xc0qF23GuKwhPzTn4xsMzpPj3DlXYWsGjiEvGFdy1px8cHlJbVPaAq81o7Qtc_aCRpMlKrzWgT5uqNkJhL3jiDHhrvqJewXrn_julX3cgtAyHnlpYASSpMICDufEghmDWCn2FtyGSzS3mYd1x8qHuqNwrgGHG6QCA",
+    "description": "One of India's oldest publicly listed Ayurvedic companies operating hospitals, wellness resorts, and academy programs.",
+    "activePrograms": ["Ayurvedic Hospital Residencies", "International Wellness Trainees"]
+  },
+  {
+    "id": "ENT-AIMIL-11",
+    "name": "AIMIL Pharmaceuticals India",
+    "sector": "Polyherbal Clinical R&D",
+    "hqLocation": "New Delhi",
+    "openingsCount": 12,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=120&auto=format&fit=crop&q=80",
+    "description": "Research-driven pharmaceutical company specializing in scientifically validated polyherbal formulations.",
+    "activePrograms": ["Clinical Trial Coordination", "Pharmacovigilance Residencies"]
+  },
+  {
+    "id": "ENT-DHOOT-12",
+    "name": "Shree Dhootapapeshwar Ltd",
+    "sector": "Heritage Rasashastra & Alchemy",
+    "hqLocation": "Panvel, Maharashtra",
+    "openingsCount": 17,
+    "verifiedPartner": true,
+    "logo": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=120&auto=format&fit=crop&q=80",
+    "description": "150+ years of gold-standard Rasashastra manufacturing, Suvarna Bhasma perfection, and classical treatises.",
+    "activePrograms": ["Suvarna Bhasma Calibration", "Classical GMP Quality Auditing"]
+  }
+]

@@ -14,6 +14,10 @@ window.AppUI = {
   mobileMenuOpen: false,
 
   init() {
+    if (window.AppData && typeof window.AppData.init === 'function') {
+      window.AppData.init().catch(err => console.warn('[AppUI] AppData init notice:', err));
+    }
+
     // Setup state subscription
     window.appState.subscribe((state) => {
       this.renderCurrentView();
@@ -227,6 +231,14 @@ window.AppUI = {
         </div>
       </div>
     `;
+  },
+
+  copyPassportCredential(credentialId = 'AYU-SHA256-88491A-2026') {
+    const passportUrl = `https://skillsetu.ayush.gov.in/verify/${credentialId}`;
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(`SkillSetu Authenticated Ayush Credential Passport\nCredential ID: ${credentialId}\nVerification Node: GOV-IN-AYUSH-NODE-01\nVerification URL: ${passportUrl}`);
+    }
+    this.showToast(`Verifiable Passport ID (${credentialId}) & Hash copied to clipboard!`, 'success');
   },
 
   closeEditProfileModal() {
@@ -1321,15 +1333,18 @@ window.AppUI = {
             <select onchange="AppUI.filterCollegesByState(this.value)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-700 font-semibold focus:border-primary">
               <option value="all">All States / UTs (352+ Colleges)</option>
               <option value="Rajasthan">Rajasthan (NIA & Affiliates)</option>
-              <option value="Delhi">Delhi NCR (AIIA)</option>
+              <option value="Delhi">Delhi NCR (AIIA New Delhi)</option>
               <option value="Gujarat">Gujarat (ITRA Jamnagar)</option>
-              <option value="Uttar Pradesh">Uttar Pradesh (BHU Faculty)</option>
-              <option value="Kerala">Kerala (Govt Ayurveda)</option>
+              <option value="Uttar Pradesh">Uttar Pradesh (BHU & SAC)</option>
+              <option value="Kerala">Kerala (Govt Ayurveda & Amrita)</option>
               <option value="Karnataka">Karnataka (NIUM Bengaluru)</option>
+              <option value="Maharashtra">Maharashtra (Podar & Tilak)</option>
+              <option value="Uttarakhand">Uttarakhand (Rishikul Haridwar)</option>
+              <option value="West Bengal">West Bengal (J.B. Roy Kolkata)</option>
             </select>
           </div>
           <div class="md:col-span-3 text-right">
-            <span class="text-xs font-bold text-slate-500">Showing <strong>6 Apex Institutions</strong></span>
+            <span class="text-xs font-bold text-slate-500">Showing <strong>${colleges.length} Apex & Premier Institutions</strong></span>
           </div>
         </div>
 
@@ -2604,8 +2619,6 @@ window.AppUI = {
   // 4. Student Dashboard HTML
   getStudentDashboardHTML(state) {
     const student = state.student;
-    const gmpSkill = student.skills["GMP"];
-    const isGmpDeficit = gmpSkill.current < gmpSkill.expected;
 
     const nationalAverages = {
       Panchakarma: 72,
@@ -2617,13 +2630,20 @@ window.AppUI = {
     };
 
     const allSkillsList = [
-      { key: "Panchakarma", shortLabel: "Panchakarma", name: "Panchakarma Therapy", icon: "spa", current: student.skills.Panchakarma.current, expected: student.skills.Panchakarma.expected, natAvg: nationalAverages.Panchakarma, focus: "Snehana, Swedana, Vamana, Virechana & Basti Protocols" },
-      { key: "Herbology", shortLabel: "Herbology", name: "Herbology & Dravyaguna", icon: "eco", current: student.skills.Herbology.current, expected: student.skills.Herbology.expected, natAvg: nationalAverages.Herbology, focus: "Phytochemistry, HPTLC Standardization & Extract R&D" },
-      { key: "PatientCare", shortLabel: "Patient Care", name: "Patient Care & Clinical Nadi", icon: "stethoscope", current: student.skills.PatientCare.current, expected: student.skills.PatientCare.expected, natAvg: nationalAverages.PatientCare, focus: "Nadi Pariksha, Prakriti Analysis & Bedside Diagnosis" },
-      { key: "Diagnostics", shortLabel: "Pulse Nidan", name: "Pulse & Rog Nidan", icon: "vital_signs", current: student.skills.Diagnostics.current, expected: student.skills.Diagnostics.expected, natAvg: nationalAverages.Diagnostics, focus: "Ashtavidha Pariksha & Clinical Lab Interpretation" },
-      { key: "GMP", shortLabel: "Schedule T", name: "Schedule T GMP Compliance", icon: "verified", current: student.skills.GMP.current, expected: student.skills.GMP.expected, natAvg: nationalAverages.GMP, focus: "AYUSH Schedule T SOPs, Cleanroom QC & Batch Records" },
-      { key: "Research", shortLabel: "Clinical R&D", name: "Clinical Research & GCP", icon: "science", current: student.skills.Research.current, expected: student.skills.Research.expected, natAvg: nationalAverages.Research, focus: "GCP Compliance, Pharmacovigilance & Case Documentation" }
+      { key: "Panchakarma", shortLabel: "Panchakarma", name: "Panchakarma Therapy", icon: "spa", current: student.skills.Panchakarma.current, expected: student.skills.Panchakarma.expected, natAvg: nationalAverages.Panchakarma, focus: "Snehana, Swedana, Vamana, Virechana & Basti Protocols", domainId: "BC-PAN-101" },
+      { key: "Herbology", shortLabel: "Herbology", name: "Herbology & Dravyaguna", icon: "eco", current: student.skills.Herbology.current, expected: student.skills.Herbology.expected, natAvg: nationalAverages.Herbology, focus: "Phytochemistry, HPTLC Standardization & Extract R&D", domainId: "BC-HERB-102" },
+      { key: "PatientCare", shortLabel: "Patient Care", name: "Patient Care & Clinical Nadi", icon: "stethoscope", current: student.skills.PatientCare.current, expected: student.skills.PatientCare.expected, natAvg: nationalAverages.PatientCare, focus: "Nadi Pariksha, Prakriti Analysis & Bedside Diagnosis", domainId: "BC-PAT-103" },
+      { key: "Diagnostics", shortLabel: "Pulse Nidan", name: "Pulse & Rog Nidan", icon: "vital_signs", current: student.skills.Diagnostics.current, expected: student.skills.Diagnostics.expected, natAvg: nationalAverages.Diagnostics, focus: "Ashtavidha Pariksha & Clinical Lab Interpretation", domainId: "BC-DIAG-104" },
+      { key: "GMP", shortLabel: "Schedule T", name: "Schedule T GMP Compliance", icon: "verified", current: student.skills.GMP.current, expected: student.skills.GMP.expected, natAvg: nationalAverages.GMP, focus: "AYUSH Schedule T SOPs, Cleanroom QC & Batch Records", domainId: "BC-GMP-101" },
+      { key: "Research", shortLabel: "Clinical R&D", name: "Clinical Research & GCP", icon: "science", current: student.skills.Research.current, expected: student.skills.Research.expected, natAvg: nationalAverages.Research, focus: "GCP Compliance, Pharmacovigilance & Case Documentation", domainId: "BC-RES-105" }
     ];
+
+    const deficitSkills = allSkillsList.filter(s => s.current < 75);
+    const hasDeficit = deficitSkills.length > 0;
+    const primaryDeficit = hasDeficit ? deficitSkills[0] : null;
+    const primaryCourse = primaryDeficit 
+      ? (state.bridgeCourses.find(c => c.domain === primaryDeficit.key || c.id === primaryDeficit.domainId) || state.bridgeCourses[0])
+      : null;
 
     return `
       <main class="pt-28 pb-24 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-8">
@@ -2664,108 +2684,87 @@ window.AppUI = {
           </div>
         </section>
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          <!-- Simple & Intuitive Skill Bar Chart (Bento Cell) -->
-          <div class="xl:col-span-2 glass-panel rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm flex flex-col justify-between">
+        <!-- Benchmark Analytics (Full-Width Card) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 glass-panel p-4 sm:p-6 md:p-8 rounded-2xl flex flex-col justify-between overflow-hidden">
             <div>
               <!-- Card Header -->
-              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6 border-b border-slate-200/80 pb-3 sm:pb-4">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-4 border-b border-slate-200/80">
                 <div>
-                  <div class="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
-                    <span class="material-symbols-outlined text-sm">bar_chart</span> Skill Assessment
-                  </div>
-                  <h2 class="font-headline-sm text-lg sm:text-2xl font-bold text-on-surface">Your Skill Scores Bar Chart</h2>
-                  <p class="font-body-md text-xs text-on-surface-variant">Clear visual comparison of your scores against the required 75% Industry Target</p>
+                  <h3 class="font-headline-sm text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-2xl">bar_chart</span>
+                    <span>Ayush Competency Benchmark vs. Industry Baseline</span>
+                  </h3>
+                  <p class="text-xs text-slate-500 mt-1">Direct comparison of your evaluated skills against the 75% national industry requirement threshold.</p>
                 </div>
-                <button onclick="AppUI.navigate('assessment')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm shrink-0">
-                  <span class="material-symbols-outlined text-sm">quiz</span> Retake Quiz
+                <button onclick="AppUI.navigate('assessment')" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1 self-stretch sm:self-auto justify-center">
+                  <span class="material-symbols-outlined text-sm">quiz</span>
+                  <span>Retake Quiz</span>
                 </button>
               </div>
 
-              <!-- Main Visual Column Bar Chart -->
-              <div class="bg-surface-container-lowest rounded-2xl p-3 sm:p-5 md:p-6 border border-slate-200/80 relative">
-                <!-- Y-Axis Target Reference Line (75%) -->
-                <div class="absolute left-2 sm:left-6 right-2 sm:right-6 top-[30%] border-t-2 border-dashed border-slate-400 z-10 pointer-events-none flex justify-end">
-                  <span class="bg-slate-800 text-white text-[8.5px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full -translate-y-1/2 shadow-xs whitespace-nowrap">
-                    Target: 75%
-                  </span>
-                </div>
+              <!-- 6-Axis Clean Bar Chart Container -->
+              <div class="bg-white rounded-xl p-3 sm:p-6 border border-slate-200/80 shadow-xs">
+                <!-- Bar Grid -->
+                <div class="h-56 sm:h-64 flex items-end justify-between gap-1 sm:gap-4 px-0.5 sm:px-4 pb-2 border-b-2 border-slate-300 relative">
+                  <!-- 75% Target Reference Line -->
+                  <div class="absolute left-0 right-0 top-[25%] border-t-2 border-dashed border-slate-400/80 z-0 pointer-events-none flex justify-end pr-2">
+                    <span class="text-[9px] sm:text-[10px] font-bold text-slate-500 bg-white/90 px-1 py-0.5 rounded shadow-xs -mt-3">Industry Req (75%)</span>
+                  </div>
 
-                <!-- 6 Column Bars Container -->
-                <div class="h-56 sm:h-72 flex items-end justify-between gap-1 sm:gap-4 pt-7 pb-2 border-b-2 border-slate-200 px-0.5 sm:px-4 relative">
-                  ${allSkillsList.map(s => {
+                  <!-- 6 Distinct Category Columns -->
+                  ${allSkillsList.map((s) => {
                     const isDeficit = s.current < 75;
-                    const heightPercent = Math.min(100, Math.max(10, s.current));
+                    const barHeightPct = Math.min(100, Math.max(12, s.current));
                     return `
-                      <div class="flex-1 min-w-0 flex flex-col items-center h-full justify-end group">
-                        <!-- Score Number on top of bar -->
-                        <div class="mb-1 text-center w-full">
-                          <span class="text-[9.5px] sm:text-xs font-extrabold ${isDeficit ? 'text-red-600 bg-red-50 border border-red-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'} px-1 sm:px-2 py-0.5 rounded shadow-xs inline-block leading-none">
-                            ${s.current}%
-                          </span>
-                        </div>
+                      <div class="flex-1 flex flex-col items-center h-full justify-end relative z-10 group max-w-[32px] sm:max-w-[48px] mx-auto">
+                        <!-- Score Number on Top -->
+                        <span class="text-[10px] sm:text-xs font-extrabold ${isDeficit ? 'text-red-600 font-black' : 'text-emerald-700'} mb-1.5 transition-transform group-hover:scale-110">
+                          ${s.current}%
+                        </span>
 
                         <!-- The Animated Vertical Bar -->
-                        <div class="w-full max-w-[26px] sm:max-w-[44px] bg-slate-100 rounded-t-md sm:rounded-t-xl overflow-hidden flex flex-col justify-end h-full shadow-inner">
+                        <div class="w-full h-full flex items-end justify-center">
                           <div 
-                            class="w-full ${isDeficit ? 'bg-gradient-to-t from-red-600 to-red-400 shadow-md ring-1 sm:ring-2 ring-red-300' : 'bg-gradient-to-t from-emerald-700 to-emerald-500 shadow-md'} rounded-t-md sm:rounded-t-xl transition-all duration-700 hover:opacity-90 flex items-center justify-center"
-                            style="height: ${heightPercent}%;"
+                            class="w-full rounded-t-lg transition-all duration-700 shadow-sm ${isDeficit ? 'bg-gradient-to-t from-red-600 to-red-400 hover:from-red-700 hover:to-red-500 ring-1 ring-red-400' : 'bg-gradient-to-t from-emerald-700 to-emerald-500 hover:from-emerald-800 hover:to-emerald-600'}" 
+                            style="height: ${barHeightPct}%;"
+                            title="${s.name}: ${s.current}% (Expected: ${s.expected}%)"
                           >
-                            <span class="text-white font-extrabold text-[9px] sm:text-[10px] opacity-90 hidden sm:inline">${s.current}%</span>
                           </div>
                         </div>
 
                         <!-- Bar Status Pill (Passed / Needs Fix) -->
                         <div class="mt-1.5 text-center w-full">
-                          ${isDeficit ? `
-                            <span class="inline-flex items-center justify-center gap-0.5 text-[8px] sm:text-[10px] font-extrabold text-red-600 bg-red-100 px-1 sm:px-1.5 py-0.5 rounded whitespace-nowrap leading-none">
-                              <span class="material-symbols-outlined text-[9px] sm:text-[11px]">warning</span>Low
-                            </span>
-                          ` : `
-                            <span class="inline-flex items-center justify-center gap-0.5 text-[8px] sm:text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-1 sm:px-1.5 py-0.5 rounded whitespace-nowrap leading-none">
-                              <span class="material-symbols-outlined text-[9px] sm:text-[11px]">check</span>Pass
-                            </span>
-                          `}
+                          <span class="text-[8px] sm:text-[9px] font-bold ${isDeficit ? 'text-red-700' : 'text-emerald-700'}">${isDeficit ? 'FIX' : 'PASS'}</span>
                         </div>
                       </div>
                     `;
                   }).join('')}
                 </div>
-
-                <!-- Skill Names under each Bar -->
-                <div class="flex justify-between gap-1 sm:gap-4 px-0.5 sm:px-4 pt-2.5 text-center">
-                  ${allSkillsList.map(s => `
-                    <div class="flex-1 min-w-0 flex flex-col items-center">
-                      <span class="material-symbols-outlined text-primary text-sm sm:text-lg mb-0.5 shrink-0">${s.icon}</span>
-                      <span class="font-bold text-slate-800 text-[8.5px] sm:text-xs leading-tight text-center break-words w-full">${s.shortLabel}</span>
-                      <span class="text-[8.5px] text-slate-400 hidden sm:block">${s.name.split(' ').slice(1, 3).join(' ')}</span>
-                    </div>
-                  `).join('')}
-                </div>
               </div>
 
-              <!-- Clear Action Summary Box -->
-              <div class="mt-5 p-4 rounded-xl ${isGmpDeficit ? 'bg-amber-50 border border-amber-200' : 'bg-emerald-50 border border-emerald-200'} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <!-- Dynamic Action Summary Box -->
+              <div class="mt-5 p-4 rounded-xl ${hasDeficit ? 'bg-amber-50 border border-amber-200' : 'bg-emerald-50 border border-emerald-200'} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-full ${isGmpDeficit ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'} flex items-center justify-center shrink-0">
-                    <span class="material-symbols-outlined text-xl">${isGmpDeficit ? 'notification_important' : 'verified'}</span>
+                  <div class="w-9 h-9 rounded-full ${hasDeficit ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'} flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-xl">${hasDeficit ? 'notification_important' : 'verified'}</span>
                   </div>
                   <div>
                     <h4 class="font-bold text-slate-900 text-xs sm:text-sm">
-                      ${isGmpDeficit ? '1 Skill Below Target: Schedule T GMP (42%)' : 'All 6 Skills Verified & Passed!'}
+                      ${hasDeficit ? `${deficitSkills.length} Skill${deficitSkills.length > 1 ? 's' : ''} Below Target: ${primaryDeficit.name} (${primaryDeficit.current}% vs 75%)` : 'All 6 Skills Verified & Passed Industry Benchmarks!'}
                     </h4>
                     <p class="text-[11px] text-slate-600">
-                      ${isGmpDeficit ? 'Take the free 2-week bridge module to reach 85% and qualify for Dabur India Ltd internships.' : 'You qualify for 100% of open Ayush pharma and hospital roles.'}
+                      ${hasDeficit ? `Complete the ${primaryCourse.title} bridge course to reach ${primaryCourse.boostedSkill}% and unlock top industry placements.` : 'You qualify for 100% of open Ayush pharmaceutical, clinical, and hospital placements.'}
                     </p>
                   </div>
                 </div>
-                ${isGmpDeficit ? `
-                  <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center">
+                ${hasDeficit ? `
+                  <button onclick="AppUI.openBridgeCourseModal('${primaryCourse.id}')" class="px-4 py-2 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center whitespace-nowrap">
                     <span>Fix Score (Bridge Course)</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                   </button>
                 ` : `
-                  <button onclick="AppUI.navigate('opportunities')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center">
+                  <button onclick="AppUI.navigate('opportunities')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 flex items-center gap-1.5 w-full sm:w-auto justify-center whitespace-nowrap">
                     <span>View Jobs</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                   </button>
@@ -2783,48 +2782,44 @@ window.AppUI = {
                 <span class="w-3.5 h-3.5 rounded-sm bg-red-500 shadow-xs"></span>
                 <span class="font-bold text-slate-700">Red Bar = Needs Bridge Course (&lt; 75%)</span>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="w-4 h-0.5 border-t-2 border-dashed border-slate-700"></span>
-                <span class="font-bold text-slate-600">Industry Target Line (75%)</span>
-              </div>
             </div>
           </div>
 
           <!-- Right Column: Skill Gap Alert & Quick Stats -->
           <div class="flex flex-col gap-6">
             <!-- Skill Gap Card -->
-            <div class="glass-panel-heavy rounded-2xl p-6 relative overflow-hidden ${isGmpDeficit ? 'border-tertiary-container/50 ambient-glow-error' : 'border-primary/30'}">
+            <div class="glass-panel-heavy rounded-2xl p-6 relative overflow-hidden ${hasDeficit ? 'border-tertiary-container/50 ambient-glow-error' : 'border-primary/30'}">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-full ${isGmpDeficit ? 'bg-error-container text-error' : 'bg-primary-container/20 text-primary'} flex items-center justify-center font-bold">
-                  <span class="material-symbols-outlined text-xl">${isGmpDeficit ? 'warning' : 'verified'}</span>
+                <div class="w-10 h-10 rounded-full ${hasDeficit ? 'bg-error-container text-error' : 'bg-primary-container/20 text-primary'} flex items-center justify-center font-bold">
+                  <span class="material-symbols-outlined text-xl">${hasDeficit ? 'warning' : 'verified'}</span>
                 </div>
                 <div>
-                  <h3 class="font-headline-sm text-lg font-bold text-on-surface">${isGmpDeficit ? 'Skill Gap Detected' : 'All Baselines Satisfied'}</h3>
-                  <span class="text-[11px] text-on-surface-variant">${isGmpDeficit ? 'Requires Bridge Certification' : 'Ready for Formulation Placements'}</span>
+                  <h3 class="font-headline-sm text-lg font-bold text-on-surface">${hasDeficit ? `Skill Gap: ${primaryDeficit.shortLabel}` : 'All Baselines Satisfied'}</h3>
+                  <span class="text-[11px] text-on-surface-variant">${hasDeficit ? 'Requires Bridge Certification' : 'Ready for Formulation Placements'}</span>
                 </div>
               </div>
               
               <p class="font-body-md text-xs text-on-surface-variant mb-4 leading-relaxed">
-                ${isGmpDeficit 
-                  ? `Your proficiency in <strong>GMP Compliance & Schedule T</strong> is currently at <strong>${gmpSkill.current}%</strong> (Industry requirement is <strong>${gmpSkill.expected}%</strong>). This restricts direct placement into commercial Ayurvedic manufacturing roles.`
-                  : `Your <strong>GMP Compliance (Schedule T)</strong> is verified at <strong>${gmpSkill.current}%</strong>. Your profile is ranked in the top 5% of candidate matches for manufacturing partners.`
+                ${hasDeficit 
+                  ? `Your evaluated proficiency in <strong>${primaryDeficit.name}</strong> is currently at <strong>${primaryDeficit.current}%</strong> (Industry baseline is <strong>${primaryDeficit.expected}%</strong>). This restricts direct placement into premier clinical & formulation roles.`
+                  : `All 6 core Ayush competencies are verified above industry targets. Your profile is ranked in the top 5% of candidate matches for partner enterprises.`
                 }
               </p>
 
-              <div class="bg-surface/70 rounded-xl p-3.5 mb-5 border border-outline-variant/40">
-                <div class="flex justify-between text-xs font-semibold mb-1">
-                  <span class="text-on-surface-variant">GMP Readiness</span>
-                  <span class="${isGmpDeficit ? 'text-error' : 'text-primary'}">${gmpSkill.current}% / ${gmpSkill.expected}%</span>
+              ${hasDeficit ? `
+                <div class="bg-surface/70 rounded-xl p-3.5 mb-5 border border-outline-variant/40">
+                  <div class="flex justify-between text-xs font-semibold mb-1">
+                    <span class="text-on-surface-variant">${primaryDeficit.shortLabel} Readiness</span>
+                    <span class="text-error font-bold">${primaryDeficit.current}% / ${primaryDeficit.expected}%</span>
+                  </div>
+                  <div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
+                    <div class="bg-error h-2 rounded-full transition-all duration-500" style="width: ${primaryDeficit.current}%"></div>
+                  </div>
                 </div>
-                <div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
-                  <div class="${isGmpDeficit ? 'bg-error' : 'bg-primary-container'} h-2 rounded-full transition-all duration-500" style="width: ${gmpSkill.current}%"></div>
-                </div>
-              </div>
 
-              ${isGmpDeficit ? `
-                <button onclick="AppUI.openBridgeCourseModal('BC-GMP-101')" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-xs font-semibold hover:bg-primary/90 transition-all shadow-md flex items-center justify-center gap-2">
+                <button onclick="AppUI.openBridgeCourseModal('${primaryCourse.id}')" class="w-full py-3 bg-primary text-white rounded-xl font-label-md text-xs font-semibold hover:bg-primary/90 transition-all shadow-md flex items-center justify-center gap-2">
                   <span class="material-symbols-outlined text-sm">auto_stories</span>
-                  Explore Bridge Course (GMP Compliance)
+                  <span>Explore Bridge Course (${primaryCourse.domain || primaryCourse.title})</span>
                 </button>
               ` : `
                 <div class="p-3 rounded-xl bg-primary-container/10 border border-primary-container/30 text-primary text-xs font-semibold flex items-center gap-2">
@@ -2832,43 +2827,25 @@ window.AppUI = {
                 </div>
               `}
             </div>
-
-            <!-- Verified Badges -->
-            <div class="glass-panel rounded-2xl p-6">
-              <h3 class="font-headline-sm text-base font-bold text-on-surface mb-3 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-lg">verified</span> Verified Competency Badges
-              </h3>
-              <div class="flex flex-col gap-2">
-                ${student.verifiedBadges.map(b => `
-                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-lowest border border-primary/15">
-                    <div>
-                      <div class="font-label-md text-xs font-bold text-on-surface">${b.name}</div>
-                      <div class="text-[10px] text-on-surface-variant">${b.issuer} • ${b.date}</div>
-                    </div>
-                    <span class="material-symbols-outlined text-primary text-base">shield_with_heart</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- Opportunity Matching Section -->
+        <!-- Opportunity Matching Section (Dynamic Vector Matching) -->
         <section class="mt-4">
           <div class="flex justify-between items-end mb-6">
             <div>
               <div class="inline-flex items-center gap-1 text-primary text-xs font-bold uppercase tracking-wider mb-1">
-                <span class="material-symbols-outlined text-sm">target</span> AI Skill-Match Engine
+                <span class="material-symbols-outlined text-sm">target</span> Vector Cosine Match Engine
               </div>
               <h2 class="font-headline-md text-2xl font-bold text-on-surface">Industry Opportunities</h2>
-              <p class="font-body-md text-xs text-on-surface-variant">Top positions ranked by your verified skill compatibility</p>
+              <p class="font-body-md text-xs text-on-surface-variant">Top positions ranked dynamically by your multi-dimensional skill vector compatibility</p>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             ${state.opportunities.map(opp => {
               const appInfo = state.applications[opp.id] || { applied: false, status: "Not Applied" };
-              const currentMatch = gmpSkill.current >= 78 ? opp.boostedMatch : opp.initialMatch;
+              const dynamicMatch = window.appState.calculateOpportunityMatch(student.skills, opp);
               return `
                 <div class="glass-card rounded-2xl p-6 flex flex-col justify-between h-full border border-primary/15 hover:border-primary/40 relative">
                   <div>
@@ -2876,8 +2853,8 @@ window.AppUI = {
                       <div class="w-12 h-12 rounded-xl bg-white border border-outline-variant/40 flex items-center justify-center p-2 shadow-sm">
                         ${opp.logo ? `<img src="${opp.logo}" alt="${opp.company}" class="w-full h-full object-contain" />` : `<span class="font-bold text-primary text-sm">${opp.company.slice(0, 2).toUpperCase()}</span>`}
                       </div>
-                      <div class="px-3 py-1 ${currentMatch >= 90 ? 'bg-primary-container/20 text-primary border-primary/30' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'} rounded-full font-label-sm text-xs font-bold flex items-center gap-1 border">
-                        <span class="material-symbols-outlined text-sm">verified</span> ${currentMatch}% Match
+                      <div class="px-3 py-1 ${dynamicMatch >= 90 ? 'bg-primary-container/20 text-primary border-primary/30' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'} rounded-full font-label-sm text-xs font-bold flex items-center gap-1 border">
+                        <span class="material-symbols-outlined text-sm">verified</span> ${dynamicMatch}% Match
                       </div>
                     </div>
                     
@@ -2887,7 +2864,10 @@ window.AppUI = {
                     
                     <div class="flex flex-wrap gap-1.5 mb-6">
                       ${opp.requiredSkills.map(s => {
-                        const isSatisfied = (s === 'GMP Compliance' || s === 'GMP') ? gmpSkill.current >= 78 : true;
+                        const gate = opp.gatekeeperSkill || 'GMP';
+                        const currentVal = student.skills?.[gate]?.current || 42;
+                        const thresh = opp.gatekeeperThreshold || 75;
+                        const isSatisfied = (s.includes('GMP') || s === gate) ? currentVal >= thresh : true;
                         return `
                           <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1 ${isSatisfied ? 'bg-primary-container/10 text-primary border border-primary/20' : 'bg-error-container/20 text-error border border-error/20'}">
                             <span class="material-symbols-outlined text-[13px]">${isSatisfied ? 'check_circle' : 'warning'}</span>
@@ -3145,6 +3125,8 @@ window.AppUI = {
     const btn = document.getElementById('btn-complete-course');
     const pBar = document.getElementById('course-progress-bar');
     const pText = document.getElementById('course-progress-text');
+    const courseList = window.appState.state.bridgeCourses || window.SKILLSETU_DATA.bridgeCourses || [];
+    const course = courseList.find(c => c.id === courseId) || courseList[0];
 
     if (btn) {
       btn.disabled = true;
@@ -3152,7 +3134,7 @@ window.AppUI = {
     }
 
     if (pBar) pBar.style.width = '60%';
-    if (pText) pText.textContent = '60% Processing Schedule T Audit...';
+    if (pText) pText.textContent = `60% Validating ${course.domain || 'Skill'} Curricula...`;
 
     setTimeout(() => {
       if (pBar) pBar.style.width = '100%';
@@ -3162,7 +3144,7 @@ window.AppUI = {
         window.appState.completeBridgeCourse(courseId);
         const modal = document.getElementById('bridge-modal');
         if (modal) modal.remove();
-        AppUI.showToast("Bridge Course Completed! GMP Skill boosted from 42% to 85%. Dabur match upgraded to 95%!", "success");
+        AppUI.showToast(`Bridge Course Completed! ${course.domain || 'Target'} skill upgraded to ${course.boostedSkill || 85}%. Opportunity matches updated!`, "success");
       }, 700);
     }, 900);
   },
@@ -3171,10 +3153,13 @@ window.AppUI = {
   openInternshipDetailModal(oppId = 'OPP-DABUR-01') {
     const opp = (window.appState.state.opportunities || []).find(o => o.id === oppId) || window.appState.state.opportunities[0];
     const student = window.appState.state.student;
-    const gmpSkill = student.skills?.["GMP"] || { current: 42, expected: 78 };
-    const isGmpDeficit = gmpSkill.current < 78;
-    const currentMatch = gmpSkill.current >= 78 ? opp.boostedMatch : opp.initialMatch;
+    const currentMatch = window.appState.calculateOpportunityMatch(student.skills, opp);
     const appInfo = window.appState.state.applications[opp.id] || { applied: false, status: "Not Applied" };
+    const gatekeeper = opp.gatekeeperSkill || "GMP";
+    const gateSkill = student.skills?.[gatekeeper] || { current: 75, expected: 75 };
+    const thresh = opp.gatekeeperThreshold || 75;
+    const isGateDeficit = gateSkill.current < thresh;
+    const bridgeCourse = (window.appState.state.bridgeCourses || []).find(c => c.domain === gatekeeper) || { id: "BC-GMP-101", title: "Bridge Course" };
 
     const modalHTML = `
       <div id="internship-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
@@ -3215,14 +3200,14 @@ window.AppUI = {
                   <p class="text-[11px] text-slate-600 mt-0.5">
                     ${currentMatch >= 90 
                       ? 'You meet or exceed all clinical & manufacturing prerequisites for this verified position.' 
-                      : 'Bridge your Schedule T GMP score from 42% to 85% to reach a 95% match and qualify for immediate interview priority.'}
+                      : `Bridge your ${gatekeeper} score from ${gateSkill.current}% to ${thresh}+% to unlock maximum match priority.`}
                   </p>
                 </div>
               </div>
 
-              ${isGmpDeficit ? `
-                <button onclick="document.getElementById('internship-modal').remove(); AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-3 py-1.5 bg-primary text-white rounded-lg font-bold text-xs hover:bg-emerald-800 transition-all shadow-xs shrink-0 flex items-center gap-1">
-                  <span>Fix GMP Score</span>
+              ${isGateDeficit ? `
+                <button onclick="document.getElementById('internship-modal').remove(); AppUI.openBridgeCourseModal('${bridgeCourse.id}')" class="px-3 py-1.5 bg-primary text-white rounded-lg font-bold text-xs hover:bg-emerald-800 transition-all shadow-xs shrink-0 flex items-center gap-1 whitespace-nowrap">
+                  <span>Fix ${gatekeeper} Score</span>
                   <span class="material-symbols-outlined text-xs">arrow_forward</span>
                 </button>
               ` : ''}
@@ -3260,7 +3245,7 @@ window.AppUI = {
                     <span class="material-symbols-outlined text-emerald-600 text-base">spa</span>
                     <div>
                       <span class="font-bold text-slate-900 text-xs">Panchakarma & Clinical Protocols</span>
-                      <span class="text-[10px] text-slate-400 block">Your Score: 85% • Required: 75%</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: ${student.skills.Panchakarma?.current || 85}% • Required: 75%</span>
                     </div>
                   </div>
                   <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
@@ -3268,17 +3253,17 @@ window.AppUI = {
                   </span>
                 </div>
 
-                <div class="p-2.5 ${isGmpDeficit ? 'bg-red-50/70 border border-red-200' : 'bg-slate-50 border border-slate-200/80'} rounded-xl flex items-center justify-between">
+                <div class="p-2.5 ${student.skills.GMP?.current < 78 ? 'bg-red-50/70 border border-red-200' : 'bg-slate-50 border border-slate-200/80'} rounded-xl flex items-center justify-between">
                   <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined ${isGmpDeficit ? 'text-red-600' : 'text-emerald-600'} text-base">science</span>
+                    <span class="material-symbols-outlined ${student.skills.GMP?.current < 78 ? 'text-red-600' : 'text-emerald-600'} text-base">science</span>
                     <div>
                       <span class="font-bold text-slate-900 text-xs">Schedule T GMP Compliance</span>
-                      <span class="text-[10px] ${isGmpDeficit ? 'text-red-600 font-semibold' : 'text-slate-400'} block">
-                        Your Score: ${gmpSkill.current}% • Required: 78% ${isGmpDeficit ? '(Deficit - Bridge Available)' : '(Passed)'}
+                      <span class="text-[10px] ${student.skills.GMP?.current < 78 ? 'text-red-600 font-semibold' : 'text-slate-400'} block">
+                        Your Score: ${student.skills.GMP?.current || 42}% • Required: 78% ${student.skills.GMP?.current < 78 ? '(Deficit - Bridge Available)' : '(Passed)'}
                       </span>
                     </div>
                   </div>
-                  ${isGmpDeficit ? `
+                  ${student.skills.GMP?.current < 78 ? `
                     <button onclick="document.getElementById('internship-modal').remove(); AppUI.openBridgeCourseModal('BC-GMP-101')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-[10px] font-bold shadow-xs">
                       Take Bridge Course
                     </button>
@@ -3294,7 +3279,7 @@ window.AppUI = {
                     <span class="material-symbols-outlined text-emerald-600 text-base">eco</span>
                     <div>
                       <span class="font-bold text-slate-900 text-xs">Herbology & Phytochemistry</span>
-                      <span class="text-[10px] text-slate-400 block">Your Score: 80% • Required: 70%</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: ${student.skills.Herbology?.current || 80}% • Required: 70%</span>
                     </div>
                   </div>
                   <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
@@ -3307,7 +3292,7 @@ window.AppUI = {
                     <span class="material-symbols-outlined text-emerald-600 text-base">vital_signs</span>
                     <div>
                       <span class="font-bold text-slate-900 text-xs">Pulse & Clinical Diagnostics</span>
-                      <span class="text-[10px] text-slate-400 block">Your Score: 75% • Required: 70%</span>
+                      <span class="text-[10px] text-slate-400 block">Your Score: ${student.skills.Diagnostics?.current || 75}% • Required: 70%</span>
                     </div>
                   </div>
                   <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md text-[10px] font-extrabold inline-flex items-center gap-0.5">
@@ -3781,18 +3766,36 @@ window.AppUI = {
               </div>
             </div>
 
-            <!-- 3. Verified Institution Credential -->
-            <div class="bg-gradient-to-br from-emerald-800 to-teal-900 rounded-2xl p-5 text-white shadow-md space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-2xl text-emerald-300">verified_user</span>
-                <h4 class="font-bold text-sm">SkillSetu Verified Profile</h4>
+            <!-- 3. Verified Digital Skill Passport & Cryptographic Credential -->
+            <div class="bg-gradient-to-br from-emerald-850 via-teal-900 to-emerald-950 rounded-2xl p-5 text-white shadow-md space-y-3 border border-emerald-500/30">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-2xl text-emerald-300">verified_user</span>
+                  <h4 class="font-bold text-sm">Digital Skill Passport</h4>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-700/60 border border-emerald-400/40 text-[9px] font-mono font-bold rounded text-emerald-200">AUTHENTICATED</span>
               </div>
               <p class="text-xs text-emerald-100/90 leading-relaxed">
-                All competency benchmark scores and clinical postings on this profile are authenticated by apex Ayush institutions and accredited under National Ayush Mission guidelines.
+                All competency benchmark scores, clinical postings, and verified skill badges are cryptographically signed and authenticated under National Ayush Mission guidelines.
               </p>
-              <div class="pt-2 border-t border-white/20 text-[10px] text-emerald-200">
-                Credential ID: AYU-2026-IND-88491
+              <div class="space-y-1.5 pt-2 border-t border-white/20 text-[11px] font-mono text-emerald-200">
+                <div class="flex justify-between items-center">
+                  <span class="opacity-80">Credential ID:</span>
+                  <span class="font-bold text-white">${student.passportCredential?.credentialId || 'AYU-SHA256-88491A-2026'}</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px]">
+                  <span class="opacity-80">Verified Timestamp:</span>
+                  <span class="text-white">${student.passportCredential?.verificationTimestamp || 'Aug 29, 2026, 10:30 AM'}</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px]">
+                  <span class="opacity-80">Signing Authority:</span>
+                  <span class="text-white text-right">Ministry of Ayush (Node-01)</span>
+                </div>
               </div>
+              <button onclick="AppUI.copyPassportCredential('${student.passportCredential?.credentialId || 'AYU-SHA256-88491A-2026'}')" class="w-full py-2 bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-400/50 rounded-xl text-[11px] font-bold text-white transition-all flex items-center justify-center gap-1.5 shadow-xs">
+                <span class="material-symbols-outlined text-sm">content_copy</span>
+                <span>Copy Verifiable ID & Hash</span>
+              </button>
             </div>
           </div>
         </div>

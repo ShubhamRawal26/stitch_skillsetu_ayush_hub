@@ -1,0 +1,114 @@
+{
+  "nationalSummary": {
+    "activeInstitutes": 352,
+    "registeredStudents": "42,850+",
+    "verifiedRecruiters": "1,240+",
+    "averageStipend": "₹3.8 - ₹6.5 LPA",
+    "nationalPlacementRate": "88.4%",
+    "gmpComplianceSurge": "+42% YoY"
+  },
+  "states": [
+    {
+      "id": "STATE-RJ",
+      "name": "Rajasthan",
+      "gapSeverity": "High",
+      "deficit": "42%",
+      "students": "6,420",
+      "colleges": "48",
+      "topDemand": "Schedule T GMP Compliance",
+      "priorityAction": "Roll out cleanroom batch processing bridge modules across 48 colleges"
+    },
+    {
+      "id": "STATE-UP",
+      "name": "Uttar Pradesh",
+      "gapSeverity": "High",
+      "deficit": "38%",
+      "students": "9,150",
+      "colleges": "72",
+      "topDemand": "Herbology & Phytochemistry",
+      "priorityAction": "Integrate HPTLC fingerprinting and botanical standardization in semester curriculum"
+    },
+    {
+      "id": "STATE-MH",
+      "name": "Maharashtra",
+      "gapSeverity": "Medium",
+      "deficit": "24%",
+      "students": "8,320",
+      "colleges": "64",
+      "topDemand": "Pharma QC & Bhasma Science",
+      "priorityAction": "Scale industrial testing partnerships with Dhootapapeshwar and Charak Pharma"
+    },
+    {
+      "id": "STATE-KA",
+      "name": "Karnataka",
+      "gapSeverity": "Low",
+      "deficit": "14%",
+      "students": "5,840",
+      "colleges": "42",
+      "topDemand": "Clinical GCP & Unani Research",
+      "priorityAction": "Expand CTRI clinical fellowship quotas at NIUM and SVYASA"
+    },
+    {
+      "id": "STATE-KL",
+      "name": "Kerala",
+      "gapSeverity": "Low",
+      "deficit": "9%",
+      "students": "4,980",
+      "colleges": "36",
+      "topDemand": "Keraleeya Panchakarma & Marma",
+      "priorityAction": "Global Ayush tourism accreditation and digital EHR standardization"
+    },
+    {
+      "id": "STATE-GJ",
+      "name": "Gujarat",
+      "gapSeverity": "Medium",
+      "deficit": "21%",
+      "students": "4,210",
+      "colleges": "32",
+      "topDemand": "Rasa Shastra & Bhasma QC",
+      "priorityAction": "ITRA INI cluster modernization for heavy metal limit validation"
+    }
+  ],
+  "topDemandSkills": [
+    { "name": "Panchakarma Therapy", "demand": 92, "status": "High Demand", "icon": "spa" },
+    { "name": "Schedule T GMP Quality Control", "demand": 88, "status": "Critical", "icon": "science" },
+    { "name": "Herbology & Dravyaguna Standardization", "demand": 78, "status": "Stable", "icon": "forest" },
+    { "name": "Clinical Research & GCP Protocols", "demand": 72, "status": "High Demand", "icon": "biotech" },
+    { "name": "Sensor-Based Nadi Diagnostics", "demand": 66, "status": "Emerging Tech", "icon": "vital_signs" }
+  ],
+  "placementTrends": [
+    { "quarter": "Q1 '23", "value": "6.2k", "height": 40, "highlight": false },
+    { "quarter": "Q2 '23", "value": "7.1k", "height": 48, "highlight": false },
+    { "quarter": "Q3 '23", "value": "9.5k", "height": 65, "highlight": false },
+    { "quarter": "Q4 '23", "value": "14.2k", "height": 85, "highlight": true }
+  ],
+  "topHighGrowthSkills": [
+    { "skill": "Schedule T GMP & SOPs", "demand": "96% Demand", "avgSalary": "₹5.8 LPA", "growth": "+44%" },
+    { "skill": "HPTLC Standardization", "demand": "92% Demand", "avgSalary": "₹5.2 LPA", "growth": "+38%" },
+    { "skill": "Clinical Trial GCP", "demand": "89% Demand", "avgSalary": "₹4.8 LPA", "growth": "+31%" },
+    { "skill": "Panchakarma & Marma", "demand": "86% Demand", "avgSalary": "₹4.5 LPA", "growth": "+29%" }
+  ],
+  "governmentScholarships": [
+    {
+      "title": "National Ayush Mission (NAM) Fellowship",
+      "grantAmount": "₹25k/mo (6 Mos)",
+      "eligibility": "BAMS / MD students with 80%+ on Diagnostic",
+      "deadline": "30 Sept 2026",
+      "sponsor": "Ministry of Ayush"
+    },
+    {
+      "title": "Ayush Aahar & Phytochemistry Grant",
+      "grantAmount": "₹3.5 Lakh Grant",
+      "eligibility": "Final-year PG Scholars with bridge certificate",
+      "deadline": "15 Oct 2026",
+      "sponsor": "PCIM&H"
+    },
+    {
+      "title": "Schedule T Apprenticeship Scheme",
+      "grantAmount": "100% Subsidy + ₹15k/mo",
+      "eligibility": "Ayush interns at recognized colleges",
+      "deadline": "Open All Year",
+      "sponsor": "NSDC & Ministry of Ayush"
+    }
+  ]
+}
