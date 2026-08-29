@@ -2595,12 +2595,12 @@ window.AppUI = {
     };
 
     const allSkillsList = [
-      { key: "Panchakarma", name: "Panchakarma Therapy", icon: "spa", current: student.skills.Panchakarma.current, expected: student.skills.Panchakarma.expected, natAvg: nationalAverages.Panchakarma, focus: "Snehana, Swedana, Vamana, Virechana & Basti Protocols" },
-      { key: "Herbology", name: "Herbology & Dravyaguna", icon: "eco", current: student.skills.Herbology.current, expected: student.skills.Herbology.expected, natAvg: nationalAverages.Herbology, focus: "Phytochemistry, HPTLC Standardization & Extract R&D" },
-      { key: "PatientCare", name: "Patient Care & Clinical Nadi", icon: "stethoscope", current: student.skills.PatientCare.current, expected: student.skills.PatientCare.expected, natAvg: nationalAverages.PatientCare, focus: "Nadi Pariksha, Prakriti Analysis & Bedside Diagnosis" },
-      { key: "Diagnostics", name: "Pulse & Rog Nidan", icon: "vital_signs", current: student.skills.Diagnostics.current, expected: student.skills.Diagnostics.expected, natAvg: nationalAverages.Diagnostics, focus: "Ashtavidha Pariksha & Clinical Lab Interpretation" },
-      { key: "GMP", name: "Schedule T GMP Compliance", icon: "verified", current: student.skills.GMP.current, expected: student.skills.GMP.expected, natAvg: nationalAverages.GMP, focus: "AYUSH Schedule T SOPs, Cleanroom QC & Batch Records" },
-      { key: "Research", name: "Clinical Research & GCP", icon: "science", current: student.skills.Research.current, expected: student.skills.Research.expected, natAvg: nationalAverages.Research, focus: "GCP Compliance, Pharmacovigilance & Case Documentation" }
+      { key: "Panchakarma", shortLabel: "Panchakarma", name: "Panchakarma Therapy", icon: "spa", current: student.skills.Panchakarma.current, expected: student.skills.Panchakarma.expected, natAvg: nationalAverages.Panchakarma, focus: "Snehana, Swedana, Vamana, Virechana & Basti Protocols" },
+      { key: "Herbology", shortLabel: "Herbology", name: "Herbology & Dravyaguna", icon: "eco", current: student.skills.Herbology.current, expected: student.skills.Herbology.expected, natAvg: nationalAverages.Herbology, focus: "Phytochemistry, HPTLC Standardization & Extract R&D" },
+      { key: "PatientCare", shortLabel: "Patient Care", name: "Patient Care & Clinical Nadi", icon: "stethoscope", current: student.skills.PatientCare.current, expected: student.skills.PatientCare.expected, natAvg: nationalAverages.PatientCare, focus: "Nadi Pariksha, Prakriti Analysis & Bedside Diagnosis" },
+      { key: "Diagnostics", shortLabel: "Pulse Nidan", name: "Pulse & Rog Nidan", icon: "vital_signs", current: student.skills.Diagnostics.current, expected: student.skills.Diagnostics.expected, natAvg: nationalAverages.Diagnostics, focus: "Ashtavidha Pariksha & Clinical Lab Interpretation" },
+      { key: "GMP", shortLabel: "Schedule T", name: "Schedule T GMP Compliance", icon: "verified", current: student.skills.GMP.current, expected: student.skills.GMP.expected, natAvg: nationalAverages.GMP, focus: "AYUSH Schedule T SOPs, Cleanroom QC & Batch Records" },
+      { key: "Research", shortLabel: "Clinical R&D", name: "Clinical Research & GCP", icon: "science", current: student.skills.Research.current, expected: student.skills.Research.expected, natAvg: nationalAverages.Research, focus: "GCP Compliance, Pharmacovigilance & Case Documentation" }
     ];
 
     return `
@@ -2644,15 +2644,15 @@ window.AppUI = {
 
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
           <!-- Simple & Intuitive Skill Bar Chart (Bento Cell) -->
-          <div class="xl:col-span-2 glass-panel rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
+          <div class="xl:col-span-2 glass-panel rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm flex flex-col justify-between">
             <div>
               <!-- Card Header -->
-              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-200/80 pb-4">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6 border-b border-slate-200/80 pb-3 sm:pb-4">
                 <div>
                   <div class="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
                     <span class="material-symbols-outlined text-sm">bar_chart</span> Skill Assessment
                   </div>
-                  <h2 class="font-headline-sm text-xl sm:text-2xl font-bold text-on-surface">Your Skill Scores Bar Chart</h2>
+                  <h2 class="font-headline-sm text-lg sm:text-2xl font-bold text-on-surface">Your Skill Scores Bar Chart</h2>
                   <p class="font-body-md text-xs text-on-surface-variant">Clear visual comparison of your scores against the required 75% Industry Target</p>
                 </div>
                 <button onclick="AppUI.navigate('assessment')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm shrink-0">
@@ -2661,47 +2661,47 @@ window.AppUI = {
               </div>
 
               <!-- Main Visual Column Bar Chart -->
-              <div class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-slate-200/80 relative">
+              <div class="bg-surface-container-lowest rounded-2xl p-3 sm:p-5 md:p-6 border border-slate-200/80 relative">
                 <!-- Y-Axis Target Reference Line (75%) -->
-                <div class="absolute left-10 sm:left-14 right-4 sm:right-6 top-[30%] border-t-2 border-dashed border-slate-400 z-10 pointer-events-none flex justify-end">
-                  <span class="bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full -translate-y-1/2 shadow-xs">
-                    Industry Target: 75%
+                <div class="absolute left-2 sm:left-6 right-2 sm:right-6 top-[30%] border-t-2 border-dashed border-slate-400 z-10 pointer-events-none flex justify-end">
+                  <span class="bg-slate-800 text-white text-[8.5px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full -translate-y-1/2 shadow-xs whitespace-nowrap">
+                    Target: 75%
                   </span>
                 </div>
 
                 <!-- 6 Column Bars Container -->
-                <div class="h-64 sm:h-72 flex items-end justify-between gap-2 sm:gap-4 pt-8 pb-2 border-b-2 border-slate-200 px-2 sm:px-6 relative">
+                <div class="h-56 sm:h-72 flex items-end justify-between gap-1 sm:gap-4 pt-7 pb-2 border-b-2 border-slate-200 px-0.5 sm:px-4 relative">
                   ${allSkillsList.map(s => {
                     const isDeficit = s.current < 75;
                     const heightPercent = Math.min(100, Math.max(10, s.current));
                     return `
-                      <div class="flex-1 flex flex-col items-center h-full justify-end group">
+                      <div class="flex-1 min-w-0 flex flex-col items-center h-full justify-end group">
                         <!-- Score Number on top of bar -->
-                        <div class="mb-1.5 text-center">
-                          <span class="text-xs sm:text-sm font-extrabold ${isDeficit ? 'text-red-600 bg-red-50 border border-red-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'} px-2 py-0.5 rounded-md shadow-xs block">
+                        <div class="mb-1 text-center w-full">
+                          <span class="text-[9.5px] sm:text-xs font-extrabold ${isDeficit ? 'text-red-600 bg-red-50 border border-red-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200'} px-1 sm:px-2 py-0.5 rounded shadow-xs inline-block leading-none">
                             ${s.current}%
                           </span>
                         </div>
 
                         <!-- The Animated Vertical Bar -->
-                        <div class="w-full max-w-[52px] bg-slate-100 rounded-t-xl overflow-hidden flex flex-col justify-end h-full shadow-inner">
+                        <div class="w-full max-w-[26px] sm:max-w-[44px] bg-slate-100 rounded-t-md sm:rounded-t-xl overflow-hidden flex flex-col justify-end h-full shadow-inner">
                           <div 
-                            class="w-full ${isDeficit ? 'bg-gradient-to-t from-red-600 to-red-400 shadow-md ring-2 ring-red-300' : 'bg-gradient-to-t from-emerald-700 to-emerald-500 shadow-md'} rounded-t-xl transition-all duration-700 hover:opacity-90 flex items-center justify-center"
+                            class="w-full ${isDeficit ? 'bg-gradient-to-t from-red-600 to-red-400 shadow-md ring-1 sm:ring-2 ring-red-300' : 'bg-gradient-to-t from-emerald-700 to-emerald-500 shadow-md'} rounded-t-md sm:rounded-t-xl transition-all duration-700 hover:opacity-90 flex items-center justify-center"
                             style="height: ${heightPercent}%;"
                           >
-                            <span class="text-white font-extrabold text-[10px] opacity-80 hidden sm:inline">${s.current}%</span>
+                            <span class="text-white font-extrabold text-[9px] sm:text-[10px] opacity-90 hidden sm:inline">${s.current}%</span>
                           </div>
                         </div>
 
                         <!-- Bar Status Pill (Passed / Needs Fix) -->
-                        <div class="mt-2 text-center">
+                        <div class="mt-1.5 text-center w-full">
                           ${isDeficit ? `
-                            <span class="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-extrabold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">
-                              <span class="material-symbols-outlined text-[11px]">warning</span> Low
+                            <span class="inline-flex items-center justify-center gap-0.5 text-[8px] sm:text-[10px] font-extrabold text-red-600 bg-red-100 px-1 sm:px-1.5 py-0.5 rounded whitespace-nowrap leading-none">
+                              <span class="material-symbols-outlined text-[9px] sm:text-[11px]">warning</span>Low
                             </span>
                           ` : `
-                            <span class="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
-                              <span class="material-symbols-outlined text-[11px]">check</span> Pass
+                            <span class="inline-flex items-center justify-center gap-0.5 text-[8px] sm:text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-1 sm:px-1.5 py-0.5 rounded whitespace-nowrap leading-none">
+                              <span class="material-symbols-outlined text-[9px] sm:text-[11px]">check</span>Pass
                             </span>
                           `}
                         </div>
@@ -2711,12 +2711,12 @@ window.AppUI = {
                 </div>
 
                 <!-- Skill Names under each Bar -->
-                <div class="flex justify-between gap-2 sm:gap-4 px-2 sm:px-6 pt-3 text-center">
+                <div class="flex justify-between gap-1 sm:gap-4 px-0.5 sm:px-4 pt-2.5 text-center">
                   ${allSkillsList.map(s => `
-                    <div class="flex-1 flex flex-col items-center">
-                      <span class="material-symbols-outlined text-primary text-base sm:text-lg mb-0.5">${s.icon}</span>
-                      <span class="font-bold text-slate-800 text-[11px] sm:text-xs leading-tight line-clamp-1">${s.name.split(' ')[0]}</span>
-                      <span class="text-[9px] text-slate-400 hidden sm:block">${s.name.split(' ').slice(1, 3).join(' ')}</span>
+                    <div class="flex-1 min-w-0 flex flex-col items-center">
+                      <span class="material-symbols-outlined text-primary text-sm sm:text-lg mb-0.5 shrink-0">${s.icon}</span>
+                      <span class="font-bold text-slate-800 text-[8.5px] sm:text-xs leading-tight text-center break-words w-full">${s.shortLabel}</span>
+                      <span class="text-[8.5px] text-slate-400 hidden sm:block">${s.name.split(' ').slice(1, 3).join(' ')}</span>
                     </div>
                   `).join('')}
                 </div>
@@ -2752,7 +2752,7 @@ window.AppUI = {
             </div>
 
             <!-- Simple Chart Legend -->
-            <div class="flex flex-wrap items-center justify-center gap-6 pt-5 mt-5 border-t border-slate-200/80 w-full text-xs">
+            <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 pt-4 sm:pt-5 mt-4 sm:mt-5 border-t border-slate-200/80 w-full text-xs">
               <div class="flex items-center gap-2">
                 <span class="w-3.5 h-3.5 rounded-sm bg-emerald-600 shadow-xs"></span>
                 <span class="font-bold text-slate-700">Green Bar = Passed (&ge; 75%)</span>
