@@ -865,26 +865,30 @@ window.AppUI = {
           <div class="lg:col-span-6 space-y-4">
             
             <!-- "Start a Post" Card -->
-            <div class="linkedin-card p-4 space-y-3">
-              <div class="flex items-center gap-3">
-                <img src="${student.avatar}" alt="${student.name}" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
-                <input id="feed-post-input" type="text" placeholder="Share an Ayush skill milestone, case study, or internship..." class="w-full bg-slate-100 hover:bg-slate-200/70 focus:bg-white text-slate-800 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary transition-all outline-none" onkeydown="if(event.key==='Enter'){AppUI.publishPost();}" />
-                <button onclick="AppUI.publishPost()" class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-full hover:bg-primary/90 transition-all shrink-0">Post</button>
+            <div class="linkedin-card p-3.5 sm:p-4 space-y-2.5 sm:space-y-3">
+              <div class="flex items-center gap-2 sm:gap-3">
+                <img src="${student.avatar}" alt="${student.name}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-slate-200 shrink-0" />
+                <input id="feed-post-input" type="text" placeholder="Start a post, share a skill milestone..." class="flex-1 min-w-0 bg-slate-100 hover:bg-slate-200/70 focus:bg-white text-slate-800 text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border border-transparent focus:border-slate-300 focus:ring-1 focus:ring-primary transition-all outline-none" onkeydown="if(event.key==='Enter'){AppUI.publishPost();}" />
+                <button onclick="AppUI.publishPost()" class="px-3.5 sm:px-4 py-1.5 sm:py-2 bg-primary text-white text-xs font-bold rounded-full hover:bg-primary/90 transition-all shrink-0 shadow-xs">Post</button>
               </div>
 
               <!-- Quick Attachment Action Buttons -->
-              <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs text-slate-500 font-semibold">
-                <button onclick="AppUI.showToast('Upload feature ready for clinical case photos and charts!', 'info')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-blue-600 transition-colors">
-                  <span class="material-symbols-outlined text-[18px]">photo_camera</span> Photo
+              <div class="grid grid-cols-4 gap-1 pt-2 border-t border-slate-100 text-[11px] sm:text-xs font-semibold text-center">
+                <button onclick="AppUI.showToast('Upload feature ready for clinical case photos and charts!', 'info')" class="flex items-center justify-center gap-1 sm:gap-1.5 py-1.5 px-1 rounded-lg hover:bg-slate-50 text-blue-600 transition-colors whitespace-nowrap">
+                  <span class="material-symbols-outlined text-[16px] sm:text-[18px]">photo_camera</span>
+                  <span>Photo</span>
                 </button>
-                <button onclick="AppUI.navigate('assessment')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-emerald-600 transition-colors">
-                  <span class="material-symbols-outlined text-[18px]">verified</span> Skill Badge
+                <button onclick="AppUI.navigate('assessment')" class="flex items-center justify-center gap-1 sm:gap-1.5 py-1.5 px-1 rounded-lg hover:bg-slate-50 text-emerald-600 transition-colors whitespace-nowrap">
+                  <span class="material-symbols-outlined text-[16px] sm:text-[18px]">verified</span>
+                  <span>Badge</span>
                 </button>
-                <button onclick="AppUI.navigate('industry-dashboard')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-purple-600 transition-colors">
-                  <span class="material-symbols-outlined text-[18px]">work</span> Internship
+                <button onclick="AppUI.navigate('industry-dashboard')" class="flex items-center justify-center gap-1 sm:gap-1.5 py-1.5 px-1 rounded-lg hover:bg-slate-50 text-purple-600 transition-colors whitespace-nowrap">
+                  <span class="material-symbols-outlined text-[16px] sm:text-[18px]">work</span>
+                  <span>Job</span>
                 </button>
-                <button onclick="AppUI.showToast('Article draft opened for Ayush research review.', 'info')" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-slate-50 text-amber-600 transition-colors">
-                  <span class="material-symbols-outlined text-[18px]">article</span> Article
+                <button onclick="AppUI.showToast('Article draft opened for Ayush research review.', 'info')" class="flex items-center justify-center gap-1 sm:gap-1.5 py-1.5 px-1 rounded-lg hover:bg-slate-50 text-amber-600 transition-colors whitespace-nowrap">
+                  <span class="material-symbols-outlined text-[16px] sm:text-[18px]">article</span>
+                  <span>Article</span>
                 </button>
               </div>
             </div>
@@ -3830,12 +3834,12 @@ window.AppUI = {
             </div>
           </div>
 
-          <div class="flex items-center gap-3">
-            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <button onclick="AppUI.openEditProfileModal()" class="flex-1 sm:flex-none justify-center px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5 whitespace-nowrap">
               <span class="material-symbols-outlined text-sm">edit</span> Edit Recruiter Info
             </button>
-            <button onclick="AppUI.openPostOpportunityModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 shrink-0">
-              <span class="material-symbols-outlined text-sm">add_circle</span> Post New Opportunity
+            <button onclick="AppUI.openPostOpportunityModal()" class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap">
+              <span class="material-symbols-outlined text-sm">add_circle</span> Post Opportunity
             </button>
           </div>
         </div>
@@ -3847,19 +3851,19 @@ window.AppUI = {
         </div>
 
         <!-- Search & Filters -->
-        <div class="glass-panel rounded-2xl p-4 mb-8 flex flex-col md:flex-row gap-4 items-center">
+        <div class="glass-panel rounded-2xl p-3.5 sm:p-4 mb-8 flex flex-col md:flex-row gap-3 sm:gap-4 items-stretch md:items-center">
           <div class="relative w-full md:flex-1">
-            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
-            <input type="text" value="${this.searchQuery}" oninput="AppUI.searchQuery = this.value; AppUI.renderCurrentView();" placeholder="Search by name, skill (e.g. Herbology, GMP, Panchakarma)..." class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-xs focus:ring-2 focus:ring-primary/20 text-on-surface" />
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">search</span>
+            <input type="text" value="${this.searchQuery}" oninput="AppUI.searchQuery = this.value; AppUI.renderCurrentView();" placeholder="Search by name, skill (GMP, Nadi)..." class="w-full pl-10 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 text-on-surface outline-none" />
           </div>
-          <div class="flex gap-3 w-full md:w-auto">
-            <select onchange="AppUI.activeFilterDiscipline = this.value; AppUI.renderCurrentView();" class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl px-3 py-2 text-xs text-on-surface font-medium cursor-pointer">
+          <div class="grid grid-cols-2 gap-2 sm:gap-3 w-full md:w-auto">
+            <select onchange="AppUI.activeFilterDiscipline = this.value; AppUI.renderCurrentView();" class="w-full min-w-0 bg-surface-container-lowest border border-outline-variant/60 rounded-xl px-2.5 sm:px-3 py-2.5 text-xs text-on-surface font-semibold cursor-pointer truncate outline-none">
               <option value="">All Disciplines</option>
               <option value="ayurveda" ${this.activeFilterDiscipline === 'ayurveda' ? 'selected' : ''}>Ayurveda</option>
               <option value="yoga" ${this.activeFilterDiscipline === 'yoga' ? 'selected' : ''}>Yoga</option>
               <option value="unani" ${this.activeFilterDiscipline === 'unani' ? 'selected' : ''}>Unani</option>
             </select>
-            <select onchange="AppUI.activeFilterDegree = this.value; AppUI.renderCurrentView();" class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl px-3 py-2 text-xs text-on-surface font-medium cursor-pointer">
+            <select onchange="AppUI.activeFilterDegree = this.value; AppUI.renderCurrentView();" class="w-full min-w-0 bg-surface-container-lowest border border-outline-variant/60 rounded-xl px-2.5 sm:px-3 py-2.5 text-xs text-on-surface font-semibold cursor-pointer truncate outline-none">
               <option value="">All Degrees</option>
               <option value="bams" ${this.activeFilterDegree === 'bams' ? 'selected' : ''}>BAMS</option>
               <option value="mday" ${this.activeFilterDegree === 'mday' ? 'selected' : ''}>MD (Ayurveda)</option>
@@ -4084,11 +4088,11 @@ window.AppUI = {
             </div>
           </div>
 
-          <div class="flex items-center gap-3">
-            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <button onclick="AppUI.openEditProfileModal()" class="flex-1 sm:flex-none justify-center px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5 whitespace-nowrap">
               <span class="material-symbols-outlined text-sm">edit</span> Edit Faculty Info
             </button>
-            <button onclick="AppUI.openCreateBridgeCourseModal()" class="px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 shrink-0">
+            <button onclick="AppUI.openCreateBridgeCourseModal()" class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap">
               <span class="material-symbols-outlined text-sm">add</span> Create Bridge Course
             </button>
           </div>
@@ -4284,12 +4288,12 @@ window.AppUI = {
             </div>
           </div>
 
-          <div class="flex items-center gap-3">
-            <button onclick="AppUI.openEditProfileModal()" class="px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5">
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <button onclick="AppUI.openEditProfileModal()" class="flex-1 sm:flex-none justify-center px-4 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-slate-700 font-label-md text-xs font-semibold rounded-xl transition-all border border-slate-200 flex items-center gap-1.5 whitespace-nowrap">
               <span class="material-symbols-outlined text-sm">edit</span> Edit Admin Info
             </button>
-            <button onclick="AppUI.exportNationalReport()" class="px-4 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm">
-              <span class="material-symbols-outlined text-sm">download</span> Export National Summary
+            <button onclick="AppUI.exportNationalReport()" class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-2.5 bg-primary text-white font-label-md text-xs font-semibold rounded-xl hover:bg-emerald-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+              <span class="material-symbols-outlined text-sm">download</span> Export Summary
             </button>
           </div>
         </div>
