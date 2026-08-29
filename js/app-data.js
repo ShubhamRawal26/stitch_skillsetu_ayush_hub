@@ -571,25 +571,25 @@ window.SKILLSETU_DATA = {
     ],
     governmentScholarships: [
       {
-        title: "National Ayush Mission (NAM) Industrial Fellowship",
-        grantAmount: "₹25,000 / month for 6 Months",
-        eligibility: "BAMS / MD students scoring 80%+ on SkillSetu Clinical Diagnostic",
+        title: "National Ayush Mission (NAM) Fellowship",
+        grantAmount: "₹25k/mo (6 Mos)",
+        eligibility: "BAMS / MD students with 80%+ on Diagnostic",
         deadline: "30 Sept 2026",
-        sponsor: "Ministry of Ayush, Govt of India"
+        sponsor: "Ministry of Ayush"
       },
       {
-        title: "Ayush Aahar & Phytochemistry Research Grant",
-        grantAmount: "₹3.5 Lakh Seed Funding",
-        eligibility: "Final-year PG Scholars with verified formulation bridge certificates",
+        title: "Ayush Aahar & Phytochemistry Grant",
+        grantAmount: "₹3.5 Lakh Grant",
+        eligibility: "Final-year PG Scholars with bridge certificate",
         deadline: "15 Oct 2026",
-        sponsor: "Pharmacopoeia Commission for Indian Medicine (PCIM&H)"
+        sponsor: "PCIM&H"
       },
       {
-        title: "Schedule T Modernization Apprenticeship Scheme",
-        grantAmount: "100% Industry Bridge Course Subsidy + ₹15k Stipend Support",
-        eligibility: "All undergraduate interns at recognized Ayush colleges",
+        title: "Schedule T Apprenticeship Scheme",
+        grantAmount: "100% Subsidy + ₹15k/mo",
+        eligibility: "Ayush interns at recognized colleges",
         deadline: "Open All Year",
-        sponsor: "National Skill Development Corporation (NSDC) & Ministry of Ayush"
+        sponsor: "NSDC & Ministry of Ayush"
       }
     ]
   },

@@ -1531,17 +1531,17 @@ window.AppUI = {
                 <span class="material-symbols-outlined text-emerald-600 text-2xl">card_membership</span>
               </div>
 
-              <div class="space-y-4 pt-1">
+              <div class="space-y-3 pt-1">
                 ${(insights.governmentScholarships || []).map(g => `
-                  <div class="p-4 bg-emerald-50/40 rounded-xl border border-emerald-200/80 space-y-2.5">
-                    <div class="flex justify-between items-start gap-2">
-                      <h3 class="font-bold text-slate-900 text-sm leading-snug">${g.title}</h3>
-                      <span class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold whitespace-nowrap">${g.grantAmount}</span>
+                  <div class="p-3.5 bg-emerald-50/40 rounded-xl border border-emerald-200/80 space-y-2">
+                    <div class="flex flex-wrap sm:flex-nowrap justify-between items-start sm:items-center gap-2">
+                      <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug">${g.title}</h3>
+                      <span class="px-2.5 py-0.5 bg-emerald-700 text-white rounded-md text-[11px] font-extrabold shrink-0 shadow-xs">${g.grantAmount}</span>
                     </div>
-                    <p class="text-xs text-slate-600"><span class="font-bold text-slate-700">Eligibility:</span> ${g.eligibility}</p>
-                    <div class="flex justify-between items-center text-[11px] text-slate-500 pt-2 border-t border-emerald-200/40">
+                    <p class="text-[11px] text-slate-600"><span class="font-semibold text-slate-700">Eligibility:</span> ${g.eligibility}</p>
+                    <div class="flex justify-between items-center text-[11px] text-slate-500 pt-1.5 border-t border-emerald-200/40">
                       <span><strong>Deadline:</strong> ${g.deadline}</span>
-                      <button onclick="AppUI.showToast('Eligibility verified! Application for ${g.title} has been registered with Ministry of Ayush.', 'success')" class="px-3 py-1 bg-primary text-white rounded-md font-bold text-[11px] hover:bg-emerald-800 transition-colors">
+                      <button onclick="AppUI.showToast('Application registered for ${g.title}!', 'success')" class="px-3 py-1 bg-primary text-white rounded-lg font-bold text-[11px] hover:bg-emerald-800 transition-colors shadow-xs">
                         Check & Apply
                       </button>
                     </div>
@@ -1873,7 +1873,7 @@ window.AppUI = {
             </h1>
             
             <p class="stagger-item delay-3 font-body-lg text-sm sm:text-base text-slate-600 leading-relaxed mb-6">
-              SkillSetu connects 42,850+ Ayush scholars and doctors with 1,240+ verified pharmaceutical enterprises, hospitals, and clinical research centers. Take a 10-minute competency diagnostic, bridge curriculum deficits, and get hired directly.
+              Connect with 1,200+ verified Ayush pharma enterprises and hospitals. Take a 10-min competency diagnostic, bridge curriculum skill gaps, and get placed directly.
             </p>
 
             <!-- Single Prominent Login / Launch Button -->
@@ -1977,25 +1977,25 @@ window.AppUI = {
         <!-- Problem vs Solution (Ecosystem) -->
         <section id="ecosystem" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div class="stagger-item delay-5 linkedin-card p-6 sm:p-8 border-l-4 border-l-rose-500">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-md text-xs font-bold mb-4">
-              <span class="material-symbols-outlined text-sm">warning</span> The Academic-Industry Challenge
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-md text-xs font-bold mb-3">
+              <span class="material-symbols-outlined text-sm">warning</span> The Challenge
             </div>
-            <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-3">Why 45% of Ayush Graduates Face Placement Hurdles</h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-              While clinical theories in Ayurveda, Unani, and Siddha are thoroughly taught, recruiters at pharmaceutical manufacturers demand practical mastery in <strong>Schedule T GMP standards, HPTLC standardization, formulation stability testing, and GCP clinical documentation</strong>.
+            <h3 class="font-headline-sm text-lg sm:text-xl font-bold text-slate-900 mb-2">Academic Knowledge vs Practical Pharma Needs</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+              Colleges teach clinical theories, but enterprises require verified practical mastery in <strong>Schedule T GMP, HPTLC standardization, and GCP trial protocols</strong>.
             </p>
             <div class="text-xs text-rose-700 font-semibold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm">close</span> Without verified practical benchmarks, hiring cycles take 6+ months.
+              <span class="material-symbols-outlined text-sm">close</span> Result: Prolonged hiring cycles and unmatched talent.
             </div>
           </div>
 
           <div class="stagger-item delay-6 linkedin-card p-6 sm:p-8 border-l-4 border-l-primary">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 rounded-md text-xs font-bold mb-4">
-              <span class="material-symbols-outlined text-sm">verified</span> The SkillSetu Solution
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 rounded-md text-xs font-bold mb-3">
+              <span class="material-symbols-outlined text-sm">verified</span> The Solution
             </div>
-            <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-3">Instant AI Competency Radar & Free Bridge Upskilling</h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-              SkillSetu maps each candidate's exact competency score across 6 dimensions. When an industry gap is identified (e.g. GMP score at 42%), the student completes a concise 2-week bridge module — boosting their skill rating to 85% and qualifying them for direct 1-click applications.
+            <h3 class="font-headline-sm text-lg sm:text-xl font-bold text-slate-900 mb-2">Instant Competency Radar & 1-Click Upskilling</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+              SkillSetu maps your exact 6-axis competency score. Bridge identified gaps with short micro-modules to upgrade your rating to 85%+ and apply in 1 click.
             </p>
             <div class="text-xs text-primary font-semibold flex items-center gap-1.5">
               <span class="material-symbols-outlined text-sm">check_circle</span> Direct merit-based matching to top recruiters with 95%+ precision.
@@ -2006,53 +2006,53 @@ window.AppUI = {
         <!-- How It Works in 4 Steps (Platform Capabilities) -->
         <section id="capabilities" class="stagger-item delay-6 mb-16">
           <div class="text-center mb-10 max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-primary">Simple Career Pathway</span>
-            <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">How SkillSetu Accelerates Your Career</h2>
-            <p class="font-body-md text-slate-600 text-xs sm:text-sm">Four seamless steps from self-assessment to verified industrial placement.</p>
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Simple Pathway</span>
+            <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-2">How SkillSetu Works</h2>
+            <p class="font-body-md text-slate-600 text-xs sm:text-sm">Four quick steps from self-diagnostic to verified placement.</p>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Step 1 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+            <div class="linkedin-card p-5 flex flex-col relative group">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-3 border border-emerald-200">
                 1
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">10-Min Diagnostic</h3>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">10-Min Diagnostic</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Take a quick 5-question scenario quiz covering clinical diagnosis, herbology, and manufacturing standards.
+                Take 5 quick clinical and formulation scenario questions.
               </p>
             </div>
 
             <!-- Step 2 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+            <div class="linkedin-card p-5 flex flex-col relative group">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-3 border border-emerald-200">
                 2
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">View Skill Radar</h3>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">View Skill Radar</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Your interactive 6-axis polygon highlights specific strengths and pinpoints exact industry deficits.
+                Instant 6-axis polygon highlighting strengths & skill deficits.
               </p>
             </div>
 
             <!-- Step 3 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+            <div class="linkedin-card p-5 flex flex-col relative group">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-3 border border-emerald-200">
                 3
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Bridge the Gap</h3>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Bridge the Gap</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Complete free, industry-certified micro-courses (e.g. Schedule T GMP) co-authored with Dabur & Patanjali.
+                Complete free 1-click micro-modules in Schedule T GMP & herbs.
               </p>
             </div>
 
             <!-- Step 4 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-base font-extrabold mb-4 border border-emerald-200">
+            <div class="linkedin-card p-5 flex flex-col relative group">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-3 border border-emerald-200">
                 4
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Get Placed Directly</h3>
+              <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">1-Click Apply</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Unlock 95%+ match ratings and apply directly to verified internships and full-time clinical roles.
+                Direct 1-click application with 95%+ match scores.
               </p>
             </div>
           </div>
