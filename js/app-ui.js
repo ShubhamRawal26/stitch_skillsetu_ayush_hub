@@ -1789,46 +1789,64 @@ window.AppUI = {
                 <button onclick="AppUI.setNotificationFilter('all')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold">Show All Notifications</button>
               </div>
             ` : filteredNotifs.map(n => `
-              <div class="linkedin-card p-4 transition-all hover:shadow-md ${!n.read ? 'bg-emerald-50/30 border-l-4 border-l-primary' : 'bg-white border-l-4 border-l-transparent'} flex items-start gap-4">
-                <!-- Left Avatar / Icon -->
-                <div class="relative shrink-0 mt-0.5">
-                  <img src="${n.avatar}" alt="${n.author}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-xs" />
-                  <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${n.type === 'job' || n.type === 'candidate' ? 'bg-blue-600' : n.type === 'grant' ? 'bg-purple-600' : n.type === 'assessment' ? 'bg-emerald-600' : 'bg-slate-700'} text-white flex items-center justify-center text-[11px] shadow-xs">
-                    <span class="material-symbols-outlined text-[13px]">
-                      ${n.type === 'job' ? 'work' : n.type === 'candidate' ? 'person' : n.type === 'grant' ? 'card_membership' : n.type === 'assessment' ? 'assignment' : 'policy'}
-                    </span>
+              <div class="linkedin-card p-4 sm:p-5 transition-all hover:shadow-md ${!n.read ? 'bg-emerald-50/30 border-l-4 border-l-primary' : 'bg-white border-l-4 border-l-transparent'} space-y-3">
+                <!-- Top Header: Avatar, Author, Type Badge & Time -->
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="relative shrink-0">
+                      <img src="${n.avatar}" alt="${n.author}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border border-slate-200 shadow-xs" />
+                      <div class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full ${n.type === 'job' || n.type === 'candidate' ? 'bg-blue-600' : n.type === 'grant' ? 'bg-purple-600' : n.type === 'assessment' ? 'bg-emerald-600' : 'bg-slate-700'} text-white flex items-center justify-center text-[10px] sm:text-[11px] shadow-xs">
+                        <span class="material-symbols-outlined text-[11px] sm:text-[13px]">
+                          ${n.type === 'job' ? 'work' : n.type === 'candidate' ? 'person' : n.type === 'grant' ? 'card_membership' : n.type === 'assessment' ? 'assignment' : 'policy'}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="text-xs font-bold text-slate-900">${n.author}</span>
+                        <span class="text-slate-300">•</span>
+                        <span class="text-[10px] text-slate-400 capitalize">${n.type} alert</span>
+                      </div>
+                      <span class="text-[10px] text-slate-400 font-medium">${n.timeAgo}</span>
+                    </div>
+                  </div>
+
+                  <!-- Unread status badge -->
+                  <div>
+                    ${!n.read ? `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> New
+                      </span>
+                    ` : `
+                      <span class="text-[10px] text-slate-400 font-medium">Seen</span>
+                    `}
                   </div>
                 </div>
 
-                <!-- Middle Content -->
-                <div class="flex-1 space-y-1.5 cursor-pointer" onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')">
-                  <div class="flex items-center justify-between">
-                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug">${n.title}</h4>
-                    <span class="text-[10px] text-slate-400 font-semibold shrink-0 ml-2">${n.timeAgo}</span>
-                  </div>
+                <!-- Main Content: Title & Full-Width Message (No Empty Space) -->
+                <div class="space-y-1.5 cursor-pointer" onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')">
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug">${n.title}</h4>
                   <p class="text-xs text-slate-600 leading-relaxed">${n.message}</p>
-                  
-                  <div class="flex items-center gap-2 pt-1">
-                    <span class="text-[10px] font-bold text-primary">${n.author}</span>
-                    <span class="text-slate-300">•</span>
-                    <span class="text-[10px] text-slate-400 capitalize">${n.type} update</span>
-                  </div>
                 </div>
 
-                <!-- Right Action Button -->
-                <div class="shrink-0 flex flex-col items-end gap-2">
-                  ${!n.read ? `
-                    <span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread alert"></span>
-                  ` : ''}
-                  <button onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')" class="px-3 py-1.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 whitespace-nowrap">
-                    <span>${n.actionLabel || 'View'}</span>
+                <!-- Bottom Actions Row -->
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100/80">
+                  <div>
+                    ${!n.read ? `
+                      <button onclick="AppUI.handleNotificationClick('${n.id}', null)" class="text-[11px] text-slate-500 hover:text-slate-800 font-semibold hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">done</span> Mark as read
+                      </button>
+                    ` : `
+                      <span class="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">done_all</span> Read
+                      </span>
+                    `}
+                  </div>
+
+                  <button onclick="AppUI.handleNotificationClick('${n.id}', '${n.actionView}')" class="px-4 py-1.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1.5">
+                    <span>${n.actionLabel || 'View Details'}</span>
                     <span class="material-symbols-outlined text-xs">arrow_forward</span>
                   </button>
-                  ${!n.read ? `
-                    <button onclick="AppUI.handleNotificationClick('${n.id}', null)" class="text-[10px] text-slate-400 hover:text-slate-700 font-semibold hover:underline">
-                      Mark read
-                    </button>
-                  ` : ''}
                 </div>
               </div>
             `).join('')}
