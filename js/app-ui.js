@@ -1478,7 +1478,7 @@ window.AppUI = {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <!-- Left Column: High Growth Skills & Demand Index (6 cols) -->
           <div class="lg:col-span-6 space-y-6">
-            <div class="linkedin-card p-6 space-y-4">
+            <div class="linkedin-card p-4 sm:p-6 space-y-4">
               <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
                   <h2 class="font-bold text-slate-900 text-base">Top High-Growth Ayush Competencies</h2>
@@ -1487,18 +1487,18 @@ window.AppUI = {
                 <span class="material-symbols-outlined text-primary text-2xl">trending_up</span>
               </div>
 
-              <div class="space-y-3.5 pt-1">
+              <div class="space-y-3 pt-1">
                 ${(insights.topHighGrowthSkills || []).map(s => `
-                  <div class="p-3.5 bg-slate-50/80 rounded-xl border border-slate-200/80 space-y-2">
-                    <div class="flex items-center justify-between">
-                      <h3 class="font-bold text-slate-900 text-xs sm:text-sm">${s.skill}</h3>
-                      <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold">${s.growth} YoY</span>
+                  <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 space-y-1.5">
+                    <div class="flex items-center justify-between gap-2">
+                      <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug flex-1 pr-1">${s.skill}</h3>
+                      <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[11px] font-bold shrink-0 whitespace-nowrap">${s.growth} YoY</span>
                     </div>
-                    <div class="flex items-center justify-between text-xs text-slate-600">
+                    <div class="flex items-center justify-between text-xs text-slate-600 pt-0.5">
                       <span class="font-semibold text-primary flex items-center gap-1">
                         <span class="material-symbols-outlined text-[14px]">local_fire_department</span> ${s.demand}
                       </span>
-                      <span class="font-bold text-slate-800">${s.avgSalary}</span>
+                      <span class="font-bold text-slate-800 text-xs sm:text-sm shrink-0">${s.avgSalary}</span>
                     </div>
                   </div>
                 `).join('')}
@@ -1506,16 +1506,16 @@ window.AppUI = {
             </div>
 
             <!-- Regulatory Guidelines Highlight Card -->
-            <div class="linkedin-card p-6 space-y-3 border-l-4 border-l-primary">
+            <div class="linkedin-card p-4 sm:p-6 space-y-3 border-l-4 border-l-primary">
               <div class="flex items-center gap-2 text-primary font-bold text-sm">
                 <span class="material-symbols-outlined">gavel</span>
                 <span>Schedule T Compliance Mandate (Drugs & Cosmetics Act)</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
-                By official notification, all Ayush manufacturing units must maintain sterile processing zones, standard batch records, and certified quality managers. Ayush students completing the <strong>Schedule T GMP Bridge Course</strong> receive certified preference in all pharma recruitment pipelines.
+                All Ayush manufacturing units must maintain sterile processing zones and standard batch records. Students completing the <strong>Schedule T GMP Bridge Course</strong> receive certified preference in all pharma recruitment pipelines.
               </p>
               <button onclick="AppUI.navigate('assessment')" class="text-xs text-primary font-bold hover:underline inline-flex items-center gap-1">
-                Take Diagnostic to test your Schedule T readiness <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                Take Diagnostic for Schedule T readiness <span class="material-symbols-outlined text-xs">arrow_forward</span>
               </button>
             </div>
           </div>
@@ -1885,21 +1885,23 @@ window.AppUI = {
               </button>
             </div>
 
-            <!-- Social Proof & Institution Trust Strip -->
-            <div class="stagger-item delay-5 flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium pt-4 border-t border-slate-200 w-full">
-              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
-                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-                <span>100% Free for Students</span>
+            <!-- Social Proof & Institution Trust Strip (Group of 2 Responsive Grid) -->
+            <div class="stagger-item delay-5 grid grid-cols-2 gap-2.5 sm:gap-3.5 pt-4 border-t border-slate-200 w-full">
+              <div class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
+                <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span>
+                <span class="truncate sm:whitespace-normal">100% Free for Students</span>
               </div>
-              <span class="text-slate-300">•</span>
-              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
-                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-                <span>Industry Verified Credentials</span>
+              <div class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
+                <span class="material-symbols-outlined text-primary text-base shrink-0">verified</span>
+                <span class="truncate sm:whitespace-normal">Industry Verified Badges</span>
               </div>
-              <span class="text-slate-300">•</span>
-              <div class="flex items-center gap-1.5 text-slate-700 font-semibold">
-                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-                <span>350+ Accredited Colleges</span>
+              <div class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
+                <span class="material-symbols-outlined text-primary text-base shrink-0">account_balance</span>
+                <span class="truncate sm:whitespace-normal">350+ Accredited Colleges</span>
+              </div>
+              <div class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
+                <span class="material-symbols-outlined text-primary text-base shrink-0">bolt</span>
+                <span class="truncate sm:whitespace-normal">1-Click Direct Hiring</span>
               </div>
             </div>
           </div>
@@ -1930,26 +1932,71 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- Hiring Network Banner (LinkedIn Style Partner Showcase) -->
-        <section class="stagger-item delay-4 mb-16 linkedin-card p-6">
-          <div class="text-center mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Top Healthcare & Pharmaceutical Employers Hiring via SkillSetu</span>
+        <!-- Hiring Network Banner (Interactive 2-Column Responsive Grid) -->
+        <section class="stagger-item delay-4 mb-16 linkedin-card p-4 sm:p-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">corporate_fare</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Top Healthcare & Pharmaceutical Employers Hiring via SkillSetu</span>
+            </div>
+            <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 1,240+ Active Recruiters
+            </span>
           </div>
-          <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 opacity-85">
-            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">domain</span> Dabur India Ltd
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
+            <!-- Employer 1 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-DABUR-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">domain</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Dabur India</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">18 Openings</div>
             </div>
-            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">domain</span> Patanjali Research
+
+            <!-- Employer 2 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-PATANJALI-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">science</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Patanjali Res.</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">12 Openings</div>
             </div>
-            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">domain</span> Kottakkal Arya Vaidya
+
+            <!-- Employer 3 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-HIMALAYA-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">spa</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Himalaya Well.</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">15 Openings</div>
             </div>
-            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">domain</span> Himalaya Wellness
+
+            <!-- Employer 4 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-KOTTAKKAL-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">local_hospital</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Kottakkal Arya</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">9 Openings</div>
             </div>
-            <div class="px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">domain</span> Charak Pharma
+
+            <!-- Employer 5 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-CHARAK-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">medication</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Charak Pharma</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">8 Openings</div>
+            </div>
+
+            <!-- Employer 6 -->
+            <div onclick="AppUI.openInternshipDetailModal('OPP-BAIDYANATH-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-lg">healing</span>
+              </div>
+              <div class="font-bold text-slate-900 text-xs leading-tight truncate w-full">Baidyanath Ayu.</div>
+              <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">10 Openings</div>
             </div>
           </div>
         </section>

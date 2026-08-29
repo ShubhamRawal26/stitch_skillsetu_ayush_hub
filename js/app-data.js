@@ -564,10 +564,10 @@ window.SKILLSETU_DATA = {
       gmpComplianceSurge: "+42% YoY"
     },
     topHighGrowthSkills: [
-      { skill: "Schedule T GMP Manufacturing & SOPs", demand: "96% High Demand", avgSalary: "₹5.8 LPA", growth: "+44%" },
-      { skill: "HPTLC Phytochemical Standardization", demand: "92% High Demand", avgSalary: "₹5.2 LPA", growth: "+38%" },
-      { skill: "Clinical Trial Documentation & GCP", demand: "89% High Demand", avgSalary: "₹4.8 LPA", growth: "+31%" },
-      { skill: "Keraleeya Panchakarma Protocol & Marma", demand: "86% High Demand", avgSalary: "₹4.5 LPA", growth: "+29%" }
+      { skill: "Schedule T GMP & SOPs", demand: "96% Demand", avgSalary: "₹5.8 LPA", growth: "+44%" },
+      { skill: "HPTLC Standardization", demand: "92% Demand", avgSalary: "₹5.2 LPA", growth: "+38%" },
+      { skill: "Clinical Trial GCP", demand: "89% Demand", avgSalary: "₹4.8 LPA", growth: "+31%" },
+      { skill: "Panchakarma & Marma", demand: "86% Demand", avgSalary: "₹4.5 LPA", growth: "+29%" }
     ],
     governmentScholarships: [
       {

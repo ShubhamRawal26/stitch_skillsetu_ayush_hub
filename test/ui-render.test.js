@@ -92,7 +92,7 @@ assert(collegesHTML.includes('National Institute of Ayurveda') && collegesHTML.i
 
 // 12. Test Ministry Insights HTML
 const insightsHTML = ui.getMinistryInsightsHTML(state);
-assert(insightsHTML.includes('National Ayush Mission') && insightsHTML.includes('Schedule T GMP Manufacturing'), 'Ministry Insights rendered with high-growth competencies and scholarship grants');
+assert(insightsHTML.includes('National Ayush Mission') && insightsHTML.includes('Schedule T GMP'), 'Ministry Insights rendered with high-growth competencies and scholarship grants');
 
 // 13. Test Notifications Screen HTML (Accessible across all sections)
 const notifsHTML = ui.getNotificationsHTML(state);
