@@ -408,11 +408,25 @@ html {
   color: #0f172a;
 }
 
-.post-action-btn.liked {
-  color: #0284c7;
-}
-
 .post-action-btn.liked .material-symbols-outlined {
   font-variation-settings: 'FILL' 1;
+}
+
+/* Responsive Card Actions & Button Protection */
+@media (max-width: 640px) {
+  .linkedin-card {
+    padding: 1rem;
+  }
+  
+  /* Ensure buttons and action items in cards don't shrink or overlap text */
+  .linkedin-card button {
+    max-width: 100%;
+  }
+
+  /* Prevent text wrapping issues in tight headers */
+  .linkedin-card h3,
+  .linkedin-card h4 {
+    word-break: break-word;
+  }
 }
 
