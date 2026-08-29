@@ -1865,7 +1865,7 @@ window.AppUI = {
           <div class="lg:col-span-7 flex flex-col items-start text-left">
             <div class="stagger-item delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold mb-4 shadow-sm">
               <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
-              Ministry of Ayush • Smart India Hackathon 2026 (SIH26044)
+              Ministry of Ayush • Government of India
             </div>
             
             <h1 class="stagger-item delay-2 font-display-lg text-3xl sm:text-4xl lg:text-5xl text-slate-900 font-extrabold tracking-tight leading-tight mb-4">
@@ -2233,48 +2233,48 @@ window.AppUI = {
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mx-auto mb-12">
           <!-- Student -->
-          <div onclick="AppUI.selectRoleAndLogin('student')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
-            <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <div onclick="AppUI.selectRoleAndLogin('student')" class="role-portal-card glass-card rounded-2xl p-8 flex flex-col items-center text-center h-full group cursor-pointer border border-primary/20">
+            <div class="role-icon-box w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform mx-auto">
               <span class="material-symbols-outlined text-3xl">school</span>
             </div>
-            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Student</h2>
-            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Take skill assessments, bridge knowledge gaps, and apply to top industry opportunities.</p>
+            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2 text-center">Student</h2>
+            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1 text-center">Take skill assessments, bridge knowledge gaps, and apply to top industry opportunities.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
               Select Student <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- Industry -->
-          <div onclick="AppUI.selectRoleAndLogin('industry')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
-            <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <div onclick="AppUI.selectRoleAndLogin('industry')" class="role-portal-card glass-card rounded-2xl p-8 flex flex-col items-center text-center h-full group cursor-pointer border border-primary/20">
+            <div class="role-icon-box w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform mx-auto">
               <span class="material-symbols-outlined text-3xl">domain</span>
             </div>
-            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Industry</h2>
-            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Find verified Ayush talent, shortlist candidates, and post internship & job openings.</p>
+            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2 text-center">Industry</h2>
+            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1 text-center">Find verified Ayush talent, shortlist candidates, and post internship & job openings.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
               Select Industry <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- College -->
-          <div onclick="AppUI.selectRoleAndLogin('college')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
-            <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <div onclick="AppUI.selectRoleAndLogin('college')" class="role-portal-card glass-card rounded-2xl p-8 flex flex-col items-center text-center h-full group cursor-pointer border border-primary/20">
+            <div class="role-icon-box w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform mx-auto">
               <span class="material-symbols-outlined text-3xl">account_balance</span>
             </div>
-            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">College & Faculty</h2>
-            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Track student cohort competencies, analyze deficits, and publish bridge courses.</p>
+            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2 text-center">College & Faculty</h2>
+            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1 text-center">Track student cohort competencies, analyze deficits, and publish bridge courses.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
               Select Faculty <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
 
           <!-- Ministry -->
-          <div onclick="AppUI.selectRoleAndLogin('ministry')" class="glass-card rounded-2xl p-8 flex flex-col h-full group cursor-pointer border border-primary/20">
-            <div class="w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <div onclick="AppUI.selectRoleAndLogin('ministry')" class="role-portal-card glass-card rounded-2xl p-8 flex flex-col items-center text-center h-full group cursor-pointer border border-primary/20">
+            <div class="role-icon-box w-16 h-16 rounded-xl bg-primary-container/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform mx-auto">
               <span class="material-symbols-outlined text-3xl">admin_panel_settings</span>
             </div>
-            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2">Ministry Admin</h2>
-            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1">Access national impact analytics, regional skill-gap heatmaps, and placement trends.</p>
+            <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-2 text-center">Ministry Admin</h2>
+            <p class="font-body-md text-xs text-on-surface-variant mb-6 flex-1 text-center">Access national impact analytics, regional skill-gap heatmaps, and placement trends.</p>
             <button class="w-full py-2.5 px-4 rounded-xl bg-surface-container-highest text-primary font-label-md text-sm font-semibold group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center gap-2">
               Select Admin <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
