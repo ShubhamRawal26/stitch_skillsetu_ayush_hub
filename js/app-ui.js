@@ -1948,9 +1948,9 @@ window.AppUI = {
   getLandingHTML(state) {
     const stats = window.SKILLSETU_DATA.stats;
     return `
-      <main class="pt-24 sm:pt-28 pb-20 px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto space-y-16 sm:space-y-20">
+      <main class="pt-28 sm:pt-32 pb-20 px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto space-y-16 sm:space-y-20">
         <!-- 1. Hero Section with Breathing Room & Non-Overlapping Layout -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-2 sm:mt-4">
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <!-- Left Content Column -->
           <div class="lg:col-span-7 flex flex-col items-start text-left space-y-4">
             <div class="stagger-item delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold shadow-xs">
@@ -1980,23 +1980,31 @@ window.AppUI = {
               </button>
             </div>
 
-            <!-- Social Proof & Institution Trust Strip (Group of 2 Responsive Grid) -->
-            <div class="stagger-item delay-5 grid grid-cols-2 gap-2.5 sm:gap-3.5 pt-3 border-t border-slate-200 w-full">
-              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
-                <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span>
-                <span class="truncate sm:whitespace-normal">100% Free for Students</span>
+            <!-- Social Proof & Institution Trust Strip (Group of 2 Responsive Grid - No Truncation) -->
+            <div class="stagger-item delay-5 grid grid-cols-2 gap-2 sm:gap-3.5 pt-3 border-t border-slate-200 w-full">
+              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-sm sm:text-base">check_circle</span>
+                </div>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">100% Free for Students</span>
               </div>
-              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
-                <span class="material-symbols-outlined text-primary text-base shrink-0">verified</span>
-                <span class="truncate sm:whitespace-normal">Industry Verified Badges</span>
+              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-sm sm:text-base">verified</span>
+                </div>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">Industry Verified Badges</span>
               </div>
-              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
-                <span class="material-symbols-outlined text-primary text-base shrink-0">account_balance</span>
-                <span class="truncate sm:whitespace-normal">350+ Accredited Colleges</span>
+              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-sm sm:text-base">account_balance</span>
+                </div>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">350+ Accredited Colleges</span>
               </div>
-              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 text-xs font-semibold shadow-xs">
-                <span class="material-symbols-outlined text-primary text-base shrink-0">bolt</span>
-                <span class="truncate sm:whitespace-normal">1-Click Direct Hiring</span>
+              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-sm sm:text-base">bolt</span>
+                </div>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">1-Click Direct Hiring</span>
               </div>
             </div>
           </div>
