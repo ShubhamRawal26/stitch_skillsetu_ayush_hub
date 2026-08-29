@@ -23,6 +23,15 @@ window.AppUI = {
       this.renderCurrentView();
     });
 
+    // Accessible Global Keyboard Listener: Instant Dismiss on Escape Key
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+          this.closeAllModals();
+        }
+      });
+    }
+
     // Handle hash changes for browser history
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.replace('#', '') || 'home';
@@ -113,6 +122,53 @@ window.AppUI = {
       setTimeout(() => toast.remove(), 300);
     }, 4000);
   },
+
+  // Accessible Global Modal Close Handler
+  closeAllModals() {
+    const modalIds = [
+      'profile-modal-container',
+      'bridge-modal',
+      'internship-modal',
+      'profile-detail-modal',
+      'cand-modal',
+      'post-modal',
+      'course-modal',
+      'state-modal'
+    ];
+    modalIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    this.closeMobileMenu();
+    this.closeProfileDropdown();
+  },
+
+  // Temporary Sleek Role Transition Banner (1.5 Seconds)
+  showRoleBanner(message) {
+    if (typeof document === 'undefined') return;
+    let banner = document.getElementById('role-transition-banner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'role-transition-banner';
+      banner.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-[150] px-5 py-2.5 bg-slate-900/90 text-white rounded-full shadow-2xl backdrop-blur-md border border-emerald-500/40 text-xs font-bold flex items-center gap-2 role-transition-banner pointer-events-none';
+      document.body.appendChild(banner);
+    }
+    banner.innerHTML = `
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span class="material-symbols-outlined text-emerald-400 text-base">swap_horiz</span>
+      <span>${message}</span>
+    `;
+    banner.style.display = 'flex';
+    banner.style.opacity = '1';
+
+    if (this._roleBannerTimeout) clearTimeout(this._roleBannerTimeout);
+    this._roleBannerTimeout = setTimeout(() => {
+      banner.style.opacity = '0';
+      banner.style.transition = 'opacity 0.3s ease';
+      setTimeout(() => { banner.style.display = 'none'; }, 300);
+    }, 1500);
+  },
+
 
   profileDropdownOpen: false,
   tempUploadedAvatar: null,
@@ -2645,6 +2701,8 @@ window.AppUI = {
       ? (state.bridgeCourses.find(c => c.domain === primaryDeficit.key || c.id === primaryDeficit.domainId) || state.bridgeCourses[0])
       : null;
 
+    const radarCoords = window.appState.getRadarCoordinates(student.skills, 68, 95, 95);
+
     return `
       <main class="pt-28 pb-24 px-4 md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-8">
         <!-- Welcome Header -->
@@ -2684,9 +2742,9 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- Benchmark Analytics (Full-Width Card) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 glass-panel p-4 sm:p-6 md:p-8 rounded-2xl flex flex-col justify-between overflow-hidden">
+        <!-- Benchmark Analytics & Radar Morph Engine (Dual Visual Panel) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-8 glass-panel p-4 sm:p-6 md:p-8 rounded-2xl flex flex-col justify-between overflow-hidden">
             <div>
               <!-- Card Header -->
               <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-4 border-b border-slate-200/80">
@@ -2785,9 +2843,56 @@ window.AppUI = {
             </div>
           </div>
 
-          <!-- Right Column: Skill Gap Alert & Quick Stats -->
-          <div class="flex flex-col gap-6">
-            <!-- Skill Gap Card -->
+          <!-- Right Column: 6-Axis Radar SVG & Deficit Card -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <!-- 6-Axis Morphing Radar SVG Card -->
+            <div class="glass-panel p-5 rounded-2xl flex flex-col items-center justify-between border border-primary/20 shadow-xs bg-white/80">
+              <div class="w-full flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-base">radar</span>
+                  <h4 class="font-bold text-xs text-slate-800 uppercase tracking-wider">Dynamic Radar Engine</h4>
+                </div>
+                <span class="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-bold border border-emerald-200 flex items-center gap-0.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Live Morph
+                </span>
+              </div>
+
+              <!-- SVG Canvas with CSS Morph Transition -->
+              <div class="relative w-full max-w-[200px] aspect-square flex items-center justify-center my-3">
+                <svg viewBox="0 0 190 190" class="w-full h-full overflow-visible">
+                  <!-- Concentric Guide Polygons -->
+                  <polygon points="95,27 154,61 154,129 95,163 36,129 36,61" fill="none" stroke="#e2e8f0" stroke-width="1"></polygon>
+                  <polygon points="95,44 139,69 139,121 95,146 51,121 51,69" fill="none" stroke="#cbd5e1" stroke-width="1"></polygon>
+                  <polygon points="95,61 124,78 124,112 95,129 66,112 66,78" fill="none" stroke="#e2e8f0" stroke-width="1"></polygon>
+
+                  <!-- 75% Baseline Threshold Reference (Dashed) -->
+                  <polygon points="${radarCoords.expectedPolygon}" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"></polygon>
+
+                  <!-- Live Evaluated Radar Polygon (Morphs on state update via CSS) -->
+                  <polygon class="radar-polygon" points="${radarCoords.currentPolygon}" fill="rgba(16, 185, 129, 0.28)" stroke="#059669" stroke-width="2.5"></polygon>
+
+                  <!-- Data Vertices -->
+                  ${radarCoords.axisDetails.map(ax => `
+                    <circle cx="${ax.xCurr}" cy="${ax.yCurr}" r="3.5" class="radar-point fill-emerald-700 stroke-white stroke-2 shadow-xs"></circle>
+                  `).join('')}
+
+                  <!-- Labels -->
+                  <text x="95" y="16" text-anchor="middle" font-size="7.5" font-weight="700" fill="#334155">Panchakarma</text>
+                  <text x="165" y="60" text-anchor="start" font-size="7.5" font-weight="700" fill="#334155">Herbology</text>
+                  <text x="165" y="135" text-anchor="start" font-size="7.5" font-weight="700" fill="#334155">PatientCare</text>
+                  <text x="95" y="180" text-anchor="middle" font-size="7.5" font-weight="700" fill="#334155">Diagnostics</text>
+                  <text x="25" y="135" text-anchor="end" font-size="7.5" font-weight="700" fill="${student.skills.GMP.current < 75 ? '#dc2626' : '#334155'}">GMP (${student.skills.GMP.current}%)</text>
+                  <text x="25" y="60" text-anchor="end" font-size="7.5" font-weight="700" fill="#334155">Research</text>
+                </svg>
+              </div>
+
+              <div class="w-full pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500 font-semibold">
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Evaluated</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-0.5 border-t-2 border-dashed border-slate-400"></span> 75% Baseline</span>
+              </div>
+            </div>
+
+            <!-- Skill Gap Alert Card -->
             <div class="glass-panel-heavy rounded-2xl p-6 relative overflow-hidden ${hasDeficit ? 'border-tertiary-container/50 ambient-glow-error' : 'border-primary/30'}">
               <div class="flex items-center gap-3 mb-3">
                 <div class="w-10 h-10 rounded-full ${hasDeficit ? 'bg-error-container text-error' : 'bg-primary-container/20 text-primary'} flex items-center justify-center font-bold">
@@ -2846,6 +2951,7 @@ window.AppUI = {
             ${state.opportunities.map(opp => {
               const appInfo = state.applications[opp.id] || { applied: false, status: "Not Applied" };
               const dynamicMatch = window.appState.calculateOpportunityMatch(student.skills, opp);
+              const isBoosted = dynamicMatch > (opp.initialMatch || 65);
               return `
                 <div class="glass-card rounded-2xl p-6 flex flex-col justify-between h-full border border-primary/15 hover:border-primary/40 relative">
                   <div>
@@ -2853,8 +2959,15 @@ window.AppUI = {
                       <div class="w-12 h-12 rounded-xl bg-white border border-outline-variant/40 flex items-center justify-center p-2 shadow-sm">
                         ${opp.logo ? `<img src="${opp.logo}" alt="${opp.company}" class="w-full h-full object-contain" />` : `<span class="font-bold text-primary text-sm">${opp.company.slice(0, 2).toUpperCase()}</span>`}
                       </div>
-                      <div class="px-3 py-1 ${dynamicMatch >= 90 ? 'bg-primary-container/20 text-primary border-primary/30' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'} rounded-full font-label-sm text-xs font-bold flex items-center gap-1 border">
-                        <span class="material-symbols-outlined text-sm">verified</span> ${dynamicMatch}% Match
+                      <div class="flex flex-col items-end gap-1">
+                        <div class="px-3 py-1 ${dynamicMatch >= 90 ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'} rounded-full font-label-sm text-xs font-bold flex items-center gap-1 border shadow-xs">
+                          <span class="material-symbols-outlined text-sm">verified</span> ${dynamicMatch}% Match
+                        </div>
+                        ${isBoosted ? `
+                          <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold flex items-center gap-0.5 shadow-xs match-boost-pill whitespace-nowrap">
+                            ▲ +${dynamicMatch - (opp.initialMatch || 65)}% Skill Boost Applied
+                          </span>
+                        ` : ''}
                       </div>
                     </div>
                     
@@ -3043,7 +3156,7 @@ window.AppUI = {
     const isAlreadyCompleted = window.appState.state.bridgeCourseCompleted;
 
     const modalHTML = `
-      <div id="bridge-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in">
+      <div id="bridge-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in" onclick="if(event.target===this)this.remove();">
         <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-primary/30 flex flex-col max-h-[90vh]">
           <!-- Modal Header -->
           <div class="px-6 py-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-low">
@@ -3162,7 +3275,7 @@ window.AppUI = {
     const bridgeCourse = (window.appState.state.bridgeCourses || []).find(c => c.domain === gatekeeper) || { id: "BC-GMP-101", title: "Bridge Course" };
 
     const modalHTML = `
-      <div id="internship-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
+      <div id="internship-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in" onclick="if(event.target===this)this.remove();">
         <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-emerald-200 flex flex-col max-h-[92vh]">
           <!-- Modal Header -->
           <div class="px-5 sm:px-6 py-4 border-b border-slate-200 flex justify-between items-start bg-slate-50">
@@ -3950,7 +4063,7 @@ window.AppUI = {
     if (!cand) return;
 
     const modalHTML = `
-      <div id="cand-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in">
+      <div id="cand-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in" onclick="if(event.target===this)this.remove();">
         <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-primary/30 flex flex-col">
           <div class="px-6 py-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-low">
             <h2 class="font-headline-sm text-base font-bold text-on-surface">Verified Candidate Dossier</h2>
@@ -3998,7 +4111,7 @@ window.AppUI = {
 
   openPostOpportunityModal() {
     const modalHTML = `
-      <div id="post-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in">
+      <div id="post-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in" onclick="if(event.target===this)this.remove();">
         <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-primary/30 flex flex-col">
           <div class="px-6 py-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-low">
             <h2 class="font-headline-sm text-base font-bold text-on-surface">Post New Industry Opportunity</h2>
@@ -4199,7 +4312,7 @@ window.AppUI = {
 
   openCreateBridgeCourseModal(prefillTitle = '') {
     const modalHTML = `
-      <div id="course-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in">
+      <div id="course-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/50 backdrop-blur-sm fade-in" onclick="if(event.target===this)this.remove();">
         <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-primary/30 flex flex-col">
           <div class="px-6 py-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-low">
             <h2 class="font-headline-sm text-base font-bold text-on-surface">Publish New Bridge Course</h2>

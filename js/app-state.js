@@ -266,6 +266,16 @@ class AppStateManager {
       else if (role === 'ministry') this.state.currentView = 'ministry-dashboard';
     }
     this.saveState();
+
+    if (typeof window !== 'undefined' && window.AppUI && typeof window.AppUI.showRoleBanner === 'function') {
+      const roleLabels = {
+        student: 'Student Scholar Portal',
+        industry: 'Industry Recruiter Portal',
+        college: 'College & Faculty Portal',
+        ministry: 'Ministry Admin Portal'
+      };
+      window.AppUI.showRoleBanner(`Switched to ${roleLabels[role] || role.toUpperCase()}`);
+    }
   }
 
   selectRoleForAuth(role) {

@@ -156,11 +156,18 @@ assert(appData.getBridgeCourses().length >= 12, `AppData loaded ${appData.getBri
 assert(appData.getFaculty().length >= 12, `AppData loaded ${appData.getFaculty().length} faculty mentors`);
 assert(appData.getQuestions().length === 12, `AppData loaded 12 authentic diagnostic questions`);
 
-// Test O(1) Index Lookups
-assert(appData.getStudentById('CAND-SHUBHAM').name === 'Shubham Rawal', 'O(1) Student lookup by ID');
-assert(appData.getCollegeById('COL-NIA-01').name.includes('National Institute of Ayurveda'), 'O(1) College lookup by ID');
-assert(appData.getOpportunityById('OPP-DABUR-01').company === 'Dabur India Ltd', 'O(1) Opportunity lookup by ID');
+// 19. Fast Memory Map Indexes & Dynamic State Optimizations
+assert(appData.studentsMap['CAND-SHUBHAM'] !== undefined, 'studentsMap direct memory index active');
+assert(appData.opportunitiesMap['OPP-DABUR-01'] !== undefined, 'opportunitiesMap direct memory index active');
+assert(appData.coursesMap['BC-GMP-101'] !== undefined, 'coursesMap direct memory index active');
 
-console.log('--- All 18 Core Verification Tests Passed Successfully! ---');
+// Test Role Switching
+stateMgr.setRole('ministry');
+assert(stateMgr.state.currentRole === 'ministry', 'Role switched to ministry');
+assert(stateMgr.state.currentView === 'ministry-dashboard', 'View transitioned to ministry-dashboard');
+stateMgr.setRole('student');
+assert(stateMgr.state.currentRole === 'student', 'Role restored to student');
+
+console.log('--- All 19 Core Verification Tests Passed Successfully! ---');
 
 

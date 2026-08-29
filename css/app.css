@@ -430,3 +430,50 @@ html {
   }
 }
 
+/* SVG Radar Polygon Morph Animation */
+.radar-polygon {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.radar-point {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.radar-grid-polygon {
+  transition: opacity 0.3s ease;
+}
+
+/* Match Score Delta Boost Pill */
+.match-boost-pill {
+  animation: pulseBoost 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulseBoost {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.03);
+  }
+}
+
+/* Role Transition Banner */
+.role-transition-banner {
+  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -15px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+

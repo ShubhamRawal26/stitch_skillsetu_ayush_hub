@@ -81,6 +81,15 @@
 
       this._indexes.questionsById = {};
       this._data.questions.forEach(q => { this._indexes.questionsById[q.id] = q; });
+
+      // Fast Direct Entity Map Accessors
+      this.studentsMap = this._indexes.studentsById;
+      this.collegesMap = this._indexes.collegesById;
+      this.industriesMap = this._indexes.industriesById;
+      this.opportunitiesMap = this._indexes.opportunitiesById;
+      this.coursesMap = this._indexes.bridgeCoursesById;
+      this.facultyMap = this._indexes.facultyById;
+      this.questionsMap = this._indexes.questionsById;
     },
 
     // Asynchronous JSON Loader for Web Browser Environment
