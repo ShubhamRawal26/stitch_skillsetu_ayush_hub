@@ -48,11 +48,15 @@ const state = window.appState.state;
 
 // 1. Test Navbar HTML
 const navHTML = ui.getNavbarHTML(state);
-assert(navHTML.includes('SkillSetu') && navHTML.includes('Ministry of Ayush'), 'Navbar rendered with branding');
+assert(navHTML.includes('SkillSetu') && navHTML.includes('Ministry of Ayush') && navHTML.includes('public-mobile-drawer'), 'Navbar rendered with branding and responsive mobile drawer');
 
 // 2. Test Landing Page HTML
 const landingHTML = ui.getLandingHTML(state);
 assert(landingHTML.includes('Ayush') && landingHTML.includes('42,850+'), 'Landing page rendered with hero & stats');
+assert(landingHTML.includes('hero_ayush_biotech.jpg'), 'Landing page rendered with 4K Ayush Biotech Hero Image');
+assert(!landingHTML.includes('Take 10-Min Diagnostic'), 'Landing page successfully removed student-only diagnostic button');
+assert(landingHTML.includes('faq-card-1') && landingHTML.includes('faq-card-10'), 'Landing page rendered all 10 expanded FAQ items with category badges');
+assert(landingHTML.includes('precision_manufacturing') && landingHTML.includes('radar') && landingHTML.includes('account_balance'), 'Landing page FAQ rendered with custom stakeholder logos');
 
 // 3. Test Roles HTML
 const rolesHTML = ui.getRolesHTML(state);

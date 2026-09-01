@@ -492,37 +492,65 @@ window.AppUI = {
     const isPublic = state.currentView === 'home' || state.currentView === 'roles' || state.currentView === 'login';
     const isAssessment = state.currentView === 'assessment' || state.currentView === 'test';
 
-    // 1. PUBLIC INSTITUTIONAL LANDING HEADER
+    // 1. PUBLIC INSTITUTIONAL LANDING HEADER (Fully Responsive on all mobile screens)
     if (isPublic) {
       return `
-        <div class="px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full">
+        <div class="px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto w-full relative">
           <div class="flex justify-between items-center h-16 md:h-20">
             <!-- Brand Logo -->
-            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer shrink-0" onclick="AppUI.navigate('home')">
-              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
-                <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+            <div class="flex items-center gap-2 sm:gap-3 cursor-pointer shrink-0" onclick="AppUI.navigate('home')">
+              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-100/70 flex items-center justify-center text-primary border border-primary/20 shrink-0 shadow-2xs">
+                <span class="material-symbols-outlined text-xl sm:text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
               </div>
-              <div class="text-left">
-                <span class="font-display-lg-mobile text-lg sm:text-[22px] font-bold text-primary tracking-tight block leading-tight">SkillSetu</span>
-                <span class="text-primary font-label-sm text-[10px] font-bold block leading-none">Ministry of Ayush</span>
+              <div class="text-left shrink-0">
+                <span class="public-brand-title font-display-lg-mobile text-base sm:text-[22px] font-extrabold text-primary tracking-tight block leading-tight">SkillSetu</span>
+                <span class="public-brand-sub text-emerald-800/80 font-label-sm text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block leading-none">Ministry of Ayush</span>
               </div>
             </div>
 
-            <!-- Public Center Links -->
-            <nav class="hidden md:flex items-center gap-8 font-label-md text-sm text-slate-700 font-semibold mx-auto">
+            <!-- Public Center Links (Desktop) -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8 font-label-md text-sm text-slate-700 font-semibold mx-auto">
               <a href="#ecosystem" class="hover:text-primary transition-colors py-1">Ecosystem</a>
-              <a href="#capabilities" class="hover:text-primary transition-colors py-1">Platform Capabilities</a>
+              <a href="#capabilities" class="hover:text-primary transition-colors py-1">Capabilities</a>
               <a href="#disciplines" class="hover:text-primary transition-colors py-1">Disciplines</a>
               <a href="#faq" class="hover:text-primary transition-colors py-1">FAQ</a>
             </nav>
 
-            <!-- Public Right Action: Launch Platform Button -->
-            <div class="flex items-center gap-3 shrink-0">
-              <button onclick="AppUI.navigate('roles')" class="px-5 py-2.5 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5 group">
-                <span class="material-symbols-outlined text-lg group-hover:rotate-12 transition-transform">rocket_launch</span>
+            <!-- Public Right Action: Launch Platform Button & Mobile Hamburger -->
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+              <button onclick="AppUI.navigate('roles')" class="public-cta-btn px-3 sm:px-5 py-2 sm:py-2.5 bg-primary hover:bg-emerald-800 text-white rounded-xl font-label-md text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 sm:gap-2 transform hover:-translate-y-0.5 group shrink-0">
+                <span class="material-symbols-outlined text-base sm:text-lg group-hover:rotate-12 transition-transform">rocket_launch</span>
                 <span>Launch Platform</span>
-                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                <span class="material-symbols-outlined text-xs sm:text-sm hidden sm:inline">arrow_forward</span>
               </button>
+
+              <!-- Responsive Mobile Menu Button for Public Header -->
+              <button onclick="AppUI.toggleMobileMenu()" class="md:hidden p-1.5 sm:p-2 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-200 flex items-center justify-center transition-colors shrink-0" title="Toggle Menu">
+                <span class="material-symbols-outlined text-xl sm:text-2xl">${this.mobileMenuOpen ? 'close' : 'menu'}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Public Mobile Navigation Drawer -->
+          <div id="public-mobile-drawer" class="mobile-nav-enter ${this.mobileMenuOpen ? 'active' : ''} md:hidden border-t border-slate-200/80 py-3 px-2">
+            <div class="flex flex-col gap-1 font-semibold text-xs sm:text-sm">
+              <a href="#ecosystem" onclick="AppUI.closeMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50 text-slate-800 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">groups</span> Ecosystem & Stakeholders
+              </a>
+              <a href="#capabilities" onclick="AppUI.closeMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50 text-slate-800 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">bolt</span> Platform Capabilities
+              </a>
+              <a href="#disciplines" onclick="AppUI.closeMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50 text-slate-800 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">spa</span> Ayush Disciplines
+              </a>
+              <a href="#faq" onclick="AppUI.closeMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50 text-slate-800 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">help_outline</span> Frequently Asked Questions
+              </a>
+              <div class="pt-2 border-t border-slate-100">
+                <button onclick="AppUI.navigate('roles'); AppUI.closeMobileMenu();" class="w-full py-2.5 bg-primary text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-xs">
+                  <span class="material-symbols-outlined text-base">apps</span> Explore Stakeholder Portals
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2182,48 +2210,52 @@ window.AppUI = {
     this.activeLandingTab = tab;
     const tabData = {
       student: {
-        title: "For Ayush Scholars & Doctors",
-        desc: "Diagnose clinical competencies, bridge Schedule T GMP deficits with 1-click micro-modules, and apply directly to verified pharmaceutical and hospital openings.",
+        title: "For Ayush Scholars, Residents & Doctors",
+        desc: "Diagnose clinical competencies, bridge Schedule T GMP deficits with 1-click micro-modules, build a cryptographic Digital Skill Passport, and apply directly to verified clinical & pharmaceutical openings.",
+        image: "./assets/student_competency_lab.jpg",
+        imageAlt: "Ayush medical students in advanced clinical diagnostics laboratory",
+        badge: "Scholar & Doctor Journey",
         cards: [
-          { icon: "quiz", title: "10-Min Diagnostic", desc: "Scenario-based clinical & formulation assessment." },
-          { icon: "radar", title: "6-Axis Skill Radar", desc: "Instant visual of strengths & industry gap analysis." },
-          { icon: "work", title: "1-Click Direct Placements", desc: "Unlock 95%+ match ratings at Dabur, Patanjali & more." }
-        ],
-        btnText: "Launch Student Portal",
-        role: "student"
+          { icon: "radar", title: "6-Axis Skill Radar", desc: "Real-time visualization of clinical strengths & Schedule T GMP deficit areas." },
+          { icon: "auto_stories", title: "Micro-Bridge Courses", desc: "Instant remedial modules to unlock high match ratings and verified certificates." },
+          { icon: "verified_user", title: "Verifiable Skill Passport", desc: "Cryptographically tamper-proof credential recognized by 1,200+ hospitals & pharma." }
+        ]
       },
       industry: {
         title: "For Pharmaceutical & Hospital Recruiters",
-        desc: "Discover pre-assessed, GMP-certified Ayush talent with verified clinical benchmarks. Shortlist candidates and post direct internship openings.",
+        desc: "Discover pre-assessed, GMP-certified Ayush talent with verified clinical benchmarks. Shortlist candidates directly without manual resume screening noise.",
+        image: "./assets/industry_pharma_gmp.jpg",
+        imageAlt: "Modern Schedule T GMP pharmaceutical cleanroom manufacturing facility",
+        badge: "Enterprise Talent Gateway",
         cards: [
-          { icon: "verified_user", title: "Pre-Verified Talent", desc: "Access candidate profiles with validated Schedule T GMP scores." },
-          { icon: "filter_alt", title: "Smart Candidate Filter", desc: "Filter by discipline, graduation year, and match percentage." },
-          { icon: "post_add", title: "Instant Job Publishing", desc: "Post clinical & formulation internships in 60 seconds." }
-        ],
-        btnText: "Launch Recruiter Portal",
-        role: "industry"
+          { icon: "verified_user", title: "Pre-Verified Talent", desc: "Access candidate profiles with validated Schedule T GMP and clinical scores." },
+          { icon: "filter_alt", title: "Smart Vector Filtering", desc: "Filter by discipline, benchmark cutoff, batch year, and skill score match." },
+          { icon: "post_add", title: "Direct ATS Pipeline", desc: "Manage applicants across Applied, Screening, Interview, and Offer stages in 1 click." }
+        ]
       },
       college: {
-        title: "For Ayush Colleges & Faculty",
-        desc: "Monitor student cohort readiness, track regional curriculum deficits, and publish targeted bridge courses to boost institutional placement rates.",
+        title: "For Ayush Colleges, Deans & Faculty",
+        desc: "Monitor cohort readiness, track institutional curriculum deficits in real time, author custom bridge modules, and boost placement accreditation under NCISM / NAAC guidelines.",
+        image: "./assets/college_smart_campus.jpg",
+        imageAlt: "Ayush medical university campus and faculty collaboration board",
+        badge: "Institutional Excellence",
         cards: [
-          { icon: "analytics", title: "Cohort Readiness", desc: "Real-time analytics on student clinical strengths." },
-          { icon: "auto_fix_high", title: "Curriculum Gap Alerts", desc: "Automated alerts on formulation & regulatory deficits." },
-          { icon: "school", title: "Bridge Course Creator", desc: "Publish institutional micro-learning modules." }
-        ],
-        btnText: "Launch Faculty Portal",
-        role: "college"
+          { icon: "analytics", title: "Cohort Readiness Heatmaps", desc: "Real-time analytics on student clinical performance & subject-level strength." },
+          { icon: "library_add", title: "Course Authoring Studio", desc: "Publish institutional micro-learning modules to resolve regional skill deficits." },
+          { icon: "handshake", title: "MoU & Placement Console", desc: "Manage campus placement drives, track corporate MoUs, and auto-generate audit dossiers." }
+        ]
       },
       ministry: {
-        title: "For Ministry of Ayush & Regulators",
-        desc: "Real-time national workforce intelligence, regional skill-gap heatmaps, and evidence-based curriculum reform data under the National Ayush Mission.",
+        title: "For Ministry of Ayush & National Regulators",
+        desc: "Real-time national workforce intelligence, regional skill-gap heatmaps, and evidence-based policy telemetry under the National Ayush Mission.",
+        image: "./assets/ministry_command_center.jpg",
+        imageAlt: "Ministry of Ayush National Command and Telemetry Center",
+        badge: "National Digital Governance",
         cards: [
-          { icon: "public", title: "National Skill Heatmap", desc: "State-wise demand and talent density mapping." },
-          { icon: "policy", title: "Schedule T Compliance", desc: "Track manufacturing readiness across 350+ institutions." },
-          { icon: "trending_up", title: "Placement Analytics", desc: "Measure Ayush healthcare employment outcomes." }
-        ],
-        btnText: "Launch Ministry Admin Portal",
-        role: "ministry"
+          { icon: "public", title: "National Skill Heatmap", desc: "Live state-wise demand, talent density, and deficit distribution across India." },
+          { icon: "policy", title: "Schedule T Compliance Index", desc: "Track manufacturing and regulatory readiness across 350+ medical institutions." },
+          { icon: "trending_up", title: "Workforce Telemetry", desc: "Measure traditional healthcare employment outcomes, growth trends, and grant utilization." }
+        ]
       }
     };
     
@@ -2231,34 +2263,46 @@ window.AppUI = {
     if (container) {
       const d = tabData[tab] || tabData.student;
       container.innerHTML = `
-        <div class="fade-in-up bg-emerald-50/60 p-6 sm:p-8 rounded-2xl border border-emerald-200/80 shadow-xs space-y-6">
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-1">${d.title}</h3>
-              <p class="text-xs sm:text-sm text-slate-600 max-w-2xl">${d.desc}</p>
-            </div>
-            <button onclick="AppUI.selectRoleAndLogin('${d.role}')" class="px-6 py-3 bg-primary text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-emerald-800 transition-all shadow-md shrink-0 flex items-center gap-2">
-              <span>${d.btnText}</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            ${d.cards.map(c => `
-              <div class="p-4 bg-white/95 rounded-xl border border-emerald-100 shadow-2xs space-y-1.5">
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-primary flex items-center justify-center mb-2">
-                  <span class="material-symbols-outlined text-base">${c.icon}</span>
-                </div>
-                <h4 class="font-bold text-slate-900 text-sm">${c.title}</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">${c.desc}</p>
+        <div class="fade-in-up apple-card p-6 sm:p-8 space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-7 space-y-3">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold shadow-2xs">
+                <span class="material-symbols-outlined text-[15px] text-primary">verified</span>
+                ${d.badge}
               </div>
-            `).join('')}
+              <h3 class="font-headline-sm text-xl sm:text-2xl font-bold text-slate-900">${d.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${d.desc}</p>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                ${d.cards.map(c => `
+                  <div class="p-3.5 bg-slate-50/90 rounded-xl border border-slate-200/80 shadow-2xs hover:border-emerald-300 transition-colors space-y-1">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-100/80 text-primary flex items-center justify-center mb-1">
+                      <span class="material-symbols-outlined text-base">${c.icon}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-xs">${c.title}</h4>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">${c.desc}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="lg:col-span-5">
+              <div class="relative rounded-2xl overflow-hidden shadow-md border border-slate-200/80 group">
+                <img src="${d.image}" alt="${d.imageAlt}" class="w-full h-[220px] sm:h-[260px] object-cover group-hover:scale-103 transition-transform duration-500" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 text-white text-xs font-semibold backdrop-blur-md bg-slate-900/60 p-2.5 rounded-xl border border-white/20 flex items-center justify-between">
+                  <span class="truncate">${d.title}</span>
+                  <span class="text-emerald-400 font-bold text-[10px] shrink-0 ml-2">Active Framework</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `;
 
       document.querySelectorAll('.landing-role-tab').forEach(btn => {
         if (btn.dataset.tab === tab) {
-          btn.className = 'landing-role-tab px-4 py-2.5 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center gap-2';
+          btn.className = 'landing-role-tab px-4 py-2.5 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 transform -translate-y-0.5';
         } else {
           btn.className = 'landing-role-tab px-4 py-2.5 rounded-xl bg-white text-slate-700 hover:bg-emerald-50 border border-slate-200 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2';
         }
@@ -2282,81 +2326,87 @@ window.AppUI = {
     }
   },
 
-  // 1. Landing Page HTML (Clean, Spacious, Interactive First-Time User Experience)
+  // 1. Landing Page HTML (Apple-Inspired, Spacious, Interactive Experience for all Stakeholders)
   getLandingHTML(state) {
     const stats = window.SKILLSETU_DATA.stats;
     return `
-      <main class="pt-28 sm:pt-32 pb-20 px-4 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto space-y-16 sm:space-y-20">
-        <!-- 1. Hero Section with Breathing Room & Non-Overlapping Layout -->
+      <main class="pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-margin-desktop max-w-container-max mx-auto space-y-16 sm:space-y-24">
+        <!-- 1. Hero Section with Apple Aesthetics & 4K Imagery -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <!-- Left Content Column -->
           <div class="lg:col-span-7 flex flex-col items-start text-left space-y-4">
-            <div class="stagger-item delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-semibold shadow-xs">
+            <div class="stagger-item delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50/90 border border-emerald-200 text-emerald-800 font-label-sm text-xs font-bold shadow-2xs backdrop-blur-md">
               <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
-              Ministry of Ayush • Government of India
+              Ministry of Ayush • National Innovation Platform
             </div>
             
-            <h1 class="stagger-item delay-2 font-display-lg text-3xl sm:text-4xl lg:text-5xl text-slate-900 font-extrabold tracking-tight leading-tight">
-              The National Career & Skill Platform for <span class="text-primary underline decoration-primary/30">Ayush Professionals</span>
+            <h1 class="stagger-item delay-2 font-display-lg text-3xl sm:text-4xl lg:text-5xl text-slate-900 font-extrabold tracking-tight leading-[1.15]">
+              The National Career & Skill Platform for <span class="shimmer-text underline decoration-primary/30">Ayush Professionals</span>
             </h1>
             
             <p class="stagger-item delay-3 font-body-lg text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
-              Connect with 1,200+ verified Ayush pharma enterprises, hospitals, and clinical research centers. Take a 10-min competency diagnostic, bridge curriculum skill gaps, and get placed directly.
+              A unified national ecosystem connecting 42,850+ scholars, 1,200+ verified pharmaceutical enterprises & hospitals, 350+ accredited colleges, and regulatory authorities to bridge curriculum skill gaps and accelerate placements.
             </p>
 
-            <!-- Prominent Primary & Secondary Call to Action Buttons -->
-            <div class="stagger-item delay-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto pt-1">
+            <!-- Hero Action Buttons (Platform Launch + Ecosystem Explorer) -->
+            <div class="stagger-item delay-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto pt-2">
               <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-primary text-white rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 group">
                 <span class="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform">rocket_launch</span>
                 <span>Launch SkillSetu Platform</span>
                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
 
-              <button onclick="AppUI.navigate('assessment')" class="px-6 py-3.5 bg-white text-primary border border-emerald-300 rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-50 transition-all shadow-xs flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined text-lg text-primary">speed</span>
-                <span>Take 10-Min Diagnostic</span>
-              </button>
+              <a href="#ecosystem" class="px-6 py-3.5 bg-white text-slate-800 border border-slate-200 hover:border-emerald-300 rounded-xl font-label-md text-sm sm:text-base font-bold hover:bg-emerald-50/70 transition-all shadow-2xs flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-lg text-primary">groups</span>
+                <span>Explore Ecosystem</span>
+              </a>
             </div>
 
-            <!-- Social Proof & Institution Trust Strip (Group of 2 Responsive Grid - No Truncation) -->
-            <div class="stagger-item delay-5 grid grid-cols-2 gap-2 sm:gap-3.5 pt-3 border-t border-slate-200 w-full">
-              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+            <!-- Social Proof & Institution Trust Strip -->
+            <div class="stagger-item delay-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 pt-3 border-t border-slate-200 w-full">
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-2xs">
                 <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-sm sm:text-base">check_circle</span>
                 </div>
-                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">100% Free for Students</span>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">100% Free Public Platform</span>
               </div>
-              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-2xs">
                 <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-sm sm:text-base">verified</span>
+                  <span class="material-symbols-outlined text-sm sm:text-base">precision_manufacturing</span>
                 </div>
-                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">Industry Verified Badges</span>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">Schedule T GMP Standards</span>
               </div>
-              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-2xs">
                 <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-sm sm:text-base">account_balance</span>
                 </div>
                 <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">350+ Accredited Colleges</span>
               </div>
-              <div class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-xs min-h-[48px]">
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-slate-800 shadow-2xs">
                 <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-primary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-sm sm:text-base">bolt</span>
+                  <span class="material-symbols-outlined text-sm sm:text-base">corporate_fare</span>
                 </div>
-                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">1-Click Direct Hiring</span>
+                <span class="text-[11px] sm:text-xs font-bold leading-tight text-slate-800">1,240+ Active Recruiters</span>
               </div>
             </div>
           </div>
 
-          <!-- Right Hero Image Column (Authentic Professional Medical Photo) -->
+          <!-- Right Hero Image Column (HD 4K Photorealistic Laboratory & Holographic Analytics) -->
           <div class="stagger-item delay-3 lg:col-span-5 relative">
-            <div class="linkedin-card overflow-hidden p-2.5 group shadow-lg">
+            <div class="apple-card overflow-hidden p-2.5 group shadow-xl relative">
               <div class="relative rounded-xl overflow-hidden">
-                <img src="./assets/hero_ayush_bridge.jpg" alt="Ayush Doctors and Medical Students collaborating on Career Diagnostics" class="w-full h-[320px] sm:h-[390px] object-cover group-hover:scale-102 transition-transform duration-500" />
+                <img src="./assets/hero_ayush_biotech.jpg" alt="Ayush Doctors and Researchers collaborating in high-tech laboratory" class="w-full h-[320px] sm:h-[400px] object-cover group-hover:scale-103 transition-transform duration-700" />
                 
-                <!-- Floating LinkedIn Style Credential Badge -->
-                <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-200/80 flex items-center justify-between shadow-lg">
+                <!-- Floating Glass Badge Top Right -->
+                <div class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-white flex items-center gap-1.5 shadow-md animate-float-gentle">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-[11px] font-bold">Biotech & Clinical Hub</span>
+                </div>
+
+                <!-- Floating Apple Style Credential Badge Bottom -->
+                <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-lg p-3.5 rounded-xl border border-slate-200/90 flex items-center justify-between shadow-xl">
                   <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-primary flex items-center justify-center border border-emerald-200">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-primary flex items-center justify-center border border-emerald-200 shadow-2xs">
                       <span class="material-symbols-outlined text-xl">school</span>
                     </div>
                     <div>
@@ -2374,27 +2424,27 @@ window.AppUI = {
         </section>
 
         <!-- 2. Unified National Impact & Top Recruiter Showcase -->
-        <section class="stagger-item delay-4 linkedin-card p-6 sm:p-8 space-y-6">
+        <section class="stagger-item delay-4 apple-card p-6 sm:p-8 space-y-6">
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col items-center justify-center text-center">
+            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col items-center justify-center text-center">
               <span class="font-headline-md text-2xl sm:text-3xl text-primary font-extrabold mb-0.5">${stats.registeredStudents}</span>
               <span class="font-label-sm text-[11px] text-slate-600 uppercase tracking-wider font-semibold">Registered Doctors & Students</span>
             </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col items-center justify-center text-center">
+            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col items-center justify-center text-center">
               <span class="font-headline-md text-2xl sm:text-3xl text-primary font-extrabold mb-0.5">${stats.industryPartners}</span>
               <span class="font-label-sm text-[11px] text-slate-600 uppercase tracking-wider font-semibold">Verified Enterprise Partners</span>
             </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col items-center justify-center text-center">
+            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col items-center justify-center text-center">
               <span class="font-headline-md text-2xl sm:text-3xl text-primary font-extrabold mb-0.5">${stats.avgSkillMatch}</span>
               <span class="font-label-sm text-[11px] text-slate-600 uppercase tracking-wider font-semibold">Post-Bridge Match Rate</span>
             </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col items-center justify-center text-center">
+            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col items-center justify-center text-center">
               <span class="font-headline-md text-2xl sm:text-3xl text-primary font-extrabold mb-0.5">${stats.skillGapsResolved}</span>
               <span class="font-label-sm text-[11px] text-slate-600 uppercase tracking-wider font-semibold">Curriculum Gaps Resolved</span>
             </div>
           </div>
 
-          <div class="border-t border-slate-100 pt-6">
+          <div class="border-t border-slate-200/60 pt-6">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 mb-3 gap-2">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary text-lg">corporate_fare</span>
@@ -2407,7 +2457,7 @@ window.AppUI = {
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
               <!-- Employer 1 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-DABUR-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-DABUR-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">domain</span>
                 </div>
@@ -2416,7 +2466,7 @@ window.AppUI = {
               </div>
 
               <!-- Employer 2 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-PATANJALI-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-PATANJALI-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">science</span>
                 </div>
@@ -2425,7 +2475,7 @@ window.AppUI = {
               </div>
 
               <!-- Employer 3 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-HIMALAYA-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-HIMALAYA-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">spa</span>
                 </div>
@@ -2434,7 +2484,7 @@ window.AppUI = {
               </div>
 
               <!-- Employer 4 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-KOTTAKKAL-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-KOTTAKKAL-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">local_hospital</span>
                 </div>
@@ -2443,7 +2493,7 @@ window.AppUI = {
               </div>
 
               <!-- Employer 5 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-CHARAK-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-CHARAK-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">medication</span>
                 </div>
@@ -2452,7 +2502,7 @@ window.AppUI = {
               </div>
 
               <!-- Employer 6 -->
-              <div onclick="AppUI.openInternshipDetailModal('OPP-BAIDYANATH-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
+              <div onclick="AppUI.openInternshipDetailModal('OPP-BAIDYANATH-01')" class="group p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 flex flex-col items-center text-center cursor-pointer shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5">
                 <div class="w-9 h-9 rounded-lg bg-emerald-100/70 text-primary flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
                   <span class="material-symbols-outlined text-lg">healing</span>
                 </div>
@@ -2463,17 +2513,17 @@ window.AppUI = {
           </div>
         </section>
 
-        <!-- 3. Interactive Stakeholder Persona Explorer (Clean Onboarding Tabbed Experience) -->
+        <!-- 3. Interactive Stakeholder Persona Explorer (Tabbed Showcase with Paired 4K Images) -->
         <section id="ecosystem" class="stagger-item delay-5 space-y-6">
           <div class="text-center max-w-2xl mx-auto space-y-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-primary">Tailored Experience</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Tailored Ecosystem</span>
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900">Personalized For Every Stakeholder</h2>
-            <p class="font-body-md text-slate-600 text-xs sm:text-sm">Select your role to explore how SkillSetu accelerates your clinical & institutional journey.</p>
+            <p class="font-body-md text-slate-600 text-xs sm:text-sm">Explore how SkillSetu accelerates clinical mastery, recruitment, institutional quality, and national governance.</p>
           </div>
 
           <!-- Role Selector Tabs -->
           <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            <button onclick="AppUI.setLandingTab('student')" data-tab="student" class="landing-role-tab px-4 py-2.5 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center gap-2">
+            <button onclick="AppUI.setLandingTab('student')" data-tab="student" class="landing-role-tab px-4 py-2.5 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 transform -translate-y-0.5">
               <span class="material-symbols-outlined text-base">school</span>
               <span>Students & Doctors</span>
             </button>
@@ -2493,85 +2543,97 @@ window.AppUI = {
 
           <!-- Dynamic Role Tab Content Container -->
           <div id="landing-tab-content">
-            <div class="fade-in-up bg-emerald-50/60 p-6 sm:p-8 rounded-2xl border border-emerald-200/80 shadow-xs space-y-6">
-              <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                  <h3 class="font-headline-sm text-xl font-bold text-slate-900 mb-1">For Ayush Scholars & Doctors</h3>
-                  <p class="text-xs sm:text-sm text-slate-600 max-w-2xl">
-                    Diagnose clinical competencies, bridge Schedule T GMP deficits with 1-click micro-modules, and apply directly to verified pharmaceutical and hospital openings.
+            <div class="fade-in-up apple-card p-6 sm:p-8 space-y-6">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7 space-y-3">
+                  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold shadow-2xs">
+                    <span class="material-symbols-outlined text-[15px] text-primary">verified</span>
+                    Scholar & Doctor Journey
+                  </div>
+                  <h3 class="font-headline-sm text-xl sm:text-2xl font-bold text-slate-900">For Ayush Scholars, Residents & Doctors</h3>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Diagnose clinical competencies, bridge Schedule T GMP deficits with 1-click micro-modules, build a cryptographic Digital Skill Passport, and apply directly to verified clinical & pharmaceutical openings.
                   </p>
-                </div>
-                <button onclick="AppUI.selectRoleAndLogin('student')" class="px-6 py-3 bg-primary text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-emerald-800 transition-all shadow-md shrink-0 flex items-center gap-2">
-                  <span>Launch Student Portal</span>
-                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                </button>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="p-4 bg-white/95 rounded-xl border border-emerald-100 shadow-2xs space-y-1.5">
-                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-primary flex items-center justify-center mb-2">
-                    <span class="material-symbols-outlined text-base">quiz</span>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="p-3.5 bg-slate-50/90 rounded-xl border border-slate-200/80 shadow-2xs hover:border-emerald-300 transition-colors space-y-1">
+                      <div class="w-7 h-7 rounded-lg bg-emerald-100/80 text-primary flex items-center justify-center mb-1">
+                        <span class="material-symbols-outlined text-base">radar</span>
+                      </div>
+                      <h4 class="font-bold text-slate-900 text-xs">6-Axis Skill Radar</h4>
+                      <p class="text-[11px] text-slate-500 leading-relaxed">Real-time visualization of clinical strengths & Schedule T GMP deficit areas.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-50/90 rounded-xl border border-slate-200/80 shadow-2xs hover:border-emerald-300 transition-colors space-y-1">
+                      <div class="w-7 h-7 rounded-lg bg-emerald-100/80 text-primary flex items-center justify-center mb-1">
+                        <span class="material-symbols-outlined text-base">auto_stories</span>
+                      </div>
+                      <h4 class="font-bold text-slate-900 text-xs">Micro-Bridge Courses</h4>
+                      <p class="text-[11px] text-slate-500 leading-relaxed">Instant remedial modules to unlock high match ratings and verified certificates.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-50/90 rounded-xl border border-slate-200/80 shadow-2xs hover:border-emerald-300 transition-colors space-y-1">
+                      <div class="w-7 h-7 rounded-lg bg-emerald-100/80 text-primary flex items-center justify-center mb-1">
+                        <span class="material-symbols-outlined text-base">verified_user</span>
+                      </div>
+                      <h4 class="font-bold text-slate-900 text-xs">Verifiable Skill Passport</h4>
+                      <p class="text-[11px] text-slate-500 leading-relaxed">Cryptographically tamper-proof credential recognized by 1,200+ hospitals & pharma.</p>
+                    </div>
                   </div>
-                  <h4 class="font-bold text-slate-900 text-sm">10-Min Diagnostic</h4>
-                  <p class="text-xs text-slate-500 leading-relaxed">Scenario-based clinical & formulation assessment.</p>
                 </div>
-                <div class="p-4 bg-white/95 rounded-xl border border-emerald-100 shadow-2xs space-y-1.5">
-                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-primary flex items-center justify-center mb-2">
-                    <span class="material-symbols-outlined text-base">radar</span>
+
+                <div class="lg:col-span-5">
+                  <div class="relative rounded-2xl overflow-hidden shadow-md border border-slate-200/80 group">
+                    <img src="./assets/student_competency_lab.jpg" alt="Ayush medical students in advanced clinical diagnostics laboratory" class="w-full h-[220px] sm:h-[260px] object-cover group-hover:scale-103 transition-transform duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white text-xs font-semibold backdrop-blur-md bg-slate-900/60 p-2.5 rounded-xl border border-white/20 flex items-center justify-between">
+                      <span class="truncate">Clinical Diagnostics Lab</span>
+                      <span class="text-emerald-400 font-bold text-[10px] shrink-0 ml-2">Active Framework</span>
+                    </div>
                   </div>
-                  <h4 class="font-bold text-slate-900 text-sm">6-Axis Skill Radar</h4>
-                  <p class="text-xs text-slate-500 leading-relaxed">Instant visual of strengths & industry gap analysis.</p>
-                </div>
-                <div class="p-4 bg-white/95 rounded-xl border border-emerald-100 shadow-2xs space-y-1.5">
-                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-primary flex items-center justify-center mb-2">
-                    <span class="material-symbols-outlined text-base">work</span>
-                  </div>
-                  <h4 class="font-bold text-slate-900 text-sm">1-Click Direct Placements</h4>
-                  <p class="text-xs text-slate-500 leading-relaxed">Unlock 95%+ match ratings at Dabur, Patanjali & more.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 4. 3-Step Clear Career Pathway (No Clutter, Clean Linear Roadmap) -->
+        <!-- 4. 3-Step Clear Career Pathway (Comprehensive Multi-Stakeholder Model) -->
         <section id="capabilities" class="stagger-item delay-6 space-y-8">
           <div class="text-center max-w-2xl mx-auto space-y-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-primary">Simple 3-Step Pathway</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Unified National Engine</span>
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900">How SkillSetu Works</h2>
-            <p class="font-body-md text-slate-600 text-xs sm:text-sm">From initial diagnostic to verified industrial placement in three streamlined steps.</p>
+            <p class="font-body-md text-slate-600 text-xs sm:text-sm">From initial competency benchmarking to verified industrial placement and institutional analytics.</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Step 1 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200">
+            <div class="apple-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200 shadow-2xs">
                 1
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Take 10-Min Diagnostic</h3>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Multi-Stakeholder Benchmarking</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Take a quick 5-question scenario quiz covering clinical diagnosis, herbology, and manufacturing standards.
+                Scholars benchmark clinical skills, colleges map cohort readiness matrices, and pharmaceutical enterprises define precise vacancy criteria.
               </p>
             </div>
 
             <!-- Step 2 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200">
+            <div class="apple-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200 shadow-2xs">
                 2
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">View AI Competency Radar</h3>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">AI Competency Radar & Gap Analysis</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Your interactive 6-axis polygon highlights clinical strengths and pinpoints exact Schedule T GMP deficits.
+                Interactive 6-axis vectors instantly pinpoint clinical strengths and highlight exact Schedule T GMP gaps against Pharmacopoeia standards.
               </p>
             </div>
 
             <!-- Step 3 -->
-            <div class="linkedin-card p-6 flex flex-col relative group">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200">
+            <div class="apple-card p-6 flex flex-col relative group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center text-sm font-extrabold mb-4 border border-emerald-200 shadow-2xs">
                 3
               </div>
-              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Bridge & 1-Click Apply</h3>
+              <h3 class="font-headline-sm text-base font-bold text-slate-900 mb-1.5">Targeted Bridge Modules & Placements</h3>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Complete free 1-click micro-modules, upgrade your score to 85%+, and apply directly to verified openings.
+                Complete self-paced micro-modules, mint a tamper-proof Digital Skill Passport, and unlock 1-click applications to top verified employers.
               </p>
             </div>
           </div>
@@ -2586,70 +2648,74 @@ window.AppUI = {
           </div>
 
           <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div class="linkedin-card p-5 text-center">
+            <div class="apple-card p-5 text-center">
               <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
                 <span class="material-symbols-outlined text-xl">spa</span>
               </div>
               <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Ayurveda</h3>
-              <p class="text-[11px] text-slate-500">BAMS & MD (Panchakarma, Dravyaguna, Rasa Shastra, GMP)</p>
+              <p class="text-[11px] text-slate-500">BAMS & MD (Panchakarma, Dravyaguna, Rasa Shastra, Schedule T GMP)</p>
             </div>
 
-            <div class="linkedin-card p-5 text-center">
+            <div class="apple-card p-5 text-center">
               <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
                 <span class="material-symbols-outlined text-xl">self_improvement</span>
               </div>
               <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Yoga & Naturopathy</h3>
-              <p class="text-[11px] text-slate-500">BNYS & M.Sc (Therapeutic Yoga, Rehabilitation Protocols)</p>
+              <p class="text-[11px] text-slate-500">BNYS & M.Sc (Therapeutic Yoga, Rehabilitation & Lifestyle Protocols)</p>
             </div>
 
-            <div class="linkedin-card p-5 text-center">
+            <div class="apple-card p-5 text-center">
               <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
                 <span class="material-symbols-outlined text-xl">science</span>
               </div>
               <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Unani Medicine</h3>
-              <p class="text-[11px] text-slate-500">BUMS & MD (Ilaj-bit-Tadbeer, Moalajat, Pharmacognosy)</p>
+              <p class="text-[11px] text-slate-500">BUMS & MD (Ilaj-bit-Tadbeer, Moalajat, Pharmacognosy & Extraction)</p>
             </div>
 
-            <div class="linkedin-card p-5 text-center">
+            <div class="apple-card p-5 text-center">
               <div class="w-10 h-10 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mx-auto mb-3 border border-emerald-200">
                 <span class="material-symbols-outlined text-xl">medication</span>
               </div>
               <h3 class="font-headline-sm text-sm font-bold text-slate-900 mb-1">Siddha & Homeopathy</h3>
-              <p class="text-[11px] text-slate-500">BSMS & BHMS (Varmam Therapy, Repertory, Formulations)</p>
+              <p class="text-[11px] text-slate-500">BSMS & BHMS (Varmam Therapy, Repertory, Clinical Drug Provings)</p>
             </div>
           </div>
         </section>
 
-        <!-- 6. Interactive FAQ Section with Clean Accordion -->
+        <!-- 6. Expanded 10-Item FAQ Section with Apple Spring Animations & Logos -->
         <section id="faq" class="stagger-item delay-8 max-w-4xl mx-auto space-y-8">
           <div class="text-center space-y-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-primary">Got Questions?</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-primary">Comprehensive Guide</span>
             <h2 class="font-headline-md text-2xl sm:text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
-            <p class="font-body-md text-xs sm:text-sm text-slate-600">Everything you need to know about testing, bridge courses, and hiring on SkillSetu.</p>
+            <p class="font-body-md text-xs sm:text-sm text-slate-600">Everything you need to know about testing, bridge courses, accreditation, and hiring on SkillSetu.</p>
           </div>
 
           <div class="space-y-3.5">
             <!-- FAQ 1 (Open by default) -->
-            <div id="faq-card-1" class="faq-card open linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-1')">
+            <div id="faq-card-1" class="faq-card open p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-1')">
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">General</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">verified</span> General
+                  </span>
                   <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
-                    Is SkillSetu free for Ayush students and colleges?
+                    Is SkillSetu free for Ayush students, doctors, and colleges?
                   </h3>
                 </div>
                 <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
               <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
-                Yes, SkillSetu is a 100% free digital governance initiative under the Ministry of Ayush, Government of India. All competency assessments, Skill Radar visualizations, bridge micro-learning modules, and internship applications are completely free.
+                Yes, SkillSetu is a 100% free national digital initiative under the Ministry of Ayush, Government of India. All competency diagnostics, Skill Radar visualizations, micro-learning bridge modules, and internship applications are free with zero commercial charges.
               </div>
             </div>
 
             <!-- FAQ 2 -->
-            <div id="faq-card-2" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-2')">
+            <div id="faq-card-2" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-2')">
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">Curriculum</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">precision_manufacturing</span> Industrial GMP
+                  </span>
                   <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
                     What is Schedule T GMP and why is it essential for placements?
                   </h3>
@@ -2657,51 +2723,163 @@ window.AppUI = {
                 <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
               <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
-                Schedule T of the Drugs & Cosmetics Act specifies the Good Manufacturing Practices (GMP) for Ayurvedic, Siddha, and Unani drugs — including sterile handling, standard operating procedures (SOPs), and batch documentation.
+                Schedule T of the Drugs & Cosmetics Act specifies Good Manufacturing Practices (GMP) for Ayurvedic, Siddha, and Unani pharmaceutical formulations. Top pharma enterprises mandate Schedule T compliance knowledge for production, batch processing, and QA/QC roles.
               </div>
             </div>
 
             <!-- FAQ 3 -->
-            <div id="faq-card-3" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-3')">
+            <div id="faq-card-3" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-3')">
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[11px] font-bold">AI Diagnostics</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">radar</span> AI Analytics
+                  </span>
                   <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
-                    How does the 6-Axis Clinical Skill Radar calculate my scores?
+                    How does the 6-Axis Clinical Skill Radar calculate proficiency scores?
                   </h3>
                 </div>
                 <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
               <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
-                The Skill Radar maps your answers against verified Indian Pharmacopoeia and clinical benchmarks across 6 core domains. Scores are dynamically recalculated as you complete bridge modules.
+                The Skill Radar maps candidate answers against verified Indian Pharmacopoeia and clinical benchmarks across 6 core domains: Clinical Diagnostics, Panchakarma Therapy, Schedule T GMP, Pharmacology, Patient Documentation, and Research Methodology.
               </div>
             </div>
 
             <!-- FAQ 4 -->
-            <div id="faq-card-4" class="faq-card linkedin-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-4')">
+            <div id="faq-card-4" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-4')">
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">Industry</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">corporate_fare</span> Recruitment
+                  </span>
                   <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
-                    How do recruiters like Dabur and Patanjali evaluate candidates?
+                    How do enterprise recruiters like Dabur, Patanjali and Himalaya evaluate talent?
                   </h3>
                 </div>
                 <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
               </div>
               <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
-                Recruiters log into the Industry Portal and filter talent by verified benchmark scores, specific bridge course certifications, and match percentages. They can shortlist candidates directly with zero friction.
+                Recruiters access the verified Talent Pool where candidate skill matrices, verified benchmark scores, and bridge course completions are visible. They filter candidates by minimum match percentages (e.g., 85%+) and issue direct interview invitations.
+              </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div id="faq-card-5" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-5')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">account_balance</span> Colleges & NCISM
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How do colleges and faculty track cohort readiness and NCISM / NAAC compliance?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Deans and faculty can access the Institution Hub and Cohort Readiness views to monitor class-wide deficit heatmaps, track student improvement post-remediation, and auto-export compliance reports for NCISM inspections and NAAC accreditation.
+              </div>
+            </div>
+
+            <!-- FAQ 6 -->
+            <div id="faq-card-6" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-6')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">auto_stories</span> Micro-Learning
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How do the bridge remediation modules work and are certifications recognized?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Bridge modules are bite-sized, practical 20-40 minute interactive units authored by premier Ayush faculty and industry experts. Completing a bridge module dynamically boosts the student's radar domain score and unlocks verified competency badges.
+              </div>
+            </div>
+
+            <!-- FAQ 7 -->
+            <div id="faq-card-7" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-7')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">spa</span> Multi-Disciplinary
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    Which Ayush disciplines and academic qualifications are supported?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                SkillSetu covers all 5 recognized Ayush streams: Ayurveda (BAMS/MD), Yoga & Naturopathy (BNYS/M.Sc), Unani (BUMS/MD), Siddha (BSMS/MD), and Homeopathy (BHMS/MD), in addition to Ayush pharmacy and phytochemistry diploma holders.
+              </div>
+            </div>
+
+            <!-- FAQ 8 -->
+            <div id="faq-card-8" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-8')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 border border-indigo-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">shield_with_heart</span> Skill Passport
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How is student competency data secured via the Digital Skill Passport?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Every verified competency score and course credential is cryptographically stamped with a unique SHA-256 hash. Recruiters and institutions can independently verify authentic credentials with 100% anti-tampering protection.
+              </div>
+            </div>
+
+            <!-- FAQ 9 -->
+            <div id="faq-card-9" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-9')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">handshake</span> MoUs & Stipends
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How are institutional MoUs and stipend-backed clinical internships facilitated?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                Colleges and companies can establish digital MoUs through the Placement Console. All listed internships feature transparent stipend ranges (₹18,000 to ₹45,000/mo) and standardized clinical/formulation training milestones.
+              </div>
+            </div>
+
+            <!-- FAQ 10 -->
+            <div id="faq-card-10" class="faq-card p-5 cursor-pointer" onclick="AppUI.toggleFAQ('faq-card-10')">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-300 text-[11px] font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">public</span> National Governance
+                  </span>
+                  <h3 class="font-headline-sm text-sm sm:text-base font-bold text-slate-900">
+                    How does the Ministry of Ayush utilize real-time state telemetry?
+                  </h3>
+                </div>
+                <span class="material-symbols-outlined faq-chevron text-slate-400 text-xl shrink-0">expand_more</span>
+              </div>
+              <div class="faq-content text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-2">
+                The Ministry Admin portal aggregates regional skill-gap data into live state heatmaps. This guides strategic fund allocations under the National Ayush Mission (NAM), curriculum updates, and targeted institution modernization grants.
               </div>
             </div>
           </div>
         </section>
 
         <!-- 7. Final Call to Action Banner -->
-        <section class="stagger-item delay-9 linkedin-card p-8 sm:p-12 text-center bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white relative overflow-hidden shadow-xl">
+        <section class="stagger-item delay-9 apple-card p-8 sm:p-12 text-center bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white relative overflow-hidden shadow-2xl">
           <div class="max-w-2xl mx-auto space-y-4 relative z-10">
             <span class="inline-block px-3 py-1 bg-emerald-700/50 rounded-full text-xs font-bold text-emerald-200 border border-emerald-500/30">Official Ayush Skill Network</span>
-            <h2 class="font-display-lg text-2xl sm:text-4xl font-extrabold text-white">Join 42,850+ Ayush Scholars & Recruiters</h2>
+            <h2 class="font-display-lg text-2xl sm:text-4xl font-extrabold text-white">Join 42,850+ Ayush Scholars, Colleges & Recruiters</h2>
             <p class="font-body-lg text-xs sm:text-sm text-emerald-100/90 leading-relaxed">
-              Sign in to assess your skills, upgrade your diagnostic competencies, and access verified nationwide opportunities.
+              Sign in to assess competencies, bridge clinical deficits, hire verified practitioners, and access nationwide Ayush opportunities.
             </p>
             <div class="pt-2">
               <button onclick="AppUI.navigate('roles')" class="px-8 py-3.5 bg-white text-emerald-900 rounded-xl font-label-md text-sm font-bold hover:bg-emerald-50 transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-2 transform hover:-translate-y-0.5">
